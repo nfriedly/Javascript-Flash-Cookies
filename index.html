@@ -1,84 +1,1 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-
-	<title>nfriedly/Javascript-Flash-Cookies @ GitHub</title>
-	
-	<style type="text/css">
-		body {
-  		margin-top: 1.0em;
-  		background-color: #13abf3;
-		  font-family: "Helvetica,Arial,FreeSans";
-  		color: #000000;
-    }
-    #container {
-      margin: 0 auto;
-      width: 700px;
-    }
-		h1 { font-size: 3.8em; color: #ec540c; margin-bottom: 3px; }
-		h1 .small { font-size: 0.4em; }
-		h1 a { text-decoration: none }
-		h2 { font-size: 1.5em; color: #ec540c; }
-    h3 { text-align: center; color: #ec540c; }
-    a { color: #ec540c; }
-    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
-    .download { float: right; }
-		pre { background: #000; color: #fff; padding: 15px;}
-    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
-    .footer { text-align:center; padding-top:30px; font-style: italic; }
-	</style>
-	
-</head>
-
-<body>
-  <a href="http://github.com/nfriedly/Javascript-Flash-Cookies"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
-
-  <div id="container">
-
-    <div class="download">
-      <a href="http://github.com/nfriedly/Javascript-Flash-Cookies/zipball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
-      <a href="http://github.com/nfriedly/Javascript-Flash-Cookies/tarball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
-    </div>
-
-    <h1><a href="http://github.com/nfriedly/Javascript-Flash-Cookies">Javascript Flash Cookies</a>
-      <span class="small">by <a href="http://github.com/nfriedly">nfriedly</a></span></h1>
-
-    <div class="description">
-      Cross-domain flash cookie library for javascript
-    </div>
-
-    <p>Text</p><h2>Install</h2>
-<p>Instructions</p>
-<h2>License</h2>
-<p>MIT License</p>
-<h2>Authors</h2>
-<p>Nathan Friedly (nathan@nfriedly.com)<br/><br/>      </p>
-<h2>Contact</h2>
-<p>Nathan Friedly (nathan@nfriedly.com)<br/>      </p>
-
-
-    <h2>Download</h2>
-    <p>
-      You can download this project in either
-      <a href="http://github.com/nfriedly/Javascript-Flash-Cookies/zipball/master">zip</a> or
-      <a href="http://github.com/nfriedly/Javascript-Flash-Cookies/tarball/master">tar</a> formats.
-    </p>
-    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
-      by running:
-      <pre>$ git clone git://github.com/nfriedly/Javascript-Flash-Cookies</pre>
-    </p>
-
-    <div class="footer">
-      get the source code on GitHub : <a href="http://github.com/nfriedly/Javascript-Flash-Cookies">nfriedly/Javascript-Flash-Cookies</a>
-    </div>
-
-  </div>
-
-  
-</body>
-</html>
+<!doctype html><html><head><title>SwfStore Example (JS library for Cross-Domain Flash Cookies)</title></head><body><a href="http://github.com/nfriedly/Javascript-Flash-Cookies"><img alt="Fork me on GitHub" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" style="position: absolute; top: 0pt; right: 0pt; border: 0pt none;"></a><h1>SwfStore Example</h1><p>SwfStore is a javascript library for Cross-Domain Flash Cookies. <a href="http://github.com/nfriedly/Javascript-Flash-Cookies">http://github.com/nfriedly/Javascript-Flash-Cookies</a></p><p>To test out the example, save a value to the cookie on this page, then visit <a href="http://nfriedly.com/">http://nfriedly.com</a> and see that your saved cookie is readable there.</p><p><input id="dataInput" value="" /> <input type="submit" id="saveBtn" value="Save" /> <span id="status"></span></p><!-- this example uses jquery, but SwfStore does not require jquery to work. --><script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script><script src="http://github.com/nfriedly/Javascript-Flash-Cookies/swfstore.js"></script><script type="text/javascript">	// first disable things while the swfStore is initializing	$('input').attr("disabled","disabled");	$('#status').text('Loading...');		var mySwfStore = new SwfStore({				namespace: 'example', // the this must match all other 				swf_url: 'http://github.com/nfriedly/Javascript-Flash-Cookies/storage.swf', // to work cross-domain, use the same absolute url on both pages (meaning http://site.com/path/to/store.swf not just /path/to.store.swf)				debug: true, 				onready: function(){			// now that the swfStore was loaded successfully, re-enable everything			$('input').removeAttr("disabled");			$('#status').text('Loaded');						// read the existing value (if any)			$('#dataInput').val(mySwfStore.get('myValue'));						// set up an onclick handler to save the text to the swfStore whenever the Save button is clicked			$('#saveBtn').click(function(){				mySwfStore.set('myValue', $('#dataInput').val() );				$('#status').text('Saved!')			});		},				onerror: function(){			// in case we had an error. (The most common cause is that the user disabled flash cookies.)			$('#status').text('Error');		}	});</script></body></html>
