@@ -6,7 +6,6 @@
 </head>
 <body>
 <h1>SwfStore Example</h1>
-<p>SwfStore is a javascript library for Cross-Domain Flash Cookies. <a href="http://github.com/nfriedly/Javascript-Flash-Cookies">http://github.com/nfriedly/Javascript-Flash-Cookies</a></p>
 
 <p><input id="dataInput" value="" /> <input type="submit" id="saveBtn" value="Save" /> <span id="status"></span></p>
 
@@ -16,13 +15,17 @@
 <script src="../src/swfstore.js"></script>
 
 <script type="text/javascript">
+
+// wait until the page has finished loading before starting
+$(function(){
+
 	// first disable things while the swfStore is initializing
 	$('input').attr("disabled","disabled");
 	$('#status').text('Loading...');
 	
 	var mySwfStore = new SwfStore({
 		
-		namespace: 'example', // the this must match all other 
+		namespace: 'example', // the this must match all other instances that want to share cookies
 		
 		swf_url: '../storage.swf', // to work cross-domain, use the same absolute url on both pages (meaning http://site.com/path/to/store.swf not just /path/to.store.swf)
 		
@@ -48,7 +51,16 @@
 			$('#status').text('Error');
 		}
 	});
+});
 </script>
+
+<!-- nothing below this point is important for the example -->
+
+<p style="margin-top:100px; border-top:1px solid #666; padding-top:10px;">SwfStore is a javascript library for Cross-Domain Flash Cookies. Read more at <a href="http://github.com/nfriedly/Javascript-Flash-Cookies">http://github.com/nfriedly/Javascript-Flash-Cookies</a> and <a href="http://nfriedly.com/techblog/2010/07/swf-for-javascript-cross-domain-flash-cookies/">http://nfriedly.com/techblog/2010/07/swf-for-javascript-cross-domain-flash-cookies/</a></p>
+
+<p>SwfStore was created by <a href="http://nfriedly.com" title="JavaScript Developer, AJAX Expert">Nathan Friedly</a>, and is released under an MIT License</p>
+
+
 
 </body>
 </html>
