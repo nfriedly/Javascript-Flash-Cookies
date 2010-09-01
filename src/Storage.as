@@ -18,7 +18,7 @@
 		/**
 		* The name of LSO
 		*/
-		private var LSOName:String = "rondavu";
+		private var LSOName:String = "SwfStore";
 		
 		/**
 		* The JS function to call for logging.
@@ -71,6 +71,7 @@
 				// expose our external interface
 				ExternalInterface.addCallback("set", saveValue);
 				ExternalInterface.addCallback("get", getValue);
+				ExternalInterface.addCallback("getAll", getAllValues);
 				ExternalInterface.addCallback("clear", clearValue);
 				
 				log('Ready! Firing onload if provided');
@@ -165,6 +166,13 @@
 				log("Error deleting key - " + error.message);
 			}
         }
+
+		/** 
+		* This retrieves all stored data
+		*/
+		private function getAllValues():Object {
+			return dataStrore.data;
+		}
         
 		/**
 		* This happens if the user is prompted about saving locally
