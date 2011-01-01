@@ -43,7 +43,7 @@
 		if(debug){
 			// if we're in a browser that doesn't have a console, build one
 			if(typeof console == "undefined"){
-				var loggerOutput = div();
+				var loggerOutput = div(true);
 				window.console = {
 					log: function(msg){
 						var m = div();
