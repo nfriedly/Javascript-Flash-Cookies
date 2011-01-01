@@ -94,7 +94,7 @@
 		}, timeout * 1000);
 	}
 
-	SwfStore.prototype = {
+	window.SwfStore.prototype = {
 		ready: false, //is the swfStore initialized?
 		
 		namespace: 'SwfStore_prototype',
@@ -131,7 +131,14 @@
 			this.ready = true;
 			//this.log('info', 'js', 'Ready!')
 			if(this.config.onready){
-				this.config.onready();
+          // deal with scope the easy way
+          var that = this;
+          // wrapping everything in a timeout so that the JS can finish initializing before the .swf initializes 
+          // (If the .swf is cached in IE, it fires the callback *immediately* before JS has finished executing. 
+          // setTimeout(function, 0) fixes that
+          setTimeout(function(){
+            that.config.onready();
+          }, 0);
 			}
 		},
 		
