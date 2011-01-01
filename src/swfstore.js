@@ -181,19 +181,19 @@
 		* This function in turn fires the onready function if provided in the config.
 		*/
 		"onload": function(){
-			clearTimeout(this._timeout);
-			this.ready = true;
-			//this.log('info', 'js', 'Ready!')
-			if(this.config.onready){
-          // deal with scope the easy way
-          var that = this;
-          // wrapping everything in a timeout so that the JS can finish initializing before the .swf initializes 
-          // (If the .swf is cached in IE, it fires the callback *immediately* before JS has finished executing. 
-          // setTimeout(function, 0) fixes that
-          setTimeout(function(){
-            that.config.onready();
-          }, 0);
-			}
+			// deal with scope the easy way
+			var that = this;
+			// wrapping everything in a timeout so that the JS can finish initializing first
+			// (If the .swf is cached in IE, it fires the callback *immediately* before JS has 
+			// finished executing.  setTimeout(function, 0) fixes that)
+			setTimeout(function(){
+			  clearTimeout(that._timeout);
+			  that.ready = true;
+			  //this.log('info', 'js', 'Ready!')
+			  if(that.config.onready){
+			    that.config.onready();
+			  }
+			}, 0);
 		},
 		
 		
