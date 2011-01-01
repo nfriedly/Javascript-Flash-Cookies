@@ -180,14 +180,22 @@
 		* This is the function that the swf calls to announce that it has loaded.
 		* This function in turn fires the onready function if provided in the config.
 		*/
-		onload: function(){
+		"onload": function(){
 			clearTimeout(this._timeout);
 			this.ready = true;
 			//this.log('info', 'js', 'Ready!')
 			if(this.config.onready){
-				this.config.onready();
+          // deal with scope the easy way
+          var that = this;
+          // wrapping everything in a timeout so that the JS can finish initializing before the .swf initializes 
+          // (If the .swf is cached in IE, it fires the callback *immediately* before JS has finished executing. 
+          // setTimeout(function, 0) fixes that
+          setTimeout(function(){
+            that.config.onready();
+          }, 0);
 			}
 		},
+		
 		
 		/**
 		* If the swf had an error but is still able to communicate with JavaScript, it will call this function.
