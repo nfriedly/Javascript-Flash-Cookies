@@ -59,7 +59,7 @@
 				var loggerOutput = div(true);
 				window.console = {
 					log: function(msg){
-						var m = div();
+						var m = div(true);
 						m.innerHTML = msg;
 						loggerOutput.appendChild(m);
 					}
