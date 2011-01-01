@@ -108,7 +108,9 @@
 	}
 
 	SwfStore.prototype = {
-		
+  
+ 		version: "1.1",
+			
 		/**
 		* This is an indicator of wether or not the SwfStore is initialized. 
 		* Use the onready and onerror config options rather than checking this variable.
