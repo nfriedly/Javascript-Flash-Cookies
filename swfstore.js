@@ -15,11 +15,24 @@
 		}
 	}
 
+	/**
+	* SwfStore constructor - creates a new SwfStore object and embeds the .swf into the web page.
+	*
+	* usage: 
+	* var mySwfStore = new SwfStore(config);
+	*
+	* @param {object} config
+	* @param {functon} [config.onready] Callback function that is fired when the SwfStore is loaded. Recommended.
+	* @param {function} [config.onerror] Callback function that is fired if the SwfStore fails to load. Recommended.
+	* @param {string} [config.namespace="swfstore"] The namespace to use in both JS and the SWF. Allows a page to have more than one instance of SwfStore.
+	* @param {integer} [config.timeout=10] The number of seconds to wait before assuming the user does not have flash.
+	* @param {boolean} [config.debug=false] Is debug mode enabled? If so, mesages will be logged to the console and the .swf will be rendered on the page (although it will be an empty white box unless it cannot communicate with JS. Then it will log errors to the .swf)
+	*/
  	window.SwfStore = function(config){
-		this.config = config;
+		this.config = config || {};
 		var namespace = this.namespace = config.namespace.replace(alpnum, '_') || "swfstore",
 			debug = config.debug || false
-			timeout = config.timeout || 60; // how long to wait before assuming the store.swf failed to load (in seconds)
+			timeout = config.timeout || 10; // how long to wait before assuming the store.swf failed to load (in seconds)
 	
 		// a couple of basic timesaver functions
 		function id(){
@@ -94,12 +107,27 @@
 		}, timeout * 1000);
 	}
 
-	window.SwfStore.prototype = {
-		ready: false, //is the swfStore initialized?
+	SwfStore.prototype = {
 		
-		namespace: 'SwfStore_prototype',
+		/**
+		* This is an indicator of wether or not the SwfStore is initialized. 
+		* Use the onready and onerror config options rather than checking this variable.
+		*/
+		ready: false,
+		
+		/**
+		* This is to ensure that SwfStore was instantiated correctly and not called statically.
+		* The namespace will be overwritten by the one provided in the config, or a default of "swfstore"
+		* Flash also uses this to name it's LSO
+		*/
+		namespace: 'SwfStore_prototype', 
 
-		"set": function(key, value){
+		/**
+		* Sets the given key to the given value in the swf
+		* @param {string} key
+		* @param {string} value
+		*/
+		set: function(key, value){
 			if(this.namespace === SwfStore.prototype.namespace ){
 				throw 'Create a new SwfStore to set data';
 			}
@@ -107,13 +135,35 @@
 				checkData(key);
 				checkData(value);
 				//this.log('debug', 'js', 'Setting ' + key + '=' + value);
-				return this.swf.set(key, value);
+				this.swf.set(key, value);
 			} else {
 				throw 'Attempted to save to uninitialized SwfStore.';
 			}
 		},
 	
-		"get": function(key){
+		/**
+		* Retrieves the specified value from the swf.
+		* @param {string} key
+		* @return {string} value
+		*/
+		get: function(key){
+			if(this.namespace === SwfStore.prototype.namespace ){
+				throw 'Create a new SwfStore to set data';
+			}
+			if(this.ready){
+				checkData(key);
+				//this.log('debug', 'js', 'Reading ' + key);
+				return this.swf.get(key);
+			} else {
+				throw 'Attempted to read from an uninitialized SwfStore.';
+			}
+		},
+
+		/**
+		* Retrieves all stored values from the swf. 
+		* @return {object}
+		*/
+		getAll: function(key){
 			if(this.namespace === SwfStore.prototype.namespace ){
 				throw 'Create a new SwfStore to set data';
 			}
@@ -126,6 +176,10 @@
 			}
 		},
 		
+		/**
+		* This is the function that the swf calls to announce that it has loaded.
+		* This function in turn fires the onready function if provided in the config.
+		*/
 		"onload": function(){
 			clearTimeout(this._timeout);
 			this.ready = true;
@@ -142,7 +196,14 @@
 			}
 		},
 		
-		"onerror": function(){
+		
+		/**
+		* If the swf had an error but is still able to communicate with JavaScript, it will call this function.
+		* This function is also called if the time limit is reached and flash has not yet loaded.
+		* This function is most commonly called when either flash is not installed or local storage has been disabled.
+		* If an onerror function was provided in the config, this function will fire it.
+		*/
+		onerror: function(){
 			clearTimeout(this._timeout);
 			//this.log('info', 'js', 'Error reported by storage.swf');
 			if(this.config.onerror){
