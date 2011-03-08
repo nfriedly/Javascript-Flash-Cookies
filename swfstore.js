@@ -30,13 +30,13 @@
 	*/
  	window.SwfStore = function(config){
 		this.config = config || {};
-		var namespace = this.namespace = config.namespace.replace(alpnum, '_') || "swfstore",
+		var ns = this.namespace = config.namespace.replace(alpnum, '_') || "swfstore_default",
 			debug = config.debug || false
 			timeout = config.timeout || 10; // how long to wait before assuming the store.swf failed to load (in seconds)
 	
 		// a couple of basic timesaver functions
 		function id(){
-			return "SwfStore_" + namespace + "_" +  (counter++);
+			return "SwfStore_" + ns + "_" +  (counter++);
 		}
 		
 		function div(visible){
@@ -67,7 +67,11 @@
 			}
 			this.log = function(type, source, msg){
 				source = (source == 'swfStore') ? 'swf' : source;
-				console.log('SwfStore - ' + namespace + ": " + type + ' (' + source  + '): ' + msg);
+				if(typeof(console[type]) != "undefined"){
+					console[type]('SwfStore - ' + ns + ' (' + source + '): ' + msg);
+				} else {
+					console.log('SwfStore - ' + ns + ": " + type + ' (' + source  + '): ' + msg);
+				}
 			}
 		} else {
 			this.log = function(){}; // if we're not in debug, then we don't need to log anything
@@ -76,15 +80,15 @@
 		this.log('info','js','Initializing...');
 	
 		// the callback functions that javascript provides to flash must be globally accessible
-		SwfStore[namespace] = this;
+		SwfStore[ns] = this;
 	
 		var swfContainer = div(debug);
 		
 		var swfName = id();
 		
-		var flashvars = "logfn=SwfStore." + namespace + ".log&amp;" + 
-			"onload=SwfStore." + namespace + ".onload&amp;" +  // "onload" sets this.ready and then calls the "onready" config option
-			"onerror=SwfStore." + namespace + ".onerror";
+		var flashvars = "logfn=SwfStore." + ns + ".log&amp;" + 
+			"onload=SwfStore." + ns + ".onload&amp;" +  // "onload" sets this.ready and then calls the "onready" config option
+			"onerror=SwfStore." + ns + ".onerror";
 			
 		swfContainer.innerHTML = 
 			'<object height="100" width="500" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab" id="' + 
@@ -100,7 +104,7 @@
 		this.swf = 	document[swfName] || window[swfName];
 		
 		this._timeout = setTimeout(function(){
-			SwfStore[namespace].log('Timeout reached, assuming the store.swf failed to load and firing the onerror callback.');
+			SwfStore[ns].log('error','js','Timeout reached, assuming the store.swf failed to load and firing the onerror callback.');
 			if(config.onerror){
 				config.onerror();
 			}
