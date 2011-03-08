@@ -110,7 +110,7 @@
 	SwfStore.prototype = {
   
  		version: "1.1",
-			
+		
 		/**
 		* This is an indicator of wether or not the SwfStore is initialized. 
 		* Use the onready and onerror config options rather than checking this variable.
@@ -191,6 +191,13 @@
 			setTimeout(function(){
 			  clearTimeout(that._timeout);
 			  that.ready = true;
+			  
+			  // There is a bug in flash player where if no values have been saved and the page is 
+			  // then refreshed, the flashcookie gets deleted - even if another tab *had* saved a
+			  // value to the flashcookie.
+			  // So to fix, we immediately save something
+			  that.set('__flashBugFix','1');
+			  
 			  //this.log('info', 'js', 'Ready!')
 			  if(that.config.onready){
 			    that.config.onready();
@@ -214,4 +221,4 @@
 		}
 		
 	}
-}());
+}())
