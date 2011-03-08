@@ -24,6 +24,12 @@ See example/index.html for a working example that you can put on your site.
 Changelog
 =======
 
+1.2 - 2011-3-8
+* Fixed Isssue 11: JS now immediately stores a dummy value in the flashcookie to work around Flashplayers bug where it sometimes deletes cookies that it thinks are not in use but actually are. 
+* Updated demo and example to reflect change
+* Tweaked the logger to use the given log level if the console supports it
+* Added a little bit of explanatory info to the example html file.
+
 1.1 - 2011-01-01
 * Fixed Issue 9: JS now forces .swf onready callback to wait until JS has finished initializing if it fires first.
 * Fixed Issue 10: fallback logger now works properly and appends log to bottom of page if no console is found.
