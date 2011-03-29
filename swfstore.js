@@ -113,7 +113,7 @@
 
 	SwfStore.prototype = {
   
- 		version: "1.1",
+ 		version: "1.2",
 		
 		/**
 		* This is an indicator of wether or not the SwfStore is initialized. 
