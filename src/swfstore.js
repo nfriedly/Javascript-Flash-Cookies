@@ -113,7 +113,7 @@
 
 	SwfStore.prototype = {
   
- 		version: "1.2",
+ 		version: "1.3",
 		
 		/**
 		* This is an indicator of wether or not the SwfStore is initialized. 
@@ -169,14 +169,14 @@
 		* Retrieves all stored values from the swf. 
 		* @return {object}
 		*/
-		getAll: function(key){
+		getAll: function(){
 			if(this.namespace === SwfStore.prototype.namespace ){
 				throw 'Create a new SwfStore to set data';
 			}
 			if(this.ready){
-				checkData(key);
+				checkData();
 				//this.log('debug', 'js', 'Reading ' + key);
-				return this.swf.get(key);
+				return this.swf.getAll();
 			} else {
 				throw 'Attempted to read from an uninitialized SwfStore.';
 			}

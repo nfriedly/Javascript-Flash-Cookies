@@ -171,7 +171,7 @@
 		* This retrieves all stored data
 		*/
 		private function getAllValues():Object {
-			return dataStrore.data;
+			return dataStore.data;
 		}
         
 		/**
