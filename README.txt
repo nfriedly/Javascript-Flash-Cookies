@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 SwfStore is a JavaScript library for cross-domain flash cookies. It includes a flash object that maps an External Interface to a Local Storage Object.
 
 Getting-started instructions: http://nfriedly.com/techblog/2010/07/swf-for-javascript-cross-domain-flash-cookies/ 
@@ -56,3 +57,12 @@ Changelog
 
 0.5 - 2010-07-13
 * Initial commit: included .swf file, readme, and MIT license
+=======
+This is the live demo branch of SwfStore. 
+
+To view the demo, visit http://nfriedly.github.com/Javascript-Flash-Cookies/
+
+To view the main project, visit https://github.com/nfriedly/Javascript-Flash-Cookies
+
+For more information, visit http://nfriedly.com/techblog/2010/07/swf-for-javascript-cross-domain-flash-cookies/
+>>>>>>> 4564299289035b5b8b7de303dfb4c8c7f36b3b6c
