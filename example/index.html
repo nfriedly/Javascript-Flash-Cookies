@@ -53,8 +53,9 @@ $(function(){
 			$('#dataInput').val(mySwfStore.get('myValue'));
 			
 			// set up an onclick handler to save the text to the swfStore whenever the Save button is clicked
+			// IE converts null to "null", so we're adding an `or "" ` to the end to fix that
 			$('#saveBtn').click(function(){
-				mySwfStore.set('myValue', $('#dataInput').val() );
+				mySwfStore.set('myValue', $('#dataInput').val() || "" );
 				$('#status').text('Saved!')
 			});
 		},
