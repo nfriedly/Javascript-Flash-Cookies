@@ -57,6 +57,11 @@
 			// this is necessary to work cross-domain
 			Security.allowDomain("*");
 			
+			// grab the namespace if supplied
+			if(this.loaderInfo.parameters.LSOName){
+				LSOName = this.loaderInfo.parameters.LSOName;
+			}
+			
 			// try to initialize our lso
 			try{
 				dataStore = SharedObject.getLocal(LSOName);
@@ -69,7 +74,7 @@
 			
 			try {
 				// expose our external interface
-				ExternalInterface.addCallback("set", saveValue);
+				ExternalInterface.addCallback("set", setValue);
 				ExternalInterface.addCallback("get", getValue);
 				ExternalInterface.addCallback("getAll", getAllValues);
 				ExternalInterface.addCallback("clear", clearValue);
@@ -111,7 +116,7 @@
 		* @param {string} key
 		* @param {string} value - Expects a string. Objects will be converted to strings, functions tend to cause problems.
 		*/
-         private function saveValue(key:String, val:*):void {
+         private function setValue(key:String, val:*):void {
 			try{
 				if(typeof val != "string"){
 					val = val.toString();
@@ -173,7 +178,7 @@
 		private function getAllValues():Object {
 			return dataStore.data;
 		}
-        
+		
 		/**
 		* This happens if the user is prompted about saving locally
 		*/

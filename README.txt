@@ -25,6 +25,18 @@ See example/index.html for a working example that you can put on your site.
 Changelog
 =======
 
+1.4 - 2011-4-4
+* Added .clear(key) support to js to delete keys from flash
+* Removed prototype check from JS, and combined all .ready checks into a single _checkReady() function
+* Renamed a few items in the SWF to be more consistent
+* Changed the style.display.top to -2000px for the swf container when debug is off because at 0px it was affecting popup windows.
+* Fixed several namespace-related bugs in both JS and the swf; previously the swf had *always* been using the "SwfStore" namespace reguardless of the JS
+* Added sane defaults & reworked how the config is handled
+* Now throws an error if two instances are initialized with the same namespace
+* Added "use strict"; 
+* Tweaked JS to pass http://jslint.org/
+* getAll() function does not include the __FlashBugFix value that was added in 1.2
+
 1.3 - 2011-4-4
 * Fixed two bugs that were coluding together to hide eachother:
   * The JS getAll() function was actually calling the getValue() flash function.
