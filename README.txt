@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 SwfStore is a JavaScript library for cross-domain flash cookies. It includes a flash object that maps an External Interface to a Local Storage Object.
 
 Getting-started instructions: http://nfriedly.com/techblog/2010/07/swf-for-javascript-cross-domain-flash-cookies/ 
@@ -69,12 +68,28 @@ Changelog
 
 0.5 - 2010-07-13
 * Initial commit: included .swf file, readme, and MIT license
+
+
 =======
-This is the live demo branch of SwfStore. 
+MIT License
+=======
 
-To view the demo, visit http://nfriedly.github.com/Javascript-Flash-Cookies/
+Copyright (c) 2010 by Nathan Friedly - Http://nfriedly.com
 
-To view the main project, visit https://github.com/nfriedly/Javascript-Flash-Cookies
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-For more information, visit http://nfriedly.com/techblog/2010/07/swf-for-javascript-cross-domain-flash-cookies/
->>>>>>> 4564299289035b5b8b7de303dfb4c8c7f36b3b6c
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
