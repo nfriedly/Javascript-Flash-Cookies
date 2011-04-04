@@ -24,6 +24,11 @@ See example/index.html for a working example that you can put on your site.
 Changelog
 =======
 
+1.3 - 2011-4-4
+* Fixed two bugs that were coluding together to hide eachother:
+  * The JS getAll() function was actually calling the getValue() flash function.
+  * The Flash getAllValues() function had a typo in it that would have thrown an error if it were called.
+
 1.2 - 2011-3-8
 * Fixed Isssue 11: JS now immediately stores a dummy value in the flashcookie to work around Flashplayers bug where it sometimes deletes cookies that it thinks are not in use but actually are. 
 * Updated demo and example to reflect change
