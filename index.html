@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>SwfStore Example (JS library for Cross-Domain Flash Cookies)</title>
+
+</head>
+<body>
+<h1>SwfStore Example</h1>
+
+<a href="http://github.com/nfriedly/Javascript-Flash-Cookies"><img alt="Fork me on GitHub" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" style="position: absolute; top: 0pt; right: 0pt; border: 0pt none;"></a>
+
+<p><input id="dataInput" value="" /> <input type="submit" id="saveBtn" value="Save" /> <span id="status"></span></p>
+
+<h3>Tips:</h3>
+<p>To get the most out of this example, put it on two different domains but edit the swf_url: in the 
+javascript to point to the same storage.swf file from both coppies of this page. (You may also want 
+change the url to the swfstore.js file to save bandwidth.)</p>
+
+<p>If you run this page locally, you may see "Error logging to js: Error #2060" or something similar 
+because flashplayer is in a restricted security state. Try uploading it to a web server instead.</p>
+
+<p>Depending on your browser and add-ons, debug messages will either be sent to the console, or 
+appended  to the end of the page.</p>
+
+<!-- this example uses jquery, but SwfStore does not require jquery to work. -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+
+<script src="../src/swfstore.js"></script>
+
+<script type="text/javascript">
+
+// wait until the page has finished loading before starting
+$(function(){
+
+	// first disable things while the swfStore is initializing
+	$('input').attr("disabled","disabled");
+	$('#status').text('Loading...');
+	
+	var mySwfStore = new SwfStore({
+		
+		namespace: 'example', // the this must match all other instances that want to share cookies
+		
+		swf_url: '../storage.swf', // to work cross-domain, use the same absolute url on both pages (meaning http://site.com/path/to/store.swf not just /path/to.store.swf)
+		
+		debug: true, // depending on your browser, this will either go to the console or the bottom of the page.
+		
+		onready: function(){
+			// now that the swfStore was loaded successfully, re-enable everything
+			$('input').removeAttr("disabled");
+			$('#status').text('Loaded');
+			
+			// read the existing value (if any)
+			$('#dataInput').val(mySwfStore.get('myValue'));
+			
+			// set up an onclick handler to save the text to the swfStore whenever the Save button is clicked
+			// IE converts null to "null", so we're adding an `or "" ` to the end to fix that
+			$('#saveBtn').click(function(){
+				mySwfStore.set('myValue', $('#dataInput').val() || "" );
+				$('#status').text('Saved!')
+			});
+		},
+		
+		onerror: function(){
+			// in case we had an error. (The most common cause is that the user disabled flash cookies.)
+			$('#status').text('Error');
+		}
+	});
+});
+</script>
+
+<!-- nothing below this point is important for the example -->
+
+<p style="margin-top:100px; border-top:1px solid #666; padding-top:10px;">SwfStore is a javascript library for Cross-Domain Flash Cookies. Read more at <a href="http://github.com/nfriedly/Javascript-Flash-Cookies">http://github.com/nfriedly/Javascript-Flash-Cookies</a> and <a href="http://nfriedly.com/techblog/2010/07/swf-for-javascript-cross-domain-flash-cookies/">http://nfriedly.com/techblog/2010/07/swf-for-javascript-cross-domain-flash-cookies/</a></p>
+
+<p>SwfStore was created by <a href="http://nfriedly.com" title="JavaScript Developer, AJAX Expert">Nathan Friedly</a>, and is released under an MIT License</p>
+
+
+
+</body>
+</html>
