@@ -82,6 +82,7 @@ package {
 			
 			// this is necessary to work cross-domain
 			Security.allowDomain("*");
+			Security.allowInsecureDomain("*");
 			
 			// grab the namespace if supplied
 			if(this.loaderInfo.parameters.LSOName){

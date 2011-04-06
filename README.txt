@@ -4,6 +4,12 @@ Getting-started instructions: http://nfriedly.com/techblog/2010/07/swf-for-javas
 
 Working example: http://nfriedly.github.com/Javascript-Flash-Cookies/
 
+=======
+Security Warning
+=======
+The default storage.swf allows any website to read the data in your flash file. You should avoid storing private information in it. 
+
+It would be wise to edit and recompile the flash file to limit itself to your domain and http/https settings. If you do not have a copy of Adobe Flash, I can do it for you for $5 - email me for details.
 
 =======
 File Details 
@@ -23,6 +29,9 @@ See example/index.html for a working example that you can put on your site.
 =======
 Changelog
 =======
+
+1.5 - 2011-4-5
+* Added Security.allowInsecureDomain("*") to the flash file to allow it to work between http and https urls
 
 1.4 - 2011-4-4
 * Added .clear(key) support to js to delete keys from flash
