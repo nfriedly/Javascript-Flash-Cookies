@@ -5,33 +5,32 @@
 
 </head>
 <body>
-<h1>SwfStore Example</h1>
 
 <a href="http://github.com/nfriedly/Javascript-Flash-Cookies"><img alt="Fork me on GitHub" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" style="position: absolute; top: 0pt; right: 0pt; border: 0pt none;"></a>
 
+<h1>SwfStore Example</h1>
+
+
+<p>To test out the example, save a value to the cookie on this page, then visit 
+<script type="text/javascript">
+// this is just so that I can use the same html on both example pages and still have them link to eachother
+var url = (document.domain == "nfriedly.com") ? "http://nfriedly.github.com/Javascript-Flash-Cookies/" : "http://nfriedly.com/stuff/swfstore-example/";
+document.write('<a href="' + url + '">' + url + '<\/a>');
+</script>
+and see that your saved cookie is readable there.</p>
+
 <p><input id="dataInput" value="" /> <input type="submit" id="saveBtn" value="Save" /> <span id="status"></span></p>
-
-<h3>Tips:</h3>
-<p>To get the most out of this example, put it on two different domains but edit the swf_url: in the 
-javascript to point to the same storage.swf file from both coppies of this page. (You may also want 
-change the url to the swfstore.js file to save bandwidth.)</p>
-
-<p>If you run this page locally, you may see "Error logging to js: Error #2060" or something similar 
-because flashplayer is in a restricted security state. Try uploading it to a web server instead.</p>
-
-<p>Depending on your browser and add-ons, debug messages will either be sent to the console, or 
-appended  to the end of the page.</p>
 
 <!-- this example uses jquery, but SwfStore does not require jquery to work. -->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 
-<script src="../src/swfstore.js"></script>
+<script src="http://nfriedly.github.com/Javascript-Flash-Cookies/src/swfstore.js"></script>
 
 <script type="text/javascript">
 
 // wait until the page has finished loading before starting
 $(function(){
-
+	
 	// first disable things while the swfStore is initializing
 	$('input').attr("disabled","disabled");
 	$('#status').text('Loading...');
@@ -40,9 +39,9 @@ $(function(){
 		
 		namespace: 'example', // the this must match all other instances that want to share cookies
 		
-		swf_url: '../storage.swf', // to work cross-domain, use the same absolute url on both pages (meaning http://site.com/path/to/store.swf not just /path/to.store.swf)
+		swf_url: 'http://nfriedly.github.com/Javascript-Flash-Cookies/storage.swf', // to work cross-domain, use the same absolute url on both pages (meaning http://site.com/path/to/store.swf not just /path/to.store.swf)
 		
-		debug: true, // depending on your browser, this will either go to the console or the bottom of the page.
+		debug: true, 
 		
 		onready: function(){
 			// now that the swfStore was loaded successfully, re-enable everything
@@ -65,6 +64,7 @@ $(function(){
 			$('#status').text('Error');
 		}
 	});
+	
 });
 </script>
 
@@ -74,6 +74,20 @@ $(function(){
 
 <p>SwfStore was created by <a href="http://nfriedly.com" title="JavaScript Developer, AJAX Expert">Nathan Friedly</a>, and is released under an MIT License</p>
 
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-1735765-3");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+<script type='text/javascript'> var mp_protocol = (('https:' == document.location.protocol) ? 'https://' : 'http://'); document.write(unescape('%3Cscript src="' + mp_protocol + 'api.mixpanel.com/site_media/js/api/mixpanel.js" type="text/javascript"%3E%3C/script%3E')); </script> <script type='text/javascript'> try {  var mpmetrics = new MixpanelLib('f9396fdc93a94c71e178b275d41bad01'); } catch(err) { null_fn = function () {}; var mpmetrics = {  track: null_fn,  track_funnel: null_fn,  register: null_fn,  register_once: null_fn, register_funnel: null_fn }; } </script>
+<script type='text/javascript'>
+mpmetrics.track('pageview', { 'url': window.location.toString(), location:'main' }); 
+</script>
 
 
 </body>
