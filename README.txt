@@ -1,4 +1,4 @@
-SwfStore is a JavaScript library for cross-domain flash cookies. It includes a flash object that maps an External Interface to a Local Storage Object.
+SwfStore is a JavaScript library for cross-domain flash cookies. It includes a .swf file that handles the storage and a JavaScript interface for loading and communicating with the flash file.
 
 Getting-started instructions: http://nfriedly.com/techblog/2010/07/swf-for-javascript-cross-domain-flash-cookies/ 
 
@@ -18,11 +18,13 @@ It would be wise to edit and recompile the flash file to limit itself to your do
 File Details 
 =======
 
-The storage.swf is the compiled LSO (Local Storage Object) flash file.
+storage.swf is the compiled flash file ready to be embedded in your website. Note the security warning above.
+
+swfstore.min.js - a copy of swfstore.js, minified for your convenience. This and a copy of storage.swf should be all you need to use this on a production website.
 
 swfstore.js handles the interaction between javascrpt and flash, it also handles embedding and some basic error checking.
 
-Storage.as is where all the magic happens. I'm not super-great at flash or action script, but I tried to keep things reasonably well documented and wrapped everything in a try-catch. Someone who knows ActionScript better than I do may be able to remove some of the try/catch statements.
+Storage.as is where all the magic happens. It maps an External Interface to a Local Storage Object. I'm not super-great at flash or action script, but I tried to keep things reasonably well documented and wrapped everything in try-catch statements. Someone who knows ActionScript better than I do may be able to remove some of those.
 
 The storage.fla is essentially just an empty shell file that points to Storage.as as it's main class.
 
@@ -33,10 +35,15 @@ See example/index.html for a working example that you can put on your site.
 Changelog
 =======
 
-1.5 - 2011-4-5
+1.6 - 2011-09-13
+* Added a minified js file
+* Clarified readme somewhat
+* No code changes
+
+1.5 - 2011-04-05
 * Added Security.allowInsecureDomain("*") to the flash file to allow it to work between http and https urls
 
-1.4 - 2011-4-4
+1.4 - 2011-04-04
 * Added .clear(key) support to js to delete keys from flash
 * Removed prototype check from JS, and combined all .ready checks into a single _checkReady() function
 * Renamed a few items in the SWF to be more consistent
@@ -48,12 +55,12 @@ Changelog
 * Tweaked JS to pass http://jslint.org/
 * getAll() function does not include the __FlashBugFix value that was added in 1.2
 
-1.3 - 2011-4-4
+1.3 - 2011-04-04
 * Fixed two bugs that were coluding together to hide eachother:
   * The JS getAll() function was actually calling the getValue() flash function.
   * The Flash getAllValues() function had a typo in it that would have thrown an error if it were called.
 
-1.2 - 2011-3-8
+1.2 - 2011-03-08
 * Fixed Isssue 11: JS now immediately stores a dummy value in the flashcookie to work around Flashplayers bug where it sometimes deletes cookies that it thinks are not in use but actually are. 
 * Updated demo and example to reflect change
 * Tweaked the logger to use the given log level if the console supports it
