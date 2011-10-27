@@ -80,7 +80,11 @@ package {
 			
 			log('Initializing...');
 			
-			// this is necessary to work cross-domain
+			// This is necessary to work cross-domain
+			// Ideally you should add only the domains that you need, for example
+			//   Security.allowDomain("nfriedly.com", "www.nfriedly.com");
+			// and then comment the allowInsecureDomain line.
+			// More information: http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/system/Security.html#allowDomain%28%29
 			Security.allowDomain("*");
 			Security.allowInsecureDomain("*");
 			
