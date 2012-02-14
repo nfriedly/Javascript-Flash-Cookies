@@ -3,7 +3,7 @@
 *
 * http://github.com/nfriedly/Javascript-Flash-Cookies
 *
-* Copyright (c) 2010 by Nathan Friedly - Http://nfriedly.com
+* Copyright (c) 2010 by Nathan Friedly - http://nfriedly.com
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -133,12 +133,12 @@
 			"onerror=SwfStore." + config.namespace + ".onerror&amp;" + 
 			"LSOName=" + config.namespace;
 			
-		swfContainer.innerHTML = '<object height="100" width="500" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab" id="' + 
+		swfContainer.innerHTML = '<object height="100" width="500" codebase="https://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab" id="' + 
 			swfName + '" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">' +
 			'	<param value="' + config.swf_url + '" name="movie">' + 
 			'	<param value="' + flashvars + '" name="FlashVars">' +
 			'	<param value="always" name="allowScriptAccess">' +
-			'	<embed height="375" align="middle" width="500" pluginspage="http://www.macromedia.com/go/getflashplayer" ' +
+			'	<embed height="375" align="middle" width="500" pluginspage="https://www.macromedia.com/go/getflashplayer" ' +
 			'flashvars="' + flashvars + '" type="application/x-shockwave-flash" allowscriptaccess="always" quality="high" loop="false" play="true" ' +
 			'name="' + swfName + '" bgcolor="#ffffff" src="' + config.swf_url + '">' +
 			'</object>';
@@ -162,10 +162,10 @@
 
 	SwfStore.prototype = {
   
-		version: "1.4",
+		version: "1.7",
 		
 		/**
-		* This is an indicator of wether or not the SwfStore is initialized. 
+		* This is an indicator of whether or not the SwfStore is initialized. 
 		* Use the onready and onerror config options rather than checking this variable.
 		*/
 		ready: false,
