@@ -24,7 +24,7 @@
 * THE SOFTWARE.
 */
 
-/*jslint browser: true, devel: true*/
+/*jslint browser: true, devel: true, vars: true, white: true, nomen: true, plusplus: true, regexp: true */
 /*globals SwfStore */
 
 (function(){
