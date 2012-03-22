@@ -47,6 +47,11 @@ package {
 		private var LSOName:String = "SwfStore";
 		
 		/**
+		 * The path of LSO
+		 */
+		private var LSOPath:String = null;
+		
+		/**
 		 * The JS function to call for logging.
 		 * Should be specified as "logfn" in the flashvars
 		 */
@@ -93,9 +98,15 @@ package {
 				LSOName = this.loaderInfo.parameters.LSOName;
 			}
 			
+			// grab the path if supplied
+			if(this.loaderInfo.parameters.LSOPath){
+				log('Path: ' + LSOPath);
+				LSOPath = this.loaderInfo.parameters.LSOPath;
+			}
+			
 			// try to initialize our lso
 			try{
-				dataStore = SharedObject.getLocal(LSOName);
+				dataStore = SharedObject.getLocal(LSOName, LSOPath);
 			} catch(error:Error){
 				// user probably unchecked their "allow third party data" in their global flash settings
 				log('Unable to create a local shared object. Exiting - ' + error.message);

@@ -55,6 +55,7 @@
 		var defaults = {
 			swf_url: 'storage.swf',
 			namespace: 'swfstore',
+			path: null,
 			debug: false,
 			timeout: 10,
 			onready: null,
@@ -131,7 +132,9 @@
 		var flashvars = "logfn=SwfStore." + config.namespace + ".log&amp;" + 
 			"onload=SwfStore." + config.namespace + ".onload&amp;" +  // "onload" sets this.ready and then calls the "onready" config option
 			"onerror=SwfStore." + config.namespace + ".onerror&amp;" + 
+			(config.path ? "LSOPath=" + config.path + '&amp;' : '') +
 			"LSOName=" + config.namespace;
+			
 			
 		swfContainer.innerHTML = '<object height="100" width="500" codebase="https://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab" id="' + 
 			swfName + '" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">' +
