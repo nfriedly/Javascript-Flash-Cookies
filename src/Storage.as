@@ -1,28 +1,28 @@
-﻿/**
-* SwfStore - a JavaScript library for cross-domain flash cookies
-*
-* http://github.com/nfriedly/Javascript-Flash-Cookies
-*
-* Copyright (c) 2010 by Nathan Friedly - Http://nfriedly.com
-* 
-* Permission is hereby granted, free of charge, to any person obtaining a copy
-* of this software and associated documentation files (the "Software"), to deal
-* in the Software without restriction, including without limitation the rights
-* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-* copies of the Software, and to permit persons to whom the Software is
-* furnished to do so, subject to the following conditions:
-* 
-* The above copyright notice and this permission notice shall be included in
-* all copies or substantial portions of the Software.
-* 
-* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-* THE SOFTWARE.
-*/
+﻿﻿/**
+ * SwfStore - a JavaScript library for cross-domain flash cookies
+ *
+ * http://github.com/nfriedly/Javascript-Flash-Cookies
+ *
+ * Copyright (c) 2010 by Nathan Friedly - Http://nfriedly.com
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 
 package {
     import flash.display.Sprite;
@@ -37,34 +37,39 @@ package {
     public class Storage extends Sprite {
 		
 		/**
-		* Our Local Shared Object (LSO) - this is where all the magic happens!
-		*/
+		 * Our Local Shared Object (LSO) - this is where all the magic happens!
+		 */
 		private var dataStore:SharedObject;
 		
 		/**
-		* The name of LSO
-		*/
+		 * The name of LSO
+		 */
 		private var LSOName:String = "SwfStore";
 		
 		/**
-		* The JS function to call for logging.
-		* Should be specified as "logfn" in the flashvars
-		*/
+		 * The path of LSO
+		 */
+		private var LSOPath:String = null;
+		
+		/**
+		 * The JS function to call for logging.
+		 * Should be specified as "logfn" in the flashvars
+		 */
 		private var logFn:String;
 		
 		/**
-		* Text field used by local logging
-		*/
+		 * Text field used by local logging
+		 */
 		private var logText:TextField;
 
 		/**
-		* Constructor, sets up everything and logs any errors.
-		* Call this automatically by setting Publish > Class tp "Storage" in your .fla properties.
-		*
-		*
-		*
-		* If javascript is unable to access this object and not recieving any log messages (at wh
-		*/
+		 * Constructor, sets up everything and logs any errors.
+		 * Call this automatically by setting Publish > Class tp "Storage" in your .fla properties.
+		 *
+		 *
+		 *
+		 * If javascript is unable to access this object and not recieving any log messages (at wh
+		 */
         public function Storage() {
 			// Make sure we can talk to javascript at all
             if (!ExternalInterface.available) {
@@ -93,9 +98,15 @@ package {
 				LSOName = this.loaderInfo.parameters.LSOName;
 			}
 			
+			// grab the path if supplied
+			if(this.loaderInfo.parameters.LSOPath){
+				log('Path: ' + LSOPath);
+				LSOPath = this.loaderInfo.parameters.LSOPath;
+			}
+			
 			// try to initialize our lso
 			try{
-				dataStore = SharedObject.getLocal(LSOName);
+				dataStore = SharedObject.getLocal(LSOName, LSOPath);
 			} catch(error:Error){
 				// user probably unchecked their "allow third party data" in their global flash settings
 				log('Unable to create a local shared object. Exiting - ' + error.message);
@@ -129,8 +140,8 @@ package {
         }
 		
 		/**
-		* Attempts to notify JS when there was an error during initialization
-		*/
+		 * Attempts to notify JS when there was an error during initialization
+		 */
 		private function onError():void {
 			try{
 				if(ExternalInterface.available && this.loaderInfo.parameters.onerror){
@@ -142,11 +153,11 @@ package {
 		}
 
 		/**
-		* Saves the data to the LSO, and then flushes it to the disk
-		*
-		* @param {string} key
-		* @param {string} value - Expects a string. Objects will be converted to strings, functions tend to cause problems.
-		*/
+		 * Saves the data to the LSO, and then flushes it to the disk
+		 *
+		 * @param {string} key
+		 * @param {string} value - Expects a string. Objects will be converted to strings, functions tend to cause problems.
+		 */
          private function setValue(key:String, val:*):void {
 			try{
 				if(typeof val != "string"){
@@ -179,8 +190,8 @@ package {
         }
 		
 		/**
-		* Reads and returns data from the LSO
-		*/
+		 * Reads and returns data from the LSO
+		 */
 		private function getValue(key:String):String {
 			try{
 				log('Reading ' + key);
@@ -192,8 +203,8 @@ package {
 		}
         
 		/**
-		* Deletes an item from the LSO
-		*/
+		 * Deletes an item from the LSO
+		 */
         private function clearValue(key:String):void {
             try{
 				log("Deleting " + key);
@@ -204,15 +215,15 @@ package {
         }
 
 		/** 
-		* This retrieves all stored data
-		*/
+		 * This retrieves all stored data
+		 */
 		private function getAllValues():Object {
 			return dataStore.data;
 		}
 		
 		/**
-		* This happens if the user is prompted about saving locally
-		*/
+		 * This happens if the user is prompted about saving locally
+		 */
         private function onFlushStatus(event:NetStatusEvent):void {
             log("User closed permission dialog...");
             switch (event.info.code) {
@@ -228,9 +239,9 @@ package {
         }
 
 		/**
-		* Attempts to log messages to the supplied javascript logFn,
-		* if that fails it passes them to localLog()
-		*/
+		 * Attempts to log messages to the supplied javascript logFn,
+		 * if that fails it passes them to localLog()
+		 */
 		private function log(str:String):void {
 			if(logFn){
 				try{
@@ -244,9 +255,9 @@ package {
 		}
 		
 		/**
-		* Last-resort logging used when communication with javascript fails or isn't avaliable.
-		* The messages should appear in the flash object, but they might not be pretty.
-		*/
+		 * Last-resort logging used when communication with javascript fails or isn't avaliable.
+		 * The messages should appear in the flash object, but they might not be pretty.
+		 */
 		private function localLog(str:String):void {
 			// We can't talk to javascript for some reason. 
 			// Attempt to show this to the user (normally this swf is hidden off screen, so regular users shouldn't see it)

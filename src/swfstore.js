@@ -1,28 +1,28 @@
 /**
-* SwfStore - a JavaScript library for cross-domain flash cookies
-*
-* http://github.com/nfriedly/Javascript-Flash-Cookies
-*
-* Copyright (c) 2010 by Nathan Friedly - http://nfriedly.com
-* 
-* Permission is hereby granted, free of charge, to any person obtaining a copy
-* of this software and associated documentation files (the "Software"), to deal
-* in the Software without restriction, including without limitation the rights
-* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-* copies of the Software, and to permit persons to whom the Software is
-* furnished to do so, subject to the following conditions:
-* 
-* The above copyright notice and this permission notice shall be included in
-* all copies or substantial portions of the Software.
-* 
-* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-* THE SOFTWARE.
-*/
+ * SwfStore - a JavaScript library for cross-domain flash cookies
+ *
+ * http://github.com/nfriedly/Javascript-Flash-Cookies
+ *
+ * Copyright (c) 2010 by Nathan Friedly - http://nfriedly.com
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 
 /*jslint browser: true, devel: true, vars: true, white: true, nomen: true, plusplus: true, regexp: true */
 /*globals SwfStore */
@@ -36,25 +36,26 @@
 	var alpnum = /[^a-z0-9_]/ig; //a regex to find anything thats not letters and numbers
 
 	/**
-	* SwfStore constructor - creates a new SwfStore object and embeds the .swf into the web page.
-	*
-	* usage: 
-	* var mySwfStore = new SwfStore(config);
-	*
-	* @param {object} config
-	* @param {string} [config.swf_url=storage.swf] - Url to storage.swf. Must be an absolute url (with http:// and all) to work cross-domain
-	* @param {functon} [config.onready] Callback function that is fired when the SwfStore is loaded. Recommended.
-	* @param {function} [config.onerror] Callback function that is fired if the SwfStore fails to load. Recommended.
-	* @param {string} [config.namespace="swfstore"] The namespace to use in both JS and the SWF. Allows a page to have more than one instance of SwfStore.
-	* @param {integer} [config.timeout=10] The number of seconds to wait before assuming the user does not have flash.
-	* @param {boolean} [config.debug=false] Is debug mode enabled? If so, mesages will be logged to the console and the .swf will be rendered on the page (although it will be an empty white box unless it cannot communicate with JS. Then it will log errors to the .swf)
-	*/
+	 * SwfStore constructor - creates a new SwfStore object and embeds the .swf into the web page.
+	 *
+	 * usage: 
+	 * var mySwfStore = new SwfStore(config);
+	 *
+	 * @param {object} config
+	 * @param {string} [config.swf_url=storage.swf] - Url to storage.swf. Must be an absolute url (with http:// and all) to work cross-domain
+	 * @param {functon} [config.onready] Callback function that is fired when the SwfStore is loaded. Recommended.
+	 * @param {function} [config.onerror] Callback function that is fired if the SwfStore fails to load. Recommended.
+	 * @param {string} [config.namespace="swfstore"] The namespace to use in both JS and the SWF. Allows a page to have more than one instance of SwfStore.
+	 * @param {integer} [config.timeout=10] The number of seconds to wait before assuming the user does not have flash.
+	 * @param {boolean} [config.debug=false] Is debug mode enabled? If so, mesages will be logged to the console and the .swf will be rendered on the page (although it will be an empty white box unless it cannot communicate with JS. Then it will log errors to the .swf)
+	 */
 	window.SwfStore = function(config){
 		// make sure we have something of a configuration
 		config = config || {};
 		var defaults = {
 			swf_url: 'storage.swf',
 			namespace: 'swfstore',
+			path: null,
 			debug: false,
 			timeout: 10,
 			onready: null,
@@ -131,7 +132,9 @@
 		var flashvars = "logfn=SwfStore." + config.namespace + ".log&amp;" + 
 			"onload=SwfStore." + config.namespace + ".onload&amp;" +  // "onload" sets this.ready and then calls the "onready" config option
 			"onerror=SwfStore." + config.namespace + ".onerror&amp;" + 
+			(config.path ? "LSOPath=" + config.path + '&amp;' : '') +
 			"LSOName=" + config.namespace;
+			
 			
 		swfContainer.innerHTML = '<object height="100" width="500" codebase="https://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab" id="' + 
 			swfName + '" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">' +
@@ -165,16 +168,16 @@
 		version: "1.7",
 		
 		/**
-		* This is an indicator of whether or not the SwfStore is initialized. 
-		* Use the onready and onerror config options rather than checking this variable.
-		*/
+		 * This is an indicator of whether or not the SwfStore is initialized. 
+		 * Use the onready and onerror config options rather than checking this variable.
+		 */
 		ready: false,
 
 		/**
-		* Sets the given key to the given value in the swf
-		* @param {string} key
-		* @param {string} value
-		*/
+		 * Sets the given key to the given value in the swf
+		 * @param {string} key
+		 * @param {string} value
+		 */
 		set: function(key, value){
 			this._checkReady();
 			checkData(key);
@@ -184,10 +187,10 @@
 		},
 	
 		/**
-		* Retrieves the specified value from the swf.
-		* @param {string} key
-		* @return {string} value
-		*/
+		 * Retrieves the specified value from the swf.
+		 * @param {string} key
+		 * @return {string} value
+		 */
 		get: function(key){
 			this._checkReady();
 			checkData(key);
@@ -196,9 +199,9 @@
 		},
 
 		/**
-		* Retrieves all stored values from the swf. 
-		* @return {object}
-		*/
+		 * Retrieves all stored values from the swf. 
+		 * @return {object}
+		 */
 		getAll: function(){
 			this._checkReady();
 			//this.log('debug', 'js', 'Reading ' + key);
@@ -211,10 +214,10 @@
 		},
     
 	    /**
-		* Delete the specified key from the swf
-		*
-		* @param {string} key
-		*/
+		 * Delete the specified key from the swf
+		 *
+		 * @param {string} key
+		 */
 		clear: function(key){
 			this._checkReady();
 			checkData(key);
@@ -222,10 +225,10 @@
 		},
 		
 		/**
-		* We need to run this check before tying to work with the swf
-		*
-		* @private
-		*/
+		 * We need to run this check before tying to work with the swf
+		 *
+		 * @private
+		 */
 		_checkReady: function(){
 			if(!this.ready){
 				throw 'SwfStore is not yet finished initializing. Pass a config.onready callback or wait until this.ready is true before trying to use a SwfStore instance.';
@@ -233,11 +236,11 @@
 		},
 		
 		/**
-		* This is the function that the swf calls to announce that it has loaded.
-		* This function in turn fires the onready function if provided in the config.
-		*
-		* @private
-		*/
+		 * This is the function that the swf calls to announce that it has loaded.
+		 * This function in turn fires the onready function if provided in the config.
+		 *
+		 * @private
+		 */
 		"onload": function(){
 			// deal with scope the easy way
 			var that = this;
@@ -263,13 +266,13 @@
 		
 		
 		/**
-		* If the swf had an error but is still able to communicate with JavaScript, it will call this function.
-		* This function is also called if the time limit is reached and flash has not yet loaded.
-		* This function is most commonly called when either flash is not installed or local storage has been disabled.
-		* If an onerror function was provided in the config, this function will fire it.
-		*
-		* @private
-		*/
+		 * If the swf had an error but is still able to communicate with JavaScript, it will call this function.
+		 * This function is also called if the time limit is reached and flash has not yet loaded.
+		 * This function is most commonly called when either flash is not installed or local storage has been disabled.
+		 * If an onerror function was provided in the config, this function will fire it.
+		 *
+		 * @private
+		 */
 		onerror: function(){
 			clearTimeout(this._timeout);
 			//this.log('info', 'js', 'Error reported by storage.swf');
