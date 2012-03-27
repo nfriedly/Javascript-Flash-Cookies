@@ -36,8 +36,17 @@ The storage.fla is essentially just an empty shell file that points to Storage.a
 See example/index.html for a working example that you can put on your site.
 
 
+Contributors
+------------
+* Nathan Friedly - http://nfriedly.com
+* Alexandre Mercier - https://twitter.com/alemercier
+
+
 Changelog
 ---------
+
+### 1.8 - 2012-03-27
+* Added support for setting the LSOPath to allow other .swf files to read & write SwfStore's objects
 
 ### 1.7 - 2012-02-14
 
