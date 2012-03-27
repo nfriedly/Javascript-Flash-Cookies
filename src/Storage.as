@@ -26,11 +26,11 @@
 
 package {
     import flash.display.Sprite;
-	import flash.display.Stage;
+    import flash.display.Stage;
     import flash.events.*;
     import flash.external.ExternalInterface;
     import flash.text.TextField;
-	import flash.system.Security;
+    import flash.system.Security;
     import flash.net.SharedObject;
     import flash.net.SharedObjectFlushStatus;
 
@@ -48,6 +48,12 @@ package {
 		
 		/**
 		 * The path of LSO
+		 * This defaults to "/path/to/store.swf" which prevents any other .swf from reading it's values.
+		 * Similar to cookies, set it to "/" to allow any other .swf on the domain to read from this LSO.
+		 * 
+		 * More info: 
+		 * http://help.adobe.com/en_US/AS2LCR/Flash_10.0/help.html?content=00001508.html
+		 * http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/net/SharedObject.html#getLocal() 
 		 */
 		private var LSOPath:String = null;
 		
