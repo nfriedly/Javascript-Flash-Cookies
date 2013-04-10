@@ -39,14 +39,23 @@
 	 * SwfStore constructor - creates a new SwfStore object and embeds the .swf into the web page.
 	 *
 	 * usage: 
-	 * var mySwfStore = new SwfStore(config);
+	 * var mySwfStore = new SwfStore({
+	 *   namespace: "my_cool_app",
+	 *   swf_url: "http://example.com/path/to/storage.swf",
+	 *   onready: function() {
+	 *     console.log('ready!', mySwfStore.get('my_key'));
+	 *   },
+	 *   onerror: function() {
+	 *     console.error('swfStore failed to load :(');
+	 *   }
+	 * });
 	 *
 	 * @param {object} config
 	 * @param {string} [config.swf_url=storage.swf] - Url to storage.swf. Must be an absolute url (with http:// and all) to work cross-domain
 	 * @param {functon} [config.onready] Callback function that is fired when the SwfStore is loaded. Recommended.
 	 * @param {function} [config.onerror] Callback function that is fired if the SwfStore fails to load. Recommended.
 	 * @param {string} [config.namespace="swfstore"] The namespace to use in both JS and the SWF. Allows a page to have more than one instance of SwfStore.
-	 * @param {string} [config.path] The path fo the LSO - similar to a cookie's path, setting it to "/" allows other .swf files on the domain to read/write to it
+	 * @param {string} [config.path] The path of the LSO - similar to a cookie's path, setting it to "/" allows other .swf files on the domain to read/write to it
 	 * @param {integer} [config.timeout=10] The number of seconds to wait before assuming the user does not have flash.
 	 * @param {boolean} [config.debug=false] Is debug mode enabled? If so, mesages will be logged to the console and the .swf will be rendered on the page (although it will be an empty white box unless it cannot communicate with JS. Then it will log errors to the .swf)
 	 */
@@ -54,11 +63,11 @@
 		// make sure we have something of a configuration
 		config = config || {};
 		var defaults = {
-			swf_url: 'storage.swf',
+			swf_url: 'storage.swf', // this should be a complete url (http://example.com/path/to/storage.swf) for cross-domain usage
 			namespace: 'swfstore',
 			path: null,
 			debug: false,
-			timeout: 10,
+			timeout: 10, // number of seconds to wait before concluding there was an error
 			onready: null,
 			onerror: null
 		};
