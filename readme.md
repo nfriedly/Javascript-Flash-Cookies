@@ -1,11 +1,12 @@
 SwfStore
 =======
 
-SwfStore is a JavaScript library for cross-domain flash cookies. It includes a .swf file that handles the storage and a JavaScript interface for loading and communicating with the flash file.
+SwfStore is a JavaScript library for cross-domain flash cookies. It includes a .swf file that handles the 
+storage and a JavaScript interface for loading and communicating with the flash file.
 
 Getting-started instructions: http://nfriedly.com/techblog/2010/07/swf-for-javascript-cross-domain-flash-cookies/ 
 
-Working example: http://nfriedly.github.com/Javascript-Flash-Cookies/
+Working example: http://nfriedly.github.io/Javascript-Flash-Cookies/
 
 
 ---
@@ -13,11 +14,34 @@ Working example: http://nfriedly.github.com/Javascript-Flash-Cookies/
 Security Warning
 ----------------
 
-The default storage.swf allows any website to read the data in your flash file. You should avoid storing private information in it. 
+The default storage.swf allows any website to read the data in your flash file. You should avoid storing private 
+information in it. 
 
-It would be wise to edit and recompile the flash file to limit itself to your domain and http/https settings. If you do not have a copy of Adobe Flash, I can do it for you for $5 - email me for details.
+It would be wise to edit and recompile the flash file to limit itself to your domain and http/https settings. If 
+you do not have a copy of Adobe Flash, I can do it for you for $5 - email me for details.
 
 ---
+
+Basic Usage
+-----------
+
+```javascript
+// this should run on DOMReady, or at least after the opening <body> tag has been parsed.
+var mySwfStore = new SwfStore({
+  namespace: "my_cool_app",
+  swf_url: "http://example.com/path/to/storage.swf",
+  onready: function() {
+    var myValue = prompt('What data would you like to store in my_key?');
+    mySwfStore.set('my_key', myValue);
+    console.log('my_key is now set to ' + mySwfStore.get('my_key'));
+  },
+  onerror: function() {
+    console.error('swfStore failed to load :(');
+  }
+});
+```
+    
+More details in [src/swfstore.js](https://github.com/nfriedly/Javascript-Flash-Cookies/blob/master/src/swfstore.js)
 
 
 File Details 
@@ -25,11 +49,16 @@ File Details
 
 storage.swf is the compiled flash file ready to be embedded in your website. Note the security warning above.
 
-swfstore.min.js - a copy of swfstore.js, minified for your convenience. This and a copy of storage.swf should be all you need to use this on a production website.
+swfstore.min.js - a copy of swfstore.js, minified for your convenience. This and a copy of storage.swf should 
+be all you need to use this on a production website.
 
-swfstore.js handles the interaction between javascrpt and flash, it also handles embedding and some basic error checking.
+swfstore.js handles the interaction between javascrpt and flash, it also handles embedding and some basic error 
+checking.
 
-Storage.as is where all the magic happens. It maps an External Interface to a Local Storage Object. I'm not super-great at flash or action script, but I tried to keep things reasonably well documented and wrapped everything in try-catch statements. Someone who knows ActionScript better than I do may be able to remove some of those.
+Storage.as is where all the magic happens. It maps an External Interface to a Local Storage Object. I'm not 
+super-great at flash or action script, but I tried to keep things reasonably well documented and wrapped 
+everything in try-catch statements. Someone who knows ActionScript better than I do may be able to remove some 
+of those.
 
 The storage.fla is essentially just an empty shell file that points to Storage.as as it's main class.
 
