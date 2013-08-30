@@ -4,17 +4,17 @@
  * http://github.com/nfriedly/Javascript-Flash-Cookies
  *
  * Copyright (c) 2010 by Nathan Friedly - Http://nfriedly.com
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -35,34 +35,34 @@ package {
     import flash.net.SharedObjectFlushStatus;
 
     public class Storage extends Sprite {
-		
+
 		/**
 		 * Our Local Shared Object (LSO) - this is where all the magic happens!
 		 */
 		private var dataStore:SharedObject;
-		
+
 		/**
 		 * The name of LSO
 		 */
 		private var LSOName:String = "SwfStore";
-		
+
 		/**
 		 * The path of LSO
 		 * This defaults to "/path/to/store.swf" which prevents any other .swf from reading it's values.
 		 * Similar to cookies, set it to "/" to allow any other .swf on the domain to read from this LSO.
-		 * 
-		 * More info: 
+		 *
+		 * More info:
 		 * http://help.adobe.com/en_US/AS2LCR/Flash_10.0/help.html?content=00001508.html
-		 * http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/net/SharedObject.html#getLocal() 
+		 * http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/net/SharedObject.html#getLocal()
 		 */
 		private var LSOPath:String = null;
-		
+
 		/**
 		 * The JS function to call for logging.
 		 * Should be specified as "logfn" in the flashvars
 		 */
 		private var logFn:String;
-		
+
 		/**
 		 * Text field used by local logging
 		 */
@@ -82,15 +82,15 @@ package {
 				localLog("External Interface is not avaliable! (No communication with JavaScript.) Exiting.");
 				return;
 			}
-			
-			// since even logging involves communicating with javascript, 
+
+			// since even logging involves communicating with javascript,
 			// the next thing to do is find the external log function
 			if(this.loaderInfo.parameters.logfn){
 				logFn = this.loaderInfo.parameters.logfn;
 			}
-			
+
 			log('Initializing...');
-			
+
 			// This is necessary to work cross-domain
 			// Ideally you should add only the domains that you need, for example
 			//   Security.allowDomain("nfriedly.com", "www.nfriedly.com");
@@ -98,18 +98,18 @@ package {
 			// More information: http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/system/Security.html#allowDomain%28%29
 			Security.allowDomain("*");
 			Security.allowInsecureDomain("*");
-			
+
 			// grab the namespace if supplied
 			if(this.loaderInfo.parameters.LSOName){
 				LSOName = this.loaderInfo.parameters.LSOName;
 			}
-			
+
 			// grab the path if supplied
 			if(this.loaderInfo.parameters.LSOPath){
 				log('Path: ' + LSOPath);
 				LSOPath = this.loaderInfo.parameters.LSOPath;
 			}
-			
+
 			// try to initialize our lso
 			try{
 				dataStore = SharedObject.getLocal(LSOName, LSOPath);
@@ -119,16 +119,16 @@ package {
 				onError();
 				return;
 			}
-			
+
 			try {
 				// expose our external interface
 				ExternalInterface.addCallback("set", setValue);
 				ExternalInterface.addCallback("get", getValue);
 				ExternalInterface.addCallback("getAll", getAllValues);
 				ExternalInterface.addCallback("clear", clearValue);
-				
+
 				log('Ready! Firing onload if provided');
-				
+
 				// if onload was set in the flashvars, assume it's a string function name and call it.
 				// (This means that the function must be in the global scope. I'm not sure how to call a scoped function.)
 				if(this.loaderInfo.parameters.onload){
@@ -144,7 +144,7 @@ package {
 				onError();
 			}
         }
-		
+
 		/**
 		 * Attempts to notify JS when there was an error during initialization
 		 */
@@ -171,11 +171,50 @@ package {
 				}
 				log('Setting ' + key + '=' + val);
 				dataStore.data[key] = val;
+				flush();
 			} catch(error:Error){
 				log('Unable to save data - ' + error.message);
 			}
-            
-            var flushStatus:String = null;
+        }
+
+		/**
+		 * Reads and returns data from the LSO
+		 */
+		private function getValue(key:String):String {
+			try{
+				log('Reading ' + key);
+				return dataStore.data[key];
+			} catch(error:Error){
+				log('Unable to read data - ' + error.message);
+			}
+			return null;
+		}
+
+		/**
+		 * Deletes an item from the LSO
+		 */
+        private function clearValue(key:String):void {
+            try{
+				log("Deleting " + key);
+           		delete dataStore.data[key];
+           		flush();
+			} catch (error:Error){
+				log("Error deleting key - " + error.message);
+			}
+        }
+
+		/**
+		 * This retrieves all stored data
+		 */
+		private function getAllValues():Object {
+			return dataStore.data;
+		}
+
+		/**
+		 * Flushes changes to the dataStore
+		 */
+		private function flush():void {
+			var flushStatus:String = null;
             try {
                 flushStatus = dataStore.flush(10000);
             } catch (error:Error) {
@@ -193,40 +232,8 @@ package {
                         break;
                 }
             }
-        }
-		
-		/**
-		 * Reads and returns data from the LSO
-		 */
-		private function getValue(key:String):String {
-			try{
-				log('Reading ' + key);
-				return dataStore.data[key];
-			} catch(error:Error){
-				log('Unable to read data - ' + error.message);
-			}
-			return null;
 		}
-        
-		/**
-		 * Deletes an item from the LSO
-		 */
-        private function clearValue(key:String):void {
-            try{
-				log("Deleting " + key);
-           		delete dataStore.data[key];
-			} catch (error:Error){
-				log("Error deleting key - " + error.message);
-			}
-        }
 
-		/** 
-		 * This retrieves all stored data
-		 */
-		private function getAllValues():Object {
-			return dataStore.data;
-		}
-		
 		/**
 		 * This happens if the user is prompted about saving locally
 		 */
@@ -254,18 +261,18 @@ package {
 					ExternalInterface.call(logFn, 'debug', 'swfStore', str);
 				} catch(error:Error){
 					localLog("Error logging to js: " + error.message);
-				} 
+				}
 			} else {
 				localLog(str);
 			}
 		}
-		
+
 		/**
 		 * Last-resort logging used when communication with javascript fails or isn't avaliable.
 		 * The messages should appear in the flash object, but they might not be pretty.
 		 */
 		private function localLog(str:String):void {
-			// We can't talk to javascript for some reason. 
+			// We can't talk to javascript for some reason.
 			// Attempt to show this to the user (normally this swf is hidden off screen, so regular users shouldn't see it)
 			if(!logText){
 				// create the text field if it doesn't exist yet
@@ -275,6 +282,6 @@ package {
 			}
 			logText.appendText(str + "\n");
 		}
-		
+
     }
 }
