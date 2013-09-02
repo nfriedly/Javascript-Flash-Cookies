@@ -72,6 +72,24 @@ Contributors
 * Andy Garbutt - https://twitter.com/techsplicer
 
 
+Release process
+---------------
+* Update the the changelog in the readme
+* Update the version number in the `src/swfstore.js`.
+* Open `src/storage.fla` in Adobe Flash and export it to `storage.swf`
+* Minify the js with UglifyJS2 (https://github.com/mishoo/UglifyJS2 or http://marijnhaverbeke.nl/uglifyjs)
+* Commit everything
+* Tag the commit with the version number
+* Push to github
+
+
+To Do
+-----
+* Document the API better here
+* Automate the release process
+* Add support for RequireJS / Jam / Bower / Component / etc.
+
+
 Changelog
 ---------
 
