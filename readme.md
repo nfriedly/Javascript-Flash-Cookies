@@ -20,6 +20,10 @@ information in it.
 It would be wise to edit and recompile the flash file to limit itself to your domain and http/https settings. If
 you do not have a copy of Adobe Flash, I can do it for you for $5 - email me for details.
 
+Browser compatibility for current build:
+
+[![Selenium Test Status](https://saucelabs.com/browser-matrix/jsfc.svg)](https://saucelabs.com/u/jsfc)
+
 ---
 
 Basic Usage
@@ -88,10 +92,16 @@ To Do
 * Document the API better here
 * Automate the release process
 * Add support for RequireJS / Jam / Bower / Component / etc.
+* Figure out how to run automated cross-domain & cross-protocol tests
 
 
 Changelog
 ---------
+
+### 2.0 - (coming soon)
+* Automates testing on saucelabs
+* Add a destroy method
+* Unify the names of things
 
 ### 1.9 - 2013-08-30
 * Refactored the ActionScript to call flush after both setValue and clearValue (fixes issue #18/#19)

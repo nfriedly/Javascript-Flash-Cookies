@@ -1,13 +1,14 @@
 {
-  "name": "Javascript-Flash-Cookies",
-  "version": "1.4.0",
+  "name": "flashcookies.js",
+  "version": "2.0.0-pre1",
   "description": "JavaScript library and .swf for cross-domain flashcookies.\"",
   "main": "swfstore.min.js",
   "directories": {
-    "example": "example"
+    "example": "example",
+    "test": "tests"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "grunt test",
     "server": "python -m SimpleHTTPServer"
   },
   "repository": {
@@ -23,5 +24,15 @@
   "devDependencies": {
     "grunt": "~0.4.2",
     "grunt-saucelabs": "~4.1.2"
-  }
+  },
+  "dependencies": {
+    "grunt": "~0.4.2",
+    "grunt-saucelabs": "~4.1.2"
+  },
+  "keywords": [
+    "javascript",
+    "flash",
+    "flashcookies",
+    "swf"
+  ]
 }

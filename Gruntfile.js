@@ -12,45 +12,55 @@ module.exports = function(grunt) {
         'saucelabs-jasmine': {
             all: {
                 options: {
-                    //username: 'saucelabs-user-name', // if not provided it'll default to ENV SAUCE_USERNAME (if applicable)
-                    //key: 'saucelabs-key', // if not provided it'll default to ENV SAUCE_ACCESS_KEY (if applicable)
+                    username: 'jsfc', // if not provided it'll default to ENV SAUCE_USERNAME
+                    key: '53b0264d-afb9-449c-8dfc-94eff9593511', // if not provided it'll default to ENV SAUCE_ACCESS_KEY
                     urls: ['http://localhost:8000/tests/SpecRunner.html'],
-                    concurrency: 2, //'Number of concurrent browsers to test against. Will default to the number of overall browsers specified. Check your plan (free: 2, OSS: 3) and make sure you have got sufficient Sauce Labs concurrency.',
+                    concurrency: 1, //'Number of concurrent browsers to test against. Will default to the number of overall browsers specified. Check your plan (free: 2, OSS: 3) and make sure you have got sufficient Sauce Labs concurrency.',
                     detailedError: true, //'false (default) / true; if true log detailed test results when a test error occurs',
                     testname: 'SwfStore',
                     browsers: [
                         {
                             browserName: 'internet explorer',
                             version: '11',
-                            platform: 'Windows 8.1'
+                            platform: 'Windows 8.1',
+                            tags: ['ie', 'ie11']
                         }, {
                             browserName: 'internet explorer',
                             version: '10',
-                            platform: 'Windows 8'
+                            platform: 'Windows 8',
+                            tags: ['ie', 'ie10']
                         }, {
                             browserName: 'internet explorer',
                             version: '9',
-                            platform: 'Windows 7'
+                            platform: 'Windows 7',
+                            tags: ['ie', 'ie9']
                         }, {
                             browserName: 'internet explorer',
                             version: '8',
-                            platform: 'Windows XP'
+                            platform: 'Windows XP',
+                            tags: ['ie', 'ie8']
                         }, {
                             browserName: 'internet explorer',
                             version: '7',
-                            platform: 'Windows XP'
+                            platform: 'Windows XP',
+                            tags: ['ie', 'ie7']
                         }, {
                             browserName: 'internet explorer',
                             version: '6',
-                            platform: 'Windows XP'
+                            platform: 'Windows XP',
+                            tags: ['ie', 'ie6']
                         }, {
-                            browserName: 'firefox'
+                            browserName: 'firefox',
+                            tags: ['firefox']
                         }, {
-                            browserName: 'chrome'
+                            browserName: 'chrome',
+                            tags: ['chrome']
                         }, {
-                            browserName: 'safari'
+                            browserName: 'safari',
+                            tags: ['safari']
                         }, {
-                            browserName: 'opera'
+                            browserName: 'opera',
+                            tags: ['opera']
                         }
                     ]
                 }
