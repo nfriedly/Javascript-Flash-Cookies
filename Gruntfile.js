@@ -15,7 +15,8 @@ module.exports = function(grunt) {
                     username: 'jsfc', // if not provided it'll default to ENV SAUCE_USERNAME
                     key: '53b0264d-afb9-449c-8dfc-94eff9593511', // if not provided it'll default to ENV SAUCE_ACCESS_KEY
                     urls: ['http://localhost:8000/tests/SpecRunner.html'],
-                    concurrency: 1, //'Number of concurrent browsers to test against. Will default to the number of overall browsers specified. Check your plan (free: 2, OSS: 3) and make sure you have got sufficient Sauce Labs concurrency.',
+                    build: process.env.TRAVIS_JOB_ID,
+                    concurrency: 3, //'Number of concurrent browsers to test against. Will default to the number of overall browsers specified. Check your plan (free: 2, OSS: 3) and make sure you have got sufficient Sauce Labs concurrency.',
                     detailedError: true, //'false (default) / true; if true log detailed test results when a test error occurs',
                     testname: 'SwfStore',
                     browsers: [

@@ -93,6 +93,9 @@ To Do
 * Automate the release process
 * Add support for RequireJS / Jam / Bower / Component / etc.
 * Figure out how to run automated cross-domain & cross-protocol tests
+* Add JSHint
+* Add JSBeautify (with verify mode)
+* Add destroy method
 
 
 Changelog
