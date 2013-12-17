@@ -55,14 +55,14 @@ module.exports = function(grunt) {
                         tags: ['firefox', 'win']
                     }, {
                         browserName: 'firefox',
-                        platform: 'OS X 10.8',
+                        platform: 'OS X 10.6', // todo: update to 10.9 once saucelabs supports it
                         tags: ['firefox', 'mac']
                     }, {
                         browserName: 'chrome',
                         tags: ['chrome', 'win']
                     }, {
                         browserName: 'chrome',
-                        platform: 'OS X 10.8',
+                        platform: 'OS X 10.9',
                         tags: ['chrome', 'mac']
                     }, {
                         browserName: 'safari',
@@ -72,7 +72,7 @@ module.exports = function(grunt) {
                     }, {
                         browserName: 'safari',
                         version: 6,
-                        platform: 'OS X 10.8',
+                        platform: 'OS X 10.8', // todo: update to 10.9 once saucelabs supports it
                         tags: ['safari', 'mac']
                     }, {
                         browserName: 'opera',

@@ -30,7 +30,7 @@ describe("SwfStore", function() {
      * @param {boolean} [config.debug=false] Is d
      */
     it("should fire the callback after the SWF loads", function() {
-        var onerror = jasmine.createSpy("onerror");
+        var onerror = jasmine.createSpy("onerror").andThrow('onerror callback fired');
         var loaded = false;
         var config = {
             swf_url: SWF_PATH,
@@ -78,7 +78,7 @@ describe("SwfStore", function() {
     });
 
     it("should store and retrieve values", function() {
-        var onerror = jasmine.createSpy("onerror");
+        var onerror = jasmine.createSpy("onerror").andThrow('onerror callback fired');
         var loaded = false;
         var config = {
             swf_url: SWF_PATH,
@@ -106,7 +106,7 @@ describe("SwfStore", function() {
 
 
     it("should allow you to clear previously set values", function() {
-        var onerror = jasmine.createSpy("onerror");
+        var onerror = jasmine.createSpy("onerror").andThrow('onerror callback fired');
         var loaded = false;
         var config = {
             swf_url: SWF_PATH,
