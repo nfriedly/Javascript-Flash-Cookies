@@ -22,10 +22,11 @@ you do not have a copy of Adobe Flash, I can do it for you for $5 - email me for
 
 ---
 
-Browser compatibility for current build:
+Tested for compatibility with the following browsers:
 
 [![Selenium Test Status](https://saucelabs.com/browser-matrix/jsfc.svg)](https://saucelabs.com/u/jsfc)
 
+Note: SwfStore is *not* compatible with most mobile devices (iPhones, Androids, etc) because it requires flash and few of these devices run flash.
 
 Basic Usage
 -----------
