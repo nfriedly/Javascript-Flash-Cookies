@@ -1,3 +1,4 @@
+/*global SwfStore: false, jasmine: false, describe: false, it: false, expect: false, runs: false, waitsFor: false*/
 describe("SwfStore", function() {
 
     var SWF_PATH = "../storage.swf";
@@ -9,10 +10,10 @@ describe("SwfStore", function() {
     it("should be able to create a new instance", function() {
         expect(new SwfStore()).toBeDefined();
     });
-    
+
     it("should use the given swf_url config", function() {
         var instance = new SwfStore({
-            swf_url: SWF_PATH, 
+            swf_url: SWF_PATH,
             namespace: "_" + Math.random()
         });
         expect(instance.config.swf_url).toBe(SWF_PATH);
@@ -45,7 +46,7 @@ describe("SwfStore", function() {
             new SwfStore(config);
         });
         waitsFor(function() {
-            return loaded == true;
+            return loaded;
         });
         runs(function() {
             expect(onerror).not.toHaveBeenCalled();
@@ -69,7 +70,7 @@ describe("SwfStore", function() {
             new SwfStore(config);
         });
         waitsFor(function() {
-            return errored == true;
+            return errored;
         });
         runs(function() {
             expect(onload).not.toHaveBeenCalled();
@@ -94,7 +95,7 @@ describe("SwfStore", function() {
             instance = new SwfStore(config);
         });
         waitsFor(function() {
-            return loaded == true;
+            return loaded;
         });
         runs(function() {
             expect(onerror).not.toHaveBeenCalled();
@@ -122,7 +123,7 @@ describe("SwfStore", function() {
             instance = new SwfStore(config);
         });
         waitsFor(function() {
-            return loaded == true;
+            return loaded;
         });
         runs(function() {
             expect(onerror).not.toHaveBeenCalled();
