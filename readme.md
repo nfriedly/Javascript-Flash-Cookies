@@ -20,11 +20,12 @@ information in it.
 It would be wise to edit and recompile the flash file to limit itself to your domain and http/https settings. If
 you do not have a copy of Adobe Flash, I can do it for you for $5 - email me for details.
 
+---
+
 Browser compatibility for current build:
 
 [![Selenium Test Status](https://saucelabs.com/browser-matrix/jsfc.svg)](https://saucelabs.com/u/jsfc)
 
----
 
 Basic Usage
 -----------
