@@ -1,0 +1,27 @@
+{
+  "name": "Javascript-Flash-Cookies",
+  "version": "1.4.0",
+  "description": "JavaScript library and .swf for cross-domain flashcookies.\"",
+  "main": "swfstore.min.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "python -m SimpleHTTPServer"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/nfriedly/Javascript-Flash-Cookies.git"
+  },
+  "author": "Nathan Friedly - http://nfriedly.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nfriedly/Javascript-Flash-Cookies/issues"
+  },
+  "homepage": "https://github.com/nfriedly/Javascript-Flash-Cookies",
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-saucelabs": "~4.1.2"
+  }
+}
