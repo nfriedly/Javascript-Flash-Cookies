@@ -139,9 +139,7 @@
 
         var swfName = id();
 
-        var flashvars = "logfn=SwfStore." + config.namespace + ".log&amp;" +
-            "onload=SwfStore." + config.namespace + ".onload&amp;" + // "onload" sets this.ready and then calls the "onready" config option
-        "onerror=SwfStore." + config.namespace + ".onerror&amp;" +
+        var flashvars = "namespace=" + config.namespace + "&amp;" +
             (config.path ? "LSOPath=" + config.path + '&amp;' : '') +
             "LSOName=" + config.namespace;
 
@@ -175,7 +173,7 @@
 
     SwfStore.prototype = {
 
-        version: "1.9",
+        version: "1.9.1",
 
         /**
          * This is an indicator of whether or not the SwfStore is initialized.
