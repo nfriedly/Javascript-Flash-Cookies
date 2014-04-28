@@ -7,9 +7,41 @@ module.exports = function(grunt) {
     //var allScripts = serverScripts.concat(clientScripts);
 
     grunt.loadNpmTasks('grunt-saucelabs');
+    grunt.loadNpmTasks('grunt-contrib-connect');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
 
     // Project configuration.
     grunt.initConfig({
+
+  uglify: {
+    options: {
+      mangle: false
+    },
+    swfstore: {
+      files: {
+        'swfstore.min.js': ['src/swfstore.js']
+      }
+    }
+  },
+
+  connect: {
+    // runs the server for the duration of the test. 
+    uses_defaults: {
+      options: {
+        port: 8000,
+        base: './'
+      }
+    },
+    test: {
+      options: {}
+    },
+    serve: {
+      options: {
+        keepalive: true
+      }
+    }
+  },
+
         'saucelabs-jasmine': {
             all: {
                 options: {
@@ -83,6 +115,6 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('test', ['saucelabs-jasmine']);
+    grunt.registerTask('test', ['connect:test', 'saucelabs-jasmine']);
 
 };

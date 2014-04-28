@@ -58,10 +58,14 @@ package {
 		private var LSOPath:String = null;
 
 		/**
-		 * The JS function to call for logging.
-		 * Should be specified as "logfn" in the flashvars
+		 * The JS callback functions should all be on a global variable at SwfStore.<namespace>.<function name>
 		 */
-		private var logFn:String;
+		private var jsNamespace:String = "SwfStore.swfstore.";
+		
+		/**
+		 * Namespace portion provided by JS is tested against this to avoid XSS
+		 */
+		private var namespaceCheck:RegExp = /^[a-z0-9_]+$/i;
 
 		/**
 		 * Text field used by local logging
@@ -82,11 +86,12 @@ package {
 				localLog("External Interface is not avaliable! (No communication with JavaScript.) Exiting.");
 				return;
 			}
+			ExternalInterface.marshallExceptions = true; // try to pass errors to JS and capture errors from JS
 
 			// since even logging involves communicating with javascript,
 			// the next thing to do is find the external log function
-			if(this.loaderInfo.parameters.logfn){
-				logFn = this.loaderInfo.parameters.logfn;
+			if(this.loaderInfo.parameters.namespace && namespaceCheck.test(this.loaderInfo.parameters.namespace)) {
+				jsNamespace = "SwfStore." + this.loaderInfo.parameters.namespace + ".";
 			}
 
 			log('Initializing...');
@@ -127,18 +132,13 @@ package {
 				ExternalInterface.addCallback("getAll", getAllValues);
 				ExternalInterface.addCallback("clear", clearValue);
 
-				log('Ready! Firing onload if provided');
+				log('Ready! Firing onload...');
 
-				// if onload was set in the flashvars, assume it's a string function name and call it.
-				// (This means that the function must be in the global scope. I'm not sure how to call a scoped function.)
-				if(this.loaderInfo.parameters.onload){
-					ExternalInterface.call(this.loaderInfo.parameters.onload);
-					// and we're done!
-				}
+				ExternalInterface.call(jsNamespace + "onload");
 
 			} catch (error:SecurityError) {
 				log("A SecurityError occurred: " + error.message + "\n");
-				onError()
+				onError();
 			} catch (error:Error) {
 				log("An Error occurred: " + error.message + "\n");
 				onError();
@@ -150,8 +150,8 @@ package {
 		 */
 		private function onError():void {
 			try{
-				if(ExternalInterface.available && this.loaderInfo.parameters.onerror){
-					ExternalInterface.call(this.loaderInfo.parameters.onerror);
+				if(ExternalInterface.available){
+					ExternalInterface.call(jsNamespace + "onerror");
 				}
 			} catch (error:Error){
 				log('Error attempting to fire JS onerror callback - ' + error.message);
@@ -256,14 +256,10 @@ package {
 		 * if that fails it passes them to localLog()
 		 */
 		private function log(str:String):void {
-			if(logFn){
-				try{
-					ExternalInterface.call(logFn, 'debug', 'swfStore', str);
-				} catch(error:Error){
-					localLog("Error logging to js: " + error.message);
-				}
-			} else {
-				localLog(str);
+			try{
+				ExternalInterface.call(jsNamespace + "log", 'debug', 'swfStore', str);
+			} catch(error:Error){
+				localLog("Error logging to js: " + error.toString() + " - Original message was: " + str);
 			}
 		}
 
