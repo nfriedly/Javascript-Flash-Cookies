@@ -13,34 +13,34 @@ module.exports = function(grunt) {
     // Project configuration.
     grunt.initConfig({
 
-  uglify: {
-    options: {
-      mangle: false
-    },
-    swfstore: {
-      files: {
-        'swfstore.min.js': ['src/swfstore.js']
-      }
-    }
-  },
+        uglify: {
+            options: {
+                mangle: false
+            },
+            swfstore: {
+                files: {
+                    'swfstore.min.js': ['src/swfstore.js']
+                }
+            }
+        },
 
-  connect: {
-    // runs the server for the duration of the test. 
-    uses_defaults: {
-      options: {
-        port: 8000,
-        base: './'
-      }
-    },
-    test: {
-      options: {}
-    },
-    serve: {
-      options: {
-        keepalive: true
-      }
-    }
-  },
+        connect: {
+            // runs the server for the duration of the test. 
+            uses_defaults: {
+                options: {
+                    port: 8000,
+                    base: './'
+                }
+            },
+            test: {
+                options: {}
+            },
+            serve: {
+                options: {
+                    keepalive: true
+                }
+            }
+        },
 
         'saucelabs-jasmine': {
             all: {

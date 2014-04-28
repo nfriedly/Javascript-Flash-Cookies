@@ -11,7 +11,12 @@ Working example: http://nfriedly.github.io/Javascript-Flash-Cookies/
 
 ---
 
-Security Warning
+IMPORTANT SECURITY NOTICE
+=========================
+Versions 1.9 and older are vulnerable to a XSS attach. Please upgrade to 1.9.1 or newer immediately!
+
+
+General Security Warning
 ----------------
 
 The default storage.swf allows any website to read the data in your flash file. You should avoid storing private
@@ -107,6 +112,10 @@ Changelog
 * Automates testing on saucelabs
 * Add a destroy method
 * Unify the names of things
+
+### 1.9.1 - 2014-04-28
+* Fixed a XSS vulnerability
+* Small changes to Gruntfile to make testing easier
 
 ### 1.9 - 2013-08-30
 * Refactored the ActionScript to call flush after both setValue and clearValue (fixes issue #18/#19)

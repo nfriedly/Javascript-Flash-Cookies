@@ -4,9 +4,5 @@ node_js:
 
 before_script:
 - npm install grunt-cli -g
-- python -m SimpleHTTPServer &
 
 # travis automatically runs `npm test` for the main script
-
-after_script:
-- killall python
