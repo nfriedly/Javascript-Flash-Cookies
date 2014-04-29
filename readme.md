@@ -13,7 +13,7 @@ Working example: http://nfriedly.github.io/Javascript-Flash-Cookies/
 
 IMPORTANT SECURITY NOTICE
 =========================
-Versions 1.9 and older are vulnerable to a XSS attach. Please upgrade to 1.9.1 or newer immediately!
+Versions 1.9 and older are vulnerable to a XSS attack. Please upgrade to 1.9.1 or newer immediately!
 
 
 General Security Warning
