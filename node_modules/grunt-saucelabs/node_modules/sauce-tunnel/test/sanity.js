@@ -1,0 +1,21 @@
+var SauceTunnel = require('../index');
+var tunnel = new SauceTunnel(process.env.SAUCE_USERNAME, process.env.SAUCE_ACCESSKEY, 'tunnel', true, ['--verbose']);
+tunnel.on('verbose:ok', function () {
+  console.log.apply(console, arguments);
+});
+tunnel.on('verbose:debug', function () {
+  console.log.apply(console, arguments);
+});
+tunnel.on('log:error', function () {
+  console.error.apply(console, arguments);
+});
+tunnel.start(function(status){
+  if (status === false){
+    console.error('Something went wrong with the tunnel');
+    process.exit(1);
+  }
+  tunnel.stop(function(){
+    console.log('Tunnel destroyed');
+    process.exit(0);
+  });
+});
