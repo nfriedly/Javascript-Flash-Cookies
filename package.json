@@ -1,6 +1,6 @@
 {
   "name": "flashcookies.js",
-  "version": "2.0.0-pre2",
+  "version": "2.0.0-pre3",
   "description": "JavaScript library and .swf for cross-domain flashcookies.\"",
   "main": "swfstore.min.js",
   "directories": {

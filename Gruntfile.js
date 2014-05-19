@@ -87,15 +87,15 @@ module.exports = function(grunt) {
                         tags: ['firefox', 'win']
                     }, {
                         browserName: 'firefox',
-                        platform: 'OS X 10.6', // todo: update to 10.9 once saucelabs supports it
+                        platform: 'OS X 10.9',
                         tags: ['firefox', 'mac']
                     }, {
                         browserName: 'chrome',
                         tags: ['chrome', 'win']
                     }, {
-                        browserName: 'chrome',
-                        platform: 'OS X 10.9',
-                        tags: ['chrome', 'mac']
+                        browserName: 'chrome', 
+                        platform: 'OS X 10.8',  // todo: update to 1.9 once sauce labs fixes whatever's broken with the latest chrome
+                        tags: ['chrome', 'mac'] // (10.9 reliably fails with the error "unknown error: Object #<Object> has no method 'getJSReport'" - but the video shows that the test passed.)
                     }, {
                         browserName: 'safari',
                         version: 5,
