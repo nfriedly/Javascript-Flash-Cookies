@@ -1,2 +1,4 @@
 sauce_connect.log
 sauce_connect.log.*
+.idea/
+node_modules/
