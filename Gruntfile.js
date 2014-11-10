@@ -9,6 +9,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-saucelabs');
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-exec');
 
     // Project configuration.
     grunt.initConfig({
@@ -19,10 +20,16 @@ module.exports = function(grunt) {
             },
             swfstore: {
                 files: {
-                    'swfstore.min.js': ['src/swfstore.js']
+                    'dist/swfstore.min.js': ['src/swfstore.js']
                 }
             }
         },
+
+        exec: {
+            build: __dirname + "/flex-sdk/bin/mxmlc src/Storage.as && mv src/Storage.swf ./dist/storage.swf"
+        },
+
+        //flex-sdk/bin/mxmlc src/Storage.as && mv
 
         connect: {
             // runs the server for the duration of the test. 
@@ -116,5 +123,6 @@ module.exports = function(grunt) {
     });
 
     grunt.registerTask('test', ['connect:test', 'saucelabs-jasmine']);
+    grunt.registerTask('build', ['uglify', 'exec:build']);
 
 };

@@ -22,8 +22,8 @@ General Security Warning
 The default storage.swf allows any website to read the data in your flash file. You should avoid storing private
 information in it.
 
-It would be wise to edit and recompile the flash file to limit itself to your domain and http/https settings. (See [src/Storage.as around line 99](https://github.com/nfriedly/Javascript-Flash-Cookies/blob/master/src/Storage.as#L94).) If
-you do not have a copy of Adobe Flash, I can do it for you for $5 - email me for details.
+It would be wise to edit and recompile the flash file to limit itself to your domain and http/https settings. (See [src/Storage.as around line 99](https://github.com/nfriedly/Javascript-Flash-Cookies/blob/master/src/Storage.as#L94).)
+You can do this yourself with Adobe Flash or the Apache Flex SDK (free) or I can do it for you for $5 - email me for details.
 
 ---
 
@@ -75,6 +75,27 @@ The storage.fla is essentially just an empty shell file that points to Storage.a
 
 See example/index.html for a working example that you can put on your site.
 
+Compiling
+---------
+
+### .js
+I use [UglifyJS2](https://github.com/mishoo/UglifyJS2) via the [Grunt](http://gruntjs.com/) plugin. Setup:
+* Install [Node.js](http://nodejs.org/)
+* Install Grunt globally: `npm install -g grunt`
+* `cd` into the project directory and install the dependencies: `npm install`
+* Run `grunt uglify` to "compile" (minify) the JavaScript.
+
+### .swf
+This .swf can be compiled using Adobe Flash (paid) or the Apache Flex SDK (free).
+
+With Adobe Flash, open `src/storage.fla` and export it to `dist/storage.swf`
+
+Installing the Flex SDK takes a few steps: first you download and install the downloader, then you run it to download
+and configure the actual SDK. Have it download the actual SDK into `flex-sdk/` and then `grunt exec:build` should be able to compile the .swf.
+
+Tip: `grunt build` or `npm run build` will do both of the above once you have everything set up.
+
+(Note: you may need to run commands in Git Bash rather than the standard Windows command prompt.)
 
 Contributors
 ------------
@@ -86,32 +107,41 @@ Contributors
 Release process
 ---------------
 * Update the the changelog in the readme
-* Update the version number in the `src/swfstore.js`.
-* Open `src/storage.fla` in Adobe Flash and export it to `storage.swf`
-* Minify the js with UglifyJS2 (https://github.com/mishoo/UglifyJS2 or http://marijnhaverbeke.nl/uglifyjs)
+* Compile anything that's changed (see the Compiling section above)
 * Commit everything
-* Tag the commit with the version number
-* Push to github
+* Run `npm version [major | minor | patch ]` with the appropriate flag (Ssee http://semver.org/ for details)
+* Push to Github
 
 
 To Do
 -----
 * Document the API better here
-* Automate the release process
 * Add support for RequireJS / Jam / Bower / Component / etc.
 * Figure out how to run automated cross-domain & cross-protocol tests
-* Add JSHint
 * Add JSBeautify (with verify mode)
-* Add destroy method
-
+* Add a destroy method -- TODO
+* put version number in file name
+* move jshint to grunt. having two build systems is confusing
+* update demo
 
 Changelog
 ---------
 
-### 2.0 - (coming soon)
-* Automates testing on saucelabs
-* Add a destroy method
+### 2.0.0 - (coming soon)
+
+Breaking changes:
+* Removed version number from JS
+* Removed LSOPath and LSOName params - they were buggy and unused. Path is fixed to / and LSOName is forced to namespace. fixes https://github.com/nfriedly/Javascript-Flash-Cookies/issues/22
+
+Other Changes
+* Moved compiled files to dist/
+* Automated testing on saucelabs
 * Unify the names of things
+* Automated .swf compiling with Apache Flex
+* Moved files to dist/
+* Switched to semver
+* add a clearAll() method
+* Fixed https://github.com/nfriedly/Javascript-Flash-Cookies/issues/21
 
 ### 1.9.1 - 2014-04-28
 * Fixed a XSS vulnerability

@@ -1,6 +1,6 @@
 {
   "name": "flashcookies.js",
-  "version": "2.0.0-pre3",
+  "version": "2.0.0-pre4",
   "description": "JavaScript library and .swf for cross-domain flashcookies.\"",
   "main": "swfstore.min.js",
   "directories": {
@@ -8,11 +8,12 @@
     "test": "tests"
   },
   "scripts": {
-    "server": "python -m SimpleHTTPServer",
+    "server": "python -m SimpleHTTPServer || python -m http.server",
     "test": "npm run jshint && npm run saucelabs",
     "saucelabs": "grunt test",
     "jshint": "jshint Gruntfile.js tests/spec/*.js src/*.js",
-    "beautify": "js-beautify --replace Gruntfile.js tests/spec/*.js src/*.js"
+    "beautify": "js-beautify --replace Gruntfile.js tests/spec/*.js src/*.js",
+    "build": "grunt build"
   },
   "repository": {
     "type": "git",
@@ -25,12 +26,13 @@
   },
   "homepage": "https://github.com/nfriedly/Javascript-Flash-Cookies",
   "devDependencies": {
-    "grunt": "~0.4.2",
-    "grunt-saucelabs": "^6.0.0",
-    "jshint": "~2.3.0",
-    "js-beautify": "~1.4.2",
+    "grunt": "^0.4.5",
     "grunt-contrib-connect": "^0.7.1",
-    "grunt-contrib-uglify": "^0.4.0"
+    "grunt-contrib-uglify": "^0.4.0",
+    "grunt-exec": "^0.4.6",
+    "grunt-saucelabs": "^6.0.0",
+    "js-beautify": "~1.4.2",
+    "jshint": "~2.3.0"
   },
   "dependencies": {
     "grunt": "~0.4.2",

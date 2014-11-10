@@ -173,8 +173,6 @@
 
     SwfStore.prototype = {
 
-        version: "1.9.1",
-
         /**
          * This is an indicator of whether or not the SwfStore is initialized.
          * Use the onready and onerror config options rather than checking this variable.
@@ -213,12 +211,23 @@
         getAll: function() {
             this._checkReady();
             //this.log('debug', 'js', 'Reading ' + key);
-            var data = this.swf.getAll();
-            // presumably the user wants to loop through their values, not including the internal __flashBugFix value
-            if (data.__flashBugFix) {
-                delete data.__flashBugFix;
+            var prefixed = this.swf.getAll();
+            var unprefixed = {};
+            for (var key in prefixed) {
+                if (prefixed.hasOwnProperty(key)) {
+                    unprefixed[key.substring(1)] = prefixed[key];
+                }
             }
-            return data;
+            return unprefixed;
+        },
+
+        clearAll: function() {
+            var all = this.getAll();
+            for (var key in all) {
+                if (all.hasOwnProperty(key)) {
+                    this.clear(key);
+                }
+            }
         },
 
         /**
@@ -249,7 +258,7 @@
          *
          * @private
          */
-        "onload": function() {
+        onload: function() {
             // deal with scope the easy way
             var that = this;
             // wrapping everything in a timeout so that the JS can finish initializing first
@@ -258,12 +267,6 @@
             setTimeout(function() {
                 clearTimeout(that._timeout);
                 that.ready = true;
-
-                // There is a bug in flash player where if no values have been saved and the page is
-                // then refreshed, the flashcookie gets deleted - even if another tab *had* saved a
-                // value to the flashcookie.
-                // So to fix, we immediately save something
-                that.set('__flashBugFix', '1');
 
                 //this.log('info', 'js', 'Ready!')
                 if (that.config.onready) {
@@ -287,6 +290,11 @@
             if (this.config.onerror) {
                 this.config.onerror();
             }
+        },
+
+        destroy: function() {
+            this.config.onerror = null;
+            this.config.onload = null;
         }
 
     };

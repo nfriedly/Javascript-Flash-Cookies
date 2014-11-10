@@ -42,22 +42,6 @@ package {
 		private var dataStore:SharedObject;
 
 		/**
-		 * The name of LSO
-		 */
-		private var LSOName:String = "SwfStore";
-
-		/**
-		 * The path of LSO
-		 * This defaults to "/path/to/store.swf" which prevents any other .swf from reading it's values.
-		 * Similar to cookies, set it to "/" to allow any other .swf on the domain to read from this LSO.
-		 *
-		 * More info:
-		 * http://help.adobe.com/en_US/AS2LCR/Flash_10.0/help.html?content=00001508.html
-		 * http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/net/SharedObject.html#getLocal()
-		 */
-		private var LSOPath:String = null;
-
-		/**
 		 * The JS callback functions should all be on a global variable at SwfStore.<namespace>.<function name>
 		 */
 		private var jsNamespace:String = "SwfStore.swfstore.";
@@ -83,14 +67,19 @@ package {
         public function Storage() {
 			// Make sure we can talk to javascript at all
             if (!ExternalInterface.available) {
-				localLog("External Interface is not avaliable! (No communication with JavaScript.) Exiting.");
+				localLog("External Interface is not available! (No communication with JavaScript.) Exiting.");
 				return;
 			}
 			ExternalInterface.marshallExceptions = true; // try to pass errors to JS and capture errors from JS
 
+			if (this.loaderInfo.parameters.namespace && !namespaceCheck.test(this.loaderInfo.parameters.namespace)){
+				localLog("Invalid namespace, disabling");
+				return;
+			}
+
 			// since even logging involves communicating with javascript,
 			// the next thing to do is find the external log function
-			if(this.loaderInfo.parameters.namespace && namespaceCheck.test(this.loaderInfo.parameters.namespace)) {
+			if(this.loaderInfo.parameters.namespace) {
 				jsNamespace = "SwfStore." + this.loaderInfo.parameters.namespace + ".";
 			}
 
@@ -104,20 +93,10 @@ package {
 			Security.allowDomain("*");
 			Security.allowInsecureDomain("*");
 
-			// grab the namespace if supplied
-			if(this.loaderInfo.parameters.LSOName){
-				LSOName = this.loaderInfo.parameters.LSOName;
-			}
-
-			// grab the path if supplied
-			if(this.loaderInfo.parameters.LSOPath){
-				log('Path: ' + LSOPath);
-				LSOPath = this.loaderInfo.parameters.LSOPath;
-			}
 
 			// try to initialize our lso
 			try{
-				dataStore = SharedObject.getLocal(LSOName, LSOPath);
+				dataStore = SharedObject.getLocal(this.loaderInfo.parameters.namespace);
 			} catch(error:Error){
 				// user probably unchecked their "allow third party data" in their global flash settings
 				log('Unable to create a local shared object. Exiting - ' + error.message);
@@ -131,6 +110,12 @@ package {
 				ExternalInterface.addCallback("get", getValue);
 				ExternalInterface.addCallback("getAll", getAllValues);
 				ExternalInterface.addCallback("clear", clearValue);
+
+				// There is a bug in flash player where if no values have been saved and the page is
+				// then refreshed, the flashcookie gets deleted - even if another tab *had* saved a
+				// value to the flashcookie.
+				// So to fix, we immediately save something
+				this.setValue('__flashBugFix', '1');
 
 				log('Ready! Firing onload...');
 
@@ -207,7 +192,15 @@ package {
 		 * This retrieves all stored data
 		 */
 		private function getAllValues():Object {
-			return dataStore.data;
+			var prefixed:Object = {};
+			for (var key:String in dataStore.data) {
+				if ( key != "__flashBugFix") {
+					// Flash has (another) bug where string keys that start with numbers are sent to JS without quotes. JS then fails to parse this because it's not valid JSON
+					// https://github.com/nfriedly/Javascript-Flash-Cookies/issues/21
+					prefixed["_" + key] = dataStore.data[key];
+				}
+			}
+			return prefixed;
 		}
 
 		/**
