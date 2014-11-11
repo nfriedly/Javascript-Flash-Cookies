@@ -94,7 +94,7 @@ With Adobe Flash, open `src/storage.fla` and export it to `dist/storage.swf`
 Grunt is set up to use Apache Flex via the [grunt-swf](https://github.com/nfriedly/grunt-swf) plugin.
 The plugin is installed via the standard `npm install` but the SDK must be installed separately.
 
-See https://github.com/nfriedly/grunt-swf# for more details on installing the Flex SDK
+See https://github.com/nfriedly/grunt-swf#installing-the-apache-flex-sdk for more details on installing the Flex SDK.
 
 Then run `grunt swf` to compile the .swf.
 
