@@ -80,7 +80,8 @@ Compiling
 ---------
 
 ### .js
-I use [UglifyJS2](https://github.com/mishoo/UglifyJS2) via the [Grunt](http://gruntjs.com/) plugin. Setup:
+This project uses [UglifyJS2](https://github.com/mishoo/UglifyJS2) via the [Grunt](http://gruntjs.com/) plugin. Setup:
+
 * Install [Node.js](http://nodejs.org/)
 * Install Grunt globally: `npm install -g grunt`
 * `cd` into the project directory and install the dependencies: `npm install`
@@ -100,7 +101,7 @@ Then run `grunt swf` to compile the .swf.
 
 Tip: `grunt build` will compile both the .js and the .swf.
 
-(Note: you may need to run commands in Git Bash rather than the standard Windows command prompt.)
+(Note: on Windows, Git Bash may give better results than the windows command prompt.)
 
 Contributors
 ------------
@@ -137,17 +138,18 @@ Breaking changes:
 * Removed LSOPath and LSOName params - they were buggy and unused. Path is fixed to / and LSOName is forced to namespace. fixes https://github.com/nfriedly/Javascript-Flash-Cookies/issues/22
 
 Other Changes
-* Switched to semver
 * Moved compiled files to dist/
 * Automated testing on saucelabs
 * Automated .swf compiling with Apache Flex
 * Moved compiled files to dist/
 * Added a clearAll() method
 * Fixed https://github.com/nfriedly/Javascript-Flash-Cookies/issues/21
+* Stopped letting `console` pollyfill leak into global scope
 
 ### 1.9.1 - 2014-04-28
 * Fixed a XSS vulnerability
 * Small changes to Gruntfile to make testing easier
+* Switched to semver
 
 ### 1.9 - 2013-08-30
 * Refactored the ActionScript to call flush after both setValue and clearValue (fixes issue #18/#19)

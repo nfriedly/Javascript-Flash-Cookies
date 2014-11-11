@@ -110,20 +110,22 @@
             // if we're in a browser that doesn't have a console, build one
             if (typeof console === "undefined") {
                 var loggerOutput = div(true);
-                window.console = {
+                this.console = {
                     log: function(msg) {
                         var m = div(true);
                         m.innerHTML = msg;
                         loggerOutput.appendChild(m);
                     }
                 };
+            } else {
+                this.console = console;
             }
             this.log = function(type, source, msg) {
                 source = (source === 'swfStore') ? 'swf' : source;
-                if (typeof(console[type]) !== "undefined") {
-                    console[type]('SwfStore - ' + config.namespace + ' (' + source + '): ' + msg);
+                if (typeof(this.console[type]) !== "undefined") {
+                    this.console[type]('SwfStore - ' + config.namespace + ' (' + source + '): ' + msg);
                 } else {
-                    console.log('SwfStore - ' + config.namespace + ": " + type + ' (' + source + '): ' + msg);
+                    this.console.log('SwfStore - ' + config.namespace + ": " + type + ' (' + source + '): ' + msg);
                 }
             };
         } else {

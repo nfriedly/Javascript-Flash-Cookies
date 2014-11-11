@@ -104,11 +104,11 @@ module.exports = function(grunt) {
                     testname: 'SwfStore',
                     sauceConfig: {
                         // https://docs.saucelabs.com/reference/test-configuration/
-                        'video-upload-on-pass': false,
+                        'video-upload-on-pass': false
                     },
                     // https://saucelabs.com/platforms
-                    browsers: browserVersions('internet explorer', 6, 11)
-                        .concat(browserVersions('safari', 5, 8))
+                    browsers: browserVersions('internet explorer', 6, 11) // browser, start version, end version
+                        .concat(browserVersions('safari', 7, 8))
                         .concat(browserPlatforms(['chrome', 'firefox'], ['OS X 10.10', 'Windows 8.1', 'linux']))
                         .concat([{
                             browserName: 'opera'
