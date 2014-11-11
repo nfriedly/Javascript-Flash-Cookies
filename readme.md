@@ -91,10 +91,14 @@ This .swf can be compiled using Adobe Flash (paid) or the Apache Flex SDK (free)
 
 With Adobe Flash, open `src/storage.fla` and export it to `dist/storage.swf`
 
-Installing the Flex SDK takes a few steps: first you download and install the downloader, then you run it to download
-and configure the actual SDK. Have it download the actual SDK into `flex-sdk/` and then `grunt exec:build` should be able to compile the .swf.
+Grunt is set up to use Apache Flex via the [grunt-swf](https://github.com/nfriedly/grunt-swf) plugin.
+The plugin is installed via the standard `npm install` but the SDK must be installed separately.
 
-Tip: `grunt build` or `npm run build` will do both of the above once you have everything set up.
+See https://github.com/nfriedly/grunt-swf# for more details on installing the Flex SDK
+
+Then run `grunt swf` to compile the .swf.
+
+Tip: `grunt build` will compile both the .js and the .swf.
 
 (Note: you may need to run commands in Git Bash rather than the standard Windows command prompt.)
 
