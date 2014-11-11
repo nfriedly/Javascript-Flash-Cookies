@@ -210,15 +210,14 @@
          */
         getAll: function() {
             this._checkReady();
-            //this.log('debug', 'js', 'Reading ' + key);
-            var prefixed = this.swf.getAll();
-            var unprefixed = {};
-            for (var key in prefixed) {
-                if (prefixed.hasOwnProperty(key)) {
-                    unprefixed[key.substring(1)] = prefixed[key];
-                }
+            var pairs = this.swf.getAll();
+            var data = {};
+            for (var i=0, len=pairs.length, pair; i < len; i++) {
+                pair = pairs[i];
+                console.log(pair);
+                data[pair.key] = pair.value;
             }
-            return unprefixed;
+            return data;
         },
 
         clearAll: function() {

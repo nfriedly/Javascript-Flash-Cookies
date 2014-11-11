@@ -191,16 +191,20 @@ package {
 		/**
 		 * This retrieves all stored data
 		 */
-		private function getAllValues():Object {
-			var prefixed:Object = {};
+		private function getAllValues():Array {
+			var pairs:Array = new Array();
 			for (var key:String in dataStore.data) {
 				if ( key != "__flashBugFix") {
 					// Flash has (another) bug where string keys that start with numbers are sent to JS without quotes. JS then fails to parse this because it's not valid JSON
 					// https://github.com/nfriedly/Javascript-Flash-Cookies/issues/21
-					prefixed["_" + key] = dataStore.data[key];
+					var pair:Object = {
+						key: key,
+						value: dataStore.data[key]
+					};
+					pairs.push(pair);
 				}
 			}
-			return prefixed;
+			return pairs;
 		}
 
 		/**

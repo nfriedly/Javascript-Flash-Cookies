@@ -128,6 +128,15 @@ describe("SwfStore", function() {
                 instance.set("42532093b13e5cbb0f4e4d2", "val1");
                 expect(instance.getAll()).toEqual({"42532093b13e5cbb0f4e4d2": "val1"});
             });
-        })
+        });
+
+        it("should not choke keys that contain dots", function(){
+            // https://github.com/nfriedly/Javascript-Flash-Cookies/issues/21
+            getInstance(function() {
+                expect(onerror).not.toHaveBeenCalled();
+                instance.set("15BWminori.jpg", "val1");
+                expect(instance.getAll()).toEqual({"15BWminori.jpg": "val1"});
+            });
+        });
     });
 });
