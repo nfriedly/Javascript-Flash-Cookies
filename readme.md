@@ -115,13 +115,11 @@ Release process
 
 To Do
 -----
+* Unify the names of things
 * Document the API better here
 * Add support for RequireJS / Jam / Bower / Component / etc.
 * Figure out how to run automated cross-domain & cross-protocol tests
-* Add JSBeautify (with verify mode)
-* Add a destroy method -- TODO
 * put version number in file name
-* move jshint to grunt. having two build systems is confusing
 * update demo
 
 Changelog
@@ -134,13 +132,12 @@ Breaking changes:
 * Removed LSOPath and LSOName params - they were buggy and unused. Path is fixed to / and LSOName is forced to namespace. fixes https://github.com/nfriedly/Javascript-Flash-Cookies/issues/22
 
 Other Changes
+* Switched to semver
 * Moved compiled files to dist/
 * Automated testing on saucelabs
-* Unify the names of things
 * Automated .swf compiling with Apache Flex
-* Moved files to dist/
-* Switched to semver
-* add a clearAll() method
+* Moved compiled files to dist/
+* Added a clearAll() method
 * Fixed https://github.com/nfriedly/Javascript-Flash-Cookies/issues/21
 
 ### 1.9.1 - 2014-04-28

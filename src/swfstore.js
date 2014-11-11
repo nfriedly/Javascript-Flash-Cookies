@@ -212,7 +212,7 @@
             this._checkReady();
             var pairs = this.swf.getAll();
             var data = {};
-            for (var i=0, len=pairs.length, pair; i < len; i++) {
+            for (var i = 0, len = pairs.length, pair; i < len; i++) {
                 pair = pairs[i];
                 console.log(pair);
                 data[pair.key] = pair.value;
@@ -289,12 +289,6 @@
             if (this.config.onerror) {
                 this.config.onerror();
             }
-        },
-
-        destroy: function() {
-            this.config.onerror = null;
-            this.config.onload = null;
         }
-
     };
 }());

@@ -1,0 +1,8 @@
+{
+  "strict": true,
+  "undef": true,
+  "unused": true,
+  "newcap": true,
+  "browser": true,
+  "devel": true
+}

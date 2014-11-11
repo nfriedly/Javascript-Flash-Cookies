@@ -1,7 +1,8 @@
-/*global SwfStore: false, jasmine: false, describe: false, it: false, expect: false, runs: false, waitsFor: false*/
+/*global SwfStore: false, jasmine: false, describe: false, it: false, expect: false, runs: false, waitsFor: false, beforeEach: false, afterEach: false*/
 describe("SwfStore", function() {
+    "use strict";
 
-    var SWF_PATH = "../dist/storage.swf?" + (new Date).getTime();
+    var SWF_PATH = "../dist/storage.swf?" + (new Date()).getTime();
 
     var onerror;
     var loaded;
@@ -43,7 +44,10 @@ describe("SwfStore", function() {
     }
 
     afterEach(function() {
-        instance = null;
+        if (instance) {
+            instance.clearAll();
+            instance = null;
+        }
     });
 
     it("should exist", function() {
@@ -112,35 +116,54 @@ describe("SwfStore", function() {
         });
     });
 
+    it("should allow you to clear all values", function() {
+        getInstance(function() {
+            expect(onerror).not.toHaveBeenCalled();
+            instance.clear("myKey");
+            instance.set("key1", "val1");
+            instance.set("key2", "val2");
+            instance.clearAll();
+            expect(instance.get("myKey")).toBe(null);
+            expect(instance.getAll()).toEqual({});
+        });
+    });
+
     describe('getAll', function() {
-        it ("should return multiple keys", function() {
+        it("should return multiple keys", function() {
             getInstance(function() {
                 expect(onerror).not.toHaveBeenCalled();
                 instance.set("key1", "val1");
                 instance.set("key2", "val2");
-                expect(instance.getAll()).toEqual({key1: "val1", key2: "val2"});
+                expect(instance.getAll()).toEqual({
+                    key1: "val1",
+                    key2: "val2"
+                });
             });
         });
-        it("should not choke keys that begin with numbers", function(){
+        it("should not choke keys that begin with numbers", function() {
             // https://github.com/nfriedly/Javascript-Flash-Cookies/issues/21
             getInstance(function() {
                 expect(onerror).not.toHaveBeenCalled();
                 instance.set("42532093b13e5cbb0f4e4d2", "val1");
-                expect(instance.getAll()).toEqual({"42532093b13e5cbb0f4e4d2": "val1"});
+                expect(instance.getAll()).toEqual({
+                    "42532093b13e5cbb0f4e4d2": "val1"
+                });
             });
         });
 
-        it("should not choke keys that contain dots", function(){
+        it("should not choke keys that contain dots", function() {
             // https://github.com/nfriedly/Javascript-Flash-Cookies/issues/21
             getInstance(function() {
                 expect(onerror).not.toHaveBeenCalled();
                 instance.set("15BWminori.jpg", "val1");
-                expect(instance.getAll()).toEqual({"15BWminori.jpg": "val1"});
+                expect(instance.getAll()).toEqual({
+                    "15BWminori.jpg": "val1"
+                });
             });
         });
 
 
-        it("should not choke keys that contain quotes", function(){
+        it("should not choke keys that contain quotes", function() {
             // https://github.com/nfriedly/Javascript-Flash-Cookies/issues/21
             getInstance(function() {
                 expect(onerror).not.toHaveBeenCalled();

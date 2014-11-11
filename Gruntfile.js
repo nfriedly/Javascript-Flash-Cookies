@@ -1,15 +1,16 @@
 /*jshint node: true, browser: false*/
+"use strict";
 module.exports = function(grunt) {
 
 
-    //var serverScripts = ['*.js'];
-    //var clientScripts = ['public-src/**/*.js'];
-    //var allScripts = serverScripts.concat(clientScripts);
+    var scripts = ["*.js", "src/*.js", "tests/spec/*.js"];
 
     grunt.loadNpmTasks('grunt-saucelabs');
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-exec');
+    grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-jsbeautifier');
 
     // Project configuration.
     grunt.initConfig({
@@ -24,6 +25,26 @@ module.exports = function(grunt) {
                 }
             }
         },
+
+        "jsbeautifier": {
+            "rewrite": {
+                src: scripts
+            },
+            "verify": {
+                src: scripts,
+                options: {
+                    mode: "VERIFY_ONLY"
+                }
+            }
+        },
+
+        "jshint": {
+            options: {
+                jshintrc: true
+            },
+            scripts: scripts
+        },
+
 
         exec: {
             build: __dirname + "/flex-sdk/bin/mxmlc src/Storage.as && mv src/Storage.swf ./dist/storage.swf"
@@ -59,6 +80,12 @@ module.exports = function(grunt) {
                     concurrency: 3, //'Number of concurrent browsers to test against. Will default to the number of overall browsers specified. Check your plan (free: 2, OSS: 3) and make sure you have got sufficient Sauce Labs concurrency.',
                     detailedError: true, //'false (default) / true; if true log detailed test results when a test error occurs',
                     testname: 'SwfStore',
+                    sauceConfig: {
+                        // https://docs.saucelabs.com/reference/test-configuration/
+                        'video-upload-on-pass': false,
+                        'idle-timeout': 30 // (seconds), per test
+                    },
+                    // https://saucelabs.com/platforms
                     browsers: [{
                         browserName: 'internet explorer',
                         version: '11',
@@ -77,12 +104,12 @@ module.exports = function(grunt) {
                     }, {
                         browserName: 'internet explorer',
                         version: '8',
-                        platform: 'Windows XP',
+                        platform: 'Windows 7',
                         tags: ['ie', 'ie8', 'win']
                     }, {
                         browserName: 'internet explorer',
                         version: '7',
-                        platform: 'Windows XP',
+                        platform: 'Windows 7',
                         tags: ['ie', 'ie7', 'win']
                     }, {
                         browserName: 'internet explorer',
@@ -94,24 +121,24 @@ module.exports = function(grunt) {
                         tags: ['firefox', 'win']
                     }, {
                         browserName: 'firefox',
-                        platform: 'OS X 10.9',
+                        platform: 'OS X 10.10',
                         tags: ['firefox', 'mac']
                     }, {
                         browserName: 'chrome',
                         tags: ['chrome', 'win']
                     }, {
-                        browserName: 'chrome', 
-                        platform: 'OS X 10.8',  // todo: update to 1.9 once sauce labs fixes whatever's broken with the latest chrome
-                        tags: ['chrome', 'mac'] // (10.9 reliably fails with the error "unknown error: Object #<Object> has no method 'getJSReport'" - but the video shows that the test passed.)
+                        browserName: 'chrome',
+                        platform: 'OS X 10.10',
+                        tags: ['chrome', 'mac']
                     }, {
                         browserName: 'safari',
-                        version: 5,
-                        platform: 'OS X 10.6',
+                        version: 8,
+                        platform: 'OS X 10.10',
                         tags: ['safari', 'mac']
                     }, {
                         browserName: 'safari',
-                        version: 6,
-                        platform: 'OS X 10.8', // todo: update to 10.9 once saucelabs supports it
+                        version: 7,
+                        platform: 'OS X 10.9',
                         tags: ['safari', 'mac']
                     }, {
                         browserName: 'opera',
@@ -122,7 +149,8 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('test', ['connect:test', 'saucelabs-jasmine']);
+    grunt.registerTask('test', ['jshint', 'jsbeautifier:verify', 'connect:test', 'saucelabs-jasmine']);
     grunt.registerTask('build', ['uglify', 'exec:build']);
+    grunt.registerTask('beautify', ['jsbeautifier:rewrite']);
 
 };
