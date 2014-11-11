@@ -32,6 +32,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-exec');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-jsbeautifier');
+    grunt.loadNpmTasks('grunt-newer');
 
     // Project configuration.
     grunt.initConfig({
@@ -66,12 +67,12 @@ module.exports = function(grunt) {
             scripts: scripts
         },
 
-
-        exec: {
-            build: __dirname + "/flex-sdk/bin/mxmlc src/Storage.as && mv src/Storage.swf ./dist/storage.swf"
+        swf: {
+            options: {
+                "flex-sdk-path": './flex-sdk'
+            },
+            'dist/storage.swf': 'src/Storage.as'
         },
-
-        //flex-sdk/bin/mxmlc src/Storage.as && mv
 
         connect: {
             // runs the server for the duration of the test. 
@@ -165,8 +166,84 @@ module.exports = function(grunt) {
         }
     });
 
+    // todo: extract this to it's own node.js module
+    grunt.task.registerMultiTask('swf', 'based on grunt-exec but tweaked so that I can specify the source and destination paths for grunt-newer', function() {
+        var log = grunt.log;
+        var verbose = grunt.verbose;
+
+        var opts = this.options();
+        var files = this.files;
+
+        var sdkPath = opts['flex-sdk-path'];
+        if (!sdkPath) {
+            throw new Error("Flex SDK path is required, see readme for details.");
+        }
+        var done = this.async();
+        var fs = require('fs');
+        var pathUtil = require('path');
+        var mxmlcPath = pathUtil.resolve(__dirname, sdkPath, './bin/mxmlc');
+        if (process.platform == 'win32') {
+            // node does not appear to have a seperate flag for 64-bit windows: http://nodejs.org/api/process.html#process_process_platform
+            mxmlcPath += ".bat";
+        }
+        console.log('checking', mxmlcPath);
+        fs.exists(mxmlcPath, function(exists) {
+            if (!exists) {
+                return done(new Error("mxmlc (Flex SDK's swf compiler) not found at path " + mxmlcPath));
+            }
+            console.log('mxmlc found');
+            var cp = require('child_process');
+
+            function exec(bin, args, done) {
+                var command = cp.spawn(bin, args, {
+                    cwd: __dirname
+                });
+
+                command.stdout.on('data', function(d) {
+                    log.write(d);
+                });
+                command.stderr.on('data', function(d) {
+                    log.error(d);
+                });
+
+                // Catches failing to execute the command at all (eg spawn ENOENT),
+                // since in that case an 'exit' event will not be emitted.
+                command.on('error', function(err) {
+                    log.error('Failed with: ' + err);
+                    done(false);
+                });
+
+                command.on('close', function(code) {
+                    if (code) {
+                        log.error('Exited with code: ' + code);
+                        return done(false);
+                    }
+                    verbose.ok('Exited with code: ' + code);
+                    done();
+                });
+            }
+
+            files.forEach(function(file) {
+                if (file.src.length > 1) {
+                    throw new Error("grunt-swf: only one src file at a time, please: " + files.src.join(', '));
+                }
+                var src = file.src[0];
+                var dest = file.dest;
+
+                exec(mxmlcPath, [src], function(err) {
+                    if (err) {
+                        return err;
+                    }
+                    exec('mv', [src.replace('.as', '.swf'), dest], done);
+                });
+            });
+        });
+    });
+
+
     grunt.registerTask('test', ['jshint', 'jsbeautifier:verify', 'connect:test', 'saucelabs-jasmine']);
-    grunt.registerTask('build', ['uglify', 'exec:build']);
+    grunt.registerTask('build', ['newer:uglify', 'newer:swf']);
+    grunt.registerTask('force-build', ['uglify', 'swf']);
     grunt.registerTask('beautify', ['jsbeautifier:rewrite']);
     grunt.registerTask('pre-commit', ['jshint', 'jsbeautifier:verify', 'build']);
 
