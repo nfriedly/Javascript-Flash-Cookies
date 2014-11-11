@@ -138,5 +138,19 @@ describe("SwfStore", function() {
                 expect(instance.getAll()).toEqual({"15BWminori.jpg": "val1"});
             });
         });
+
+
+        it("should not choke keys that contain quotes", function(){
+            // https://github.com/nfriedly/Javascript-Flash-Cookies/issues/21
+            getInstance(function() {
+                expect(onerror).not.toHaveBeenCalled();
+                instance.set("'singlequotes'", "val1");
+                instance.set('"doublequotes"', "val2");
+                expect(instance.getAll()).toEqual({
+                    "'singlequotes'": "val1",
+                    '"doublequotes"': "val2"
+                });
+            });
+        });
     });
 });
