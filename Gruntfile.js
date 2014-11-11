@@ -109,56 +109,12 @@ module.exports = function(grunt) {
                     // https://saucelabs.com/platforms
                     browsers: browserVersions('internet explorer', 6, 11) // browser, start version, end version
                         .concat(browserVersions('safari', 7, 8))
-                        .concat(browserPlatforms(['chrome', 'firefox'], ['OS X 10.10', 'Windows 8.1', 'linux']))
+                        // there's a bug with running the chrome tests on sauce labs
+                        // for some reason, the test result is requested *immediately*, before the tests have executed
+                        .concat(browserPlatforms([/*'chrome',*/ 'firefox'], ['OS X 10.10', 'Windows 8.1', 'linux']))
                         .concat([{
                             browserName: 'opera'
                         }])
-
-                    /*[{
-                        browserName: 'internet explorer',
-                        version: '11',
-                        platform: 'Windows 8.1'
-                    }, {
-                        browserName: 'internet explorer',
-                        version: '10',
-                        platform: 'Windows 8'
-                    }, {
-                        browserName: 'internet explorer',
-                        version: '9',
-                        platform: 'Windows 7'
-                    }, {
-                        browserName: 'internet explorer',
-                        version: '8',
-                        platform: 'Windows 7'
-                    }, {
-                        browserName: 'internet explorer',
-                        version: '7',
-                        platform: 'Windows 7'
-                    }, {
-                        browserName: 'internet explorer',
-                        version: '6',
-                        platform: 'Windows XP'
-                    }, {
-                        browserName: 'firefox',
-                        platform: 'Windows 8.1'
-                    }, {
-                        browserName: 'firefox',
-                        platform: 'OS X 10.10'
-                    }, {
-                        browserName: 'chrome',
-                        platform: 'Windows 8.1'
-                    }, {
-                        browserName: 'chrome',
-                        platform: 'OS X 10.10'
-                    }, {
-                        browserName: 'safari',
-                        version: 8,
-                        platform: 'OS X 10.10'
-                    }, {
-                        browserName: 'safari',
-                        version: 7,
-                        platform: 'OS X 10.9'
-                    }]*/
                 }
             }
         }
