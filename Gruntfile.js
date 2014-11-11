@@ -4,15 +4,21 @@ module.exports = function(grunt) {
     var _ = require('lodash');
 
     function browserVersions(browser, min, max) {
-        return _.map(_.range(min,max), function(v) {
-            return {browserName: browser, version: v};
+        return _.map(_.range(min, max), function(v) {
+            return {
+                browserName: browser,
+                version: v
+            };
         });
     }
 
     function browserPlatforms(browsers, platforms) {
         return _.flatten(_.map(browsers, function(browser) {
             return _.map(platforms, function(p) {
-                return {browserName: browser, platform: p};
+                return {
+                    browserName: browser,
+                    platform: p
+                };
             });
         }));
 
@@ -103,11 +109,11 @@ module.exports = function(grunt) {
                     "max-duration": 60, // seconds per js test
                     // https://saucelabs.com/platforms
                     browsers: browserVersions('internet explorer', 6, 11)
-                            .concat(browserVersions('safari', 5, 8))
-                            .concat(browserPlatforms(['chrome', 'firefox'], ['OS X 10.10', 'Windows 8.1', 'linux']))
-                            .concat([{
-                                browserName: 'opera'
-                            }])
+                        .concat(browserVersions('safari', 5, 8))
+                        .concat(browserPlatforms(['chrome', 'firefox'], ['OS X 10.10', 'Windows 8.1', 'linux']))
+                        .concat([{
+                            browserName: 'opera'
+                        }])
 
                     /*[{
                         browserName: 'internet explorer',
@@ -162,5 +168,6 @@ module.exports = function(grunt) {
     grunt.registerTask('test', ['jshint', 'jsbeautifier:verify', 'connect:test', 'saucelabs-jasmine']);
     grunt.registerTask('build', ['uglify', 'exec:build']);
     grunt.registerTask('beautify', ['jsbeautifier:rewrite']);
+    grunt.registerTask('pre-commit', ['jshint', 'jsbeautifier:verify', 'build']);
 
 };
