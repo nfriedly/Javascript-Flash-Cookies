@@ -214,7 +214,6 @@
             var data = {};
             for (var i = 0, len = pairs.length, pair; i < len; i++) {
                 pair = pairs[i];
-                console.log(pair);
                 data[pair.key] = pair.value;
             }
             return data;

@@ -4,6 +4,12 @@
 <head>
   <title>Jasmine Spec Runner</title>
 
+  <script>
+    window.onerror = function myErrorHandler(errorMsg, url, lineNumber) {
+      alert("Error: " + errorMsg + "\n" + url + " : " + lineNumber);
+    }
+  </script>
+
   <link rel="shortcut icon" type="image/png" href="lib/jasmine-1.3.1/jasmine_favicon.png">
   <link rel="stylesheet" type="text/css" href="lib/jasmine-1.3.1/jasmine.css">
   <script type="text/javascript" src="lib/jasmine-1.3.1/jasmine.js"></script>

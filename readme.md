@@ -8,6 +8,7 @@ Getting-started instructions: http://nfriedly.com/techblog/2010/07/swf-for-javas
 
 Working example: http://nfriedly.github.io/Javascript-Flash-Cookies/
 
+[![Build Status](https://travis-ci.org/nfriedly/Javascript-Flash-Cookies.svg?branch=master)](https://travis-ci.org/nfriedly/Javascript-Flash-Cookies)
 
 ---
 
