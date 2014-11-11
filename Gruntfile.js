@@ -111,7 +111,7 @@ module.exports = function(grunt) {
                         .concat(browserVersions('safari', 7, 8))
                         // there's a bug with running the chrome tests on sauce labs
                         // for some reason, the test result is requested *immediately*, before the tests have executed
-                        .concat(browserPlatforms([/*'chrome',*/ 'firefox'], ['OS X 10.10', 'Windows 8.1', 'linux']))
+                        .concat(browserPlatforms([ /*'chrome',*/ 'firefox'], ['OS X 10.10', 'Windows 8.1', 'linux']))
                         .concat([{
                             browserName: 'opera'
                         }])

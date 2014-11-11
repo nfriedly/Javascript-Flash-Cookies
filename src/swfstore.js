@@ -55,7 +55,6 @@
      * @param {functon} [config.onready] Callback function that is fired when the SwfStore is loaded. Recommended.
      * @param {function} [config.onerror] Callback function that is fired if the SwfStore fails to load. Recommended.
      * @param {string} [config.namespace="swfstore"] The namespace to use in both JS and the SWF. Allows a page to have more than one instance of SwfStore.
-     * @param {string} [config.path] The path of the LSO - similar to a cookie's path, setting it to "/" allows other .swf files on the domain to read/write to it
      * @param {integer} [config.timeout=10] The number of seconds to wait before assuming the user does not have flash.
      * @param {boolean} [config.debug=false] Is debug mode enabled? If so, mesages will be logged to the console and the .swf will be rendered on the page (although it will be an empty white box unless it cannot communicate with JS. Then it will log errors to the .swf)
      */
@@ -65,7 +64,6 @@
         var defaults = {
             swf_url: 'storage.swf', // this should be a complete url (http://example.com/path/to/storage.swf) for cross-domain usage
             namespace: 'swfstore',
-            path: null,
             debug: false,
             timeout: 10, // number of seconds to wait before concluding there was an error
             onready: null,
@@ -141,9 +139,7 @@
 
         var swfName = id();
 
-        var flashvars = "namespace=" + config.namespace + "&amp;" +
-            (config.path ? "LSOPath=" + config.path + '&amp;' : '') +
-            "LSOName=" + config.namespace;
+        var flashvars = "namespace=" + config.namespace;
 
 
         swfContainer.innerHTML = '<object height="100" width="500" codebase="https://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab" id="' +
