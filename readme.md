@@ -149,11 +149,13 @@ Release process
 
 To Do
 -----
-* Unify the names of things
 * Add support for AMD / CommonJS
 * Figure out how to run automated cross-domain & cross-protocol tests
 * update demo
 * Look into http://karma-runner.github.io/ or http://theintern.io/ or similar to automate local testing.
+* Sourcemap
+* Update to latest Jasmine
+* Fix automated Chrome tests
 
 Changelog
 ---------
