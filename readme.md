@@ -23,7 +23,7 @@ General Security Warning
 The default storage.swf allows any website to read the data in your flash file. You should avoid storing private
 information in it.
 
-It would be wise to edit and recompile the flash file to limit itself to your domain and http/https settings. (See [src/Storage.as around line 99](https://github.com/nfriedly/Javascript-Flash-Cookies/blob/master/src/Storage.as#L94).)
+It would be wise to edit and recompile the flash file to limit itself to your domain and http/https settings. (See [src/Storage.as around line 93](https://github.com/nfriedly/Javascript-Flash-Cookies/blob/master/src/Storage.as#L93).)
 You can do this yourself with Adobe Flash or the Apache Flex SDK (free) or I can do it for you for $5 - email me for details.
 
 ---
@@ -35,6 +35,11 @@ Tested for compatibility with the following browsers:
 (It also works well in Chrome, but there's an [issue with running automated tests in Chrome](https://github.com/nfriedly/Javascript-Flash-Cookies/issues/23).)
 
 Note: SwfStore is *not* compatible with most mobile devices (iPhones, Androids, etc) because it requires flash and few of these devices run flash.
+
+Installation via [Bower](http://bower.io/)
+--------------------------
+
+    bower install javascript-flash-cookies
 
 Basic Usage
 -----------
