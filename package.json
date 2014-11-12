@@ -1,16 +1,10 @@
 {
   "name": "flashcookies.js",
-  "version": "2.0.0-pre6",
+  "version": "0.0.0-see-bower.json",
   "description": "JavaScript library and .swf for cross-domain flashcookies.\"",
-  "main": "swfstore.min.js",
-  "directories": {
-    "example": "example",
-    "test": "tests"
-  },
+  "main": "dist/swfstore.min.js",
   "scripts": {
-    "server": "python -m SimpleHTTPServer || python -m http.server",
-    "test": "grunt test",
-    "build": "grunt build"
+    "test": "grunt test"
   },
   "repository": {
     "type": "git",

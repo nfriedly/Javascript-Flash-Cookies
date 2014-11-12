@@ -122,11 +122,12 @@ module.exports = function(grunt) {
 
 
 
-
+    grunt.registerTask('serve', ['connect:serve']);
+    grunt.registerTask('quick-test', ['jshint', 'jsbeautifier:verify']);
     grunt.registerTask('test', ['jshint', 'jsbeautifier:verify', 'connect:test', 'saucelabs-jasmine']);
     grunt.registerTask('build', ['newer:uglify', 'newer:swf']);
     grunt.registerTask('force-build', ['uglify', 'swf']);
     grunt.registerTask('beautify', ['jsbeautifier:rewrite']);
-    grunt.registerTask('pre-commit', ['jshint', 'jsbeautifier:verify', 'build']);
+    grunt.registerTask('pre-commit', ['quick-test', 'build']);
 
 };

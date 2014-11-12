@@ -1,5 +1,5 @@
 /*global SwfStore: false, jasmine: false, describe: false, it: false, expect: false, runs: false, waitsFor: false, beforeEach: false, afterEach: false*/
-describe("SwfStore", function() {
+describe("SwfStore()", function() {
     "use strict";
 
     var SWF_PATH = "../dist/storage.swf?" + (new Date()).getTime();
@@ -17,7 +17,6 @@ describe("SwfStore", function() {
          * @param {functon} [config.onready] Callback function that is fired when the SwfStore is loaded. Recommended.
          * @param {function} [config.onerror] Callback function that is fired if the SwfStore fails to load. Recommended.
          * @param {string} [config.namespace="swfstore"] The namespace to use in both JS and the SWF. Allows a page to have more than one instance of SwfStore.
-         * @param {string} [config.path] The path fo the LSO - similar to a cookie's path, setting it to "/" allows other .swf files on the domain to read/write to it
          * @param {integer} [config.timeout=10] The number of seconds to wait before assuming the user does not have flash.
          * @param {boolean} [config.debug=false] Is d
          */
@@ -99,36 +98,47 @@ describe("SwfStore", function() {
         });
     });
 
-    it("should store and retrieve values", function() {
-        getInstance(function() {
-            expect(onerror).not.toHaveBeenCalled();
-            instance.set("myKey", "myValue");
-            expect(instance.get("myKey")).toBe("myValue");
+    describe('.set()', function() {
+        it("should store values", function() {
+            getInstance(function() {
+                expect(onerror).not.toHaveBeenCalled();
+                instance.set("myKey", "myValue");
+                expect(instance.get("myKey")).toBe("myValue");
+            });
+        });
+
+        it('should clear a value when called with `null`', function() {
+            getInstance(function() {
+                expect(onerror).not.toHaveBeenCalled();
+                instance.set("key1", "val1");
+                expect(instance.get("key1")).toBe("val1");
+                instance.set("key1", null);
+                expect(instance.get("key1")).toBe(null);
+            });
         });
     });
 
-
-    it("should allow you to clear previously set values", function() {
-        getInstance(function() {
-            expect(onerror).not.toHaveBeenCalled();
-            instance.clear("myKey");
-            expect(instance.get("myKey")).toBe(null);
+    describe('.get()', function() {
+        it("should retrieve values", function() {
+            getInstance(function() {
+                expect(onerror).not.toHaveBeenCalled();
+                instance.set("myKey", "myValue");
+                expect(instance.get("myKey")).toBe("myValue");
+            });
         });
     });
 
-    it("should allow you to clear all values", function() {
-        getInstance(function() {
-            expect(onerror).not.toHaveBeenCalled();
-            instance.clear("myKey");
-            instance.set("key1", "val1");
-            instance.set("key2", "val2");
-            instance.clearAll();
-            expect(instance.get("myKey")).toBe(null);
-            expect(instance.getAll()).toEqual({});
+    describe('.clear()', function() {
+        it("should allow you to clear previously set values", function() {
+            getInstance(function() {
+                expect(onerror).not.toHaveBeenCalled();
+                instance.clear("myKey");
+                expect(instance.get("myKey")).toBe(null);
+            });
         });
     });
 
-    describe('getAll', function() {
+    describe('.getAll()', function() {
         it("should return multiple keys", function() {
             getInstance(function() {
                 expect(onerror).not.toHaveBeenCalled();
@@ -140,7 +150,7 @@ describe("SwfStore", function() {
                 });
             });
         });
-        it("should not choke keys that begin with numbers", function() {
+        it("should allow for keys that begin with numbers", function() {
             // https://github.com/nfriedly/Javascript-Flash-Cookies/issues/21
             getInstance(function() {
                 expect(onerror).not.toHaveBeenCalled();
@@ -151,7 +161,7 @@ describe("SwfStore", function() {
             });
         });
 
-        it("should not choke keys that contain dots", function() {
+        it("should allow for keys that contain dots", function() {
             // https://github.com/nfriedly/Javascript-Flash-Cookies/issues/21
             getInstance(function() {
                 expect(onerror).not.toHaveBeenCalled();
@@ -163,7 +173,7 @@ describe("SwfStore", function() {
         });
 
 
-        it("should not choke keys that contain quotes", function() {
+        it("should allow fot keys that contain quotes", function() {
             // https://github.com/nfriedly/Javascript-Flash-Cookies/issues/21
             getInstance(function() {
                 expect(onerror).not.toHaveBeenCalled();
@@ -173,6 +183,22 @@ describe("SwfStore", function() {
                     "'singlequotes'": "val1",
                     '"doublequotes"': "val2"
                 });
+            });
+        });
+    });
+
+    describe('.clearAll()', function() {
+        it('should remove all values', function() {
+            getInstance(function() {
+                expect(onerror).not.toHaveBeenCalled();
+                instance.set("'singlequotes'", "val1");
+                instance.set('"doublequotes"', "val2");
+                instance.set("15BWminori.jpg", "val1");
+                instance.set("42532093b13e5cbb0f4e4d2", "val1");
+                instance.set("myKey", "myVal");
+                instance.clearAll();
+                expect(instance.get("myKey")).toBe(null);
+                expect(instance.getAll()).toEqual({});
             });
         });
     });

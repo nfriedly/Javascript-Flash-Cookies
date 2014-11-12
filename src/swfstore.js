@@ -62,7 +62,7 @@
         // make sure we have something of a configuration
         config = config || {};
         var defaults = {
-            swf_url: 'storage.swf', // this should be a complete url (http://example.com/path/to/storage.swf) for cross-domain usage
+            swf_url: 'storage.swf', // this should be a complete protocol-relative url (//example.com/path/to/storage.swf) for cross-domain, cross-protocol usage
             namespace: 'swfstore',
             debug: false,
             timeout: 10, // number of seconds to wait before concluding there was an error
@@ -165,7 +165,7 @@
     // we need to check everything we send to flash because it can't take functions as arguments
     function checkData(data) {
         if (typeof data === "function") {
-            throw 'SwfStore Error: Functions cannot be used as keys or values.';
+            throw new Error('SwfStore Error: Functions cannot be used as keys or values.');
         }
     }
 
@@ -186,8 +186,11 @@
             this._checkReady();
             checkData(key);
             checkData(value);
-            //this.log('debug', 'js', 'Setting ' + key + '=' + value);
-            this.swf.set(key, value);
+            if (value === null || typeof value == "undefined") {
+                this.swf.clear(key);
+            } else {
+                this.swf.set(key, value);
+            }
         },
 
         /**

@@ -1,0 +1,37 @@
+{
+  "name": "SwfStore (JavaScript Flash Cookies)",
+  "version": "1.9.1",
+  "homepage": "https://github.com/nfriedly/Javascript-Flash-Cookies",
+  "authors": [
+    "Nathan Friedly"
+  ],
+  "description": "Cross-domain flash cookie library for JavaScript. ~4kb total when minified and gzipped.",
+  "main": "dist/swfstore.min.js",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "swf",
+    ".swf",
+    "flash",
+    "flashcookie",
+    "flash-cookie",
+    "flash",
+    "cookie",
+    "cookies",
+    "store",
+    "storage",
+    "cross-domain",
+    "cross",
+    "domain",
+    "localStorage"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

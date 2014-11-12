@@ -32,6 +32,8 @@ Tested for compatibility with the following browsers:
 
 [![Selenium Test Status](https://saucelabs.com/browser-matrix/jsfc.svg)](https://saucelabs.com/u/jsfc)
 
+(It also works well in Chrome, but there's an [issue with running automated tests in Chrome](https://github.com/nfriedly/Javascript-Flash-Cookies/issues/23).)
+
 Note: SwfStore is *not* compatible with most mobile devices (iPhones, Androids, etc) because it requires flash and few of these devices run flash.
 
 Basic Usage
@@ -53,7 +55,33 @@ var mySwfStore = new SwfStore({
 });
 ```
 
-More details in [src/swfstore.js](https://github.com/nfriedly/Javascript-Flash-Cookies/blob/master/src/swfstore.js)
+Default configuration options
+---------------------
+
+```json
+{
+    swf_url: 'storage.swf', // this should be a complete protocol-relative url (//example.com/path/to/storage.swf) for cross-domain, cross-protocol usage
+    namespace: 'swfstore', // allows for multiple instances of SwfStore on the same page without clobbering eachother
+    debug: false, // true logs to the console, or creates a <div> on the page is no console is available.
+    timeout: 10, // number of seconds to wait before concluding there was an error
+    onready: null, // callback function for a successful loading
+    onerror: null // callback function for when there was an err in loading
+}
+```
+
+API
+---
+
+Instance methods:
+
+* **`get(key)`**: Returns the value for `key` as a String or `null` if the key is not set.
+* **`set(key, value)`**: Sets `key` to `value`.
+* * Note: setting a `key` to `null` or `undefined` is equivalent to `clear()`ing it.
+* **`clear(key)`**: Deletes the value for `key` if it exists.
+* **`getAll()`**: Returns a Object in the form of `{key: value}` with all data stored in the .swf.
+* **`clearAll()`**: Clears all data from the .swf.
+* **`ready`**: Boolean to indicate whether or not the .swf has loaded and is ready for access.
+* * Note: providing an `onready` callback to the config is recommended over checking the `.ready` property.
 
 
 File Details
@@ -122,11 +150,10 @@ Release process
 To Do
 -----
 * Unify the names of things
-* Document the API better here
-* Add support for RequireJS / Jam / Bower / Component / etc.
+* Add support for AMD / CommonJS
 * Figure out how to run automated cross-domain & cross-protocol tests
-* put version number in file name
 * update demo
+* Look into http://karma-runner.github.io/ or http://theintern.io/ or similar to automate local testing.
 
 Changelog
 ---------
@@ -145,6 +172,7 @@ Other Changes
 * Added a clearAll() method
 * Fixed https://github.com/nfriedly/Javascript-Flash-Cookies/issues/21
 * Stopped letting `console` pollyfill leak into global scope
+* Fixed bug where `set(key, null)` does nothing
 
 ### 1.9.1 - 2014-04-28
 * Fixed a XSS vulnerability
