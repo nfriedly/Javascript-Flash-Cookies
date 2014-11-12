@@ -28,10 +28,15 @@
   ],
   "license": "MIT",
   "ignore": [
-    "**/.*",
-    "node_modules",
     "bower_components",
-    "test",
-    "tests"
+    "flex-sdk",
+    "node_modules",
+    "src",
+    "tests",
+    ".gitignore",
+    ".jshintrc",
+    ".travis.yml",
+    "Gruntfile.js",
+    "package.json"
   ]
 }
