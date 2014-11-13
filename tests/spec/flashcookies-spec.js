@@ -1,17 +1,15 @@
-/*global SwfStore: false, jasmine: false, describe: false, it: false, expect: false, runs: false, waitsFor: false, beforeEach: false, afterEach: false*/
+/*global SwfStore: false, jasmine: false, describe: false, it: false, expect: false, beforeEach: false, afterEach: false*/
 describe("SwfStore()", function() {
     "use strict";
 
     var SWF_PATH = "../dist/storage.swf?" + (new Date()).getTime();
 
     var onerror;
-    var loaded;
     var config;
     var instance;
 
     beforeEach(function() {
-        onerror = jasmine.createSpy("onerror").andThrow('onerror callback fired');
-        loaded = false;
+        onerror = jasmine.createSpy("onerror").and.throwError('onerror callback fired');
         /**
          * @param {string} [config.swf_url=storage.swf] - Url to storage.swf. Must be an absolute url (with http:// and all) to work cross-domain
          * @param {functon} [config.onready] Callback function that is fired when the SwfStore is loaded. Recommended.
@@ -22,9 +20,6 @@ describe("SwfStore()", function() {
          */
         config = {
             swf_url: SWF_PATH,
-            onready: function() {
-                loaded = true;
-            },
             timeout: 4.5,
             onerror: onerror,
             namespace: "_" + Math.random(),
@@ -33,13 +28,15 @@ describe("SwfStore()", function() {
     });
 
     function getInstance(cb) {
-        runs(function() {
-            instance = new SwfStore(config);
+        config.onready = cb;
+        instance = new SwfStore(config);
+    }
+
+    function getInstanceAndFinishTest(done, test) {
+        getInstance(function() {
+            test();
+            done();
         });
-        waitsFor(function() {
-            return loaded;
-        });
-        runs(cb);
     }
 
     afterEach(function() {
@@ -53,62 +50,52 @@ describe("SwfStore()", function() {
         expect(SwfStore).toBeDefined();
     });
 
-    it("should be able to create a new instance", function() {
-        expect(new SwfStore(config)).toBeDefined();
+    it("should be able to create a new instance", function(done) {
+        config.onready = done;
+        instance = new SwfStore(config);
+        expect(instance).toBeDefined();
     });
 
-    it("should use the given swf_url config", function() {
-        var instance = new SwfStore(config);
+    it("should use the given swf_url config", function(done) {
+        config.onready = done;
+        instance = new SwfStore(config);
         expect(instance.config.swf_url).toBe(SWF_PATH);
     });
 
-    it("should fire the callback after the SWF loads", function() {
-        runs(function() {
-            new SwfStore(config);
-        });
-        waitsFor(function() {
-            return loaded;
-        });
-        runs(function() {
+    it("should fire the callback after the SWF loads", function(done) {
+        getInstanceAndFinishTest(done, function() {
             expect(onerror).not.toHaveBeenCalled();
         });
     });
 
-    it("should fire the error callback if the SWF fails to load", function() {
+    it("should fire the error callback if the SWF fails to load", function(done) {
         var onload = jasmine.createSpy("onload");
-        var errored = false;
         var config = {
             swf_url: "example_invalid_swf_url",
             onload: onload,
             onerror: function() {
-                errored = true;
+                expect(onload).not.toHaveBeenCalled();
+                instance = null; // so that we don't try to call clearAll() on it in the afterEach()
+                done();
             },
             timeout: 1,
             namespace: "_" + Math.random(),
             debug: true
         };
-        runs(function() {
-            new SwfStore(config);
-        });
-        waitsFor(function() {
-            return errored;
-        });
-        runs(function() {
-            expect(onload).not.toHaveBeenCalled();
-        });
+        instance = new SwfStore(config);
     });
 
     describe('.set()', function() {
-        it("should store values", function() {
-            getInstance(function() {
+        it("should store values", function(done) {
+            getInstanceAndFinishTest(done, function() {
                 expect(onerror).not.toHaveBeenCalled();
                 instance.set("myKey", "myValue");
                 expect(instance.get("myKey")).toBe("myValue");
             });
         });
 
-        it('should clear a value when called with `null`', function() {
-            getInstance(function() {
+        it('should clear a value when called with `null`', function(done) {
+            getInstanceAndFinishTest(done, function() {
                 expect(onerror).not.toHaveBeenCalled();
                 instance.set("key1", "val1");
                 expect(instance.get("key1")).toBe("val1");
@@ -119,8 +106,8 @@ describe("SwfStore()", function() {
     });
 
     describe('.get()', function() {
-        it("should retrieve values", function() {
-            getInstance(function() {
+        it("should retrieve values", function(done) {
+            getInstanceAndFinishTest(done, function() {
                 expect(onerror).not.toHaveBeenCalled();
                 instance.set("myKey", "myValue");
                 expect(instance.get("myKey")).toBe("myValue");
@@ -129,8 +116,8 @@ describe("SwfStore()", function() {
     });
 
     describe('.clear()', function() {
-        it("should allow you to clear previously set values", function() {
-            getInstance(function() {
+        it("should allow you to clear previously set values", function(done) {
+            getInstanceAndFinishTest(done, function() {
                 expect(onerror).not.toHaveBeenCalled();
                 instance.clear("myKey");
                 expect(instance.get("myKey")).toBe(null);
@@ -139,8 +126,8 @@ describe("SwfStore()", function() {
     });
 
     describe('.getAll()', function() {
-        it("should return multiple keys", function() {
-            getInstance(function() {
+        it("should return multiple keys", function(done) {
+            getInstanceAndFinishTest(done, function() {
                 expect(onerror).not.toHaveBeenCalled();
                 instance.set("key1", "val1");
                 instance.set("key2", "val2");
@@ -150,9 +137,9 @@ describe("SwfStore()", function() {
                 });
             });
         });
-        it("should allow for keys that begin with numbers", function() {
+        it("should allow for keys that begin with numbers", function(done) {
             // https://github.com/nfriedly/Javascript-Flash-Cookies/issues/21
-            getInstance(function() {
+            getInstanceAndFinishTest(done, function() {
                 expect(onerror).not.toHaveBeenCalled();
                 instance.set("42532093b13e5cbb0f4e4d2", "val1");
                 expect(instance.getAll()).toEqual({
@@ -161,9 +148,9 @@ describe("SwfStore()", function() {
             });
         });
 
-        it("should allow for keys that contain dots", function() {
+        it("should allow for keys that contain dots", function(done) {
             // https://github.com/nfriedly/Javascript-Flash-Cookies/issues/21
-            getInstance(function() {
+            getInstanceAndFinishTest(done, function() {
                 expect(onerror).not.toHaveBeenCalled();
                 instance.set("15BWminori.jpg", "val1");
                 expect(instance.getAll()).toEqual({
@@ -173,9 +160,9 @@ describe("SwfStore()", function() {
         });
 
 
-        it("should allow fot keys that contain quotes", function() {
+        it("should allow fot keys that contain quotes", function(done) {
             // https://github.com/nfriedly/Javascript-Flash-Cookies/issues/21
-            getInstance(function() {
+            getInstanceAndFinishTest(done, function() {
                 expect(onerror).not.toHaveBeenCalled();
                 instance.set("'singlequotes'", "val1");
                 instance.set('"doublequotes"', "val2");
@@ -188,8 +175,8 @@ describe("SwfStore()", function() {
     });
 
     describe('.clearAll()', function() {
-        it('should remove all values', function() {
-            getInstance(function() {
+        it('should remove all values', function(done) {
+            getInstanceAndFinishTest(done, function() {
                 expect(onerror).not.toHaveBeenCalled();
                 instance.set("'singlequotes'", "val1");
                 instance.set('"doublequotes"', "val2");
