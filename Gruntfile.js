@@ -3,33 +3,11 @@
 module.exports = function(grunt) {
     var _ = require('lodash');
 
-    function browserVersions(browser, min, max) {
-        return _.map(_.range(min, max), function(v) {
-            return {
-                browserName: browser,
-                version: v
-            };
-        });
-    }
-
-    function browserPlatforms(browsers, platforms) {
-        return _.flatten(_.map(browsers, function(browser) {
-            return _.map(platforms, function(p) {
-                return {
-                    browserName: browser,
-                    platform: p
-                };
-            });
-        }));
-
-    }
-
     var scripts = ["*.js", "src/*.js", "tests/spec/*.js"];
 
     grunt.loadNpmTasks('grunt-saucelabs');
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-exec');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-jsbeautifier');
     grunt.loadNpmTasks('grunt-newer');
@@ -107,14 +85,38 @@ module.exports = function(grunt) {
                         'video-upload-on-pass': false
                     },
                     // https://saucelabs.com/platforms
-                    browsers: browserVersions('internet explorer', 6, 11) // browser, start version, end version
-                        .concat(browserVersions('safari', 7, 8))
-                        // there's a bug with running the chrome tests on sauce labs
-                        // for some reason, the test result is requested *immediately*, before the tests have executed
-                        .concat(browserPlatforms([ /*'chrome',*/ 'firefox'], ['OS X 10.10', 'Windows 8.1', 'linux']))
-                        .concat([{
-                            browserName: 'opera'
-                        }])
+                    browsers: (function() {
+                        function browserVersions(browser, min, max) {
+                            return _.map(_.range(min, max), function(v) {
+                                return {
+                                    browserName: browser,
+                                    version: v
+                                };
+                            });
+                        }
+
+                        function browserPlatforms(browsers, platforms) {
+                            return _.flatten(_.map(browsers, function(browser) {
+                                return _.map(platforms, function(p) {
+                                    return {
+                                        browserName: browser,
+                                        platform: p
+                                    };
+                                });
+                            }));
+                        }
+
+                        var browsers = browserVersions('internet explorer', 8, 11) // browser, start version, end version
+                            .concat(browserVersions('safari', 7, 8))
+                            // there's a bug with running the chrome tests on sauce labs
+                            // for some reason, the test result is requested *immediately*, before the tests have executed
+                            .concat(browserPlatforms([ /*'chrome',*/ 'firefox'], ['OS X 10.10', 'Windows 8.1', 'linux']))
+                            .concat([{
+                                browserName: 'opera'
+                            }]);
+
+                        return browsers;
+                    }())
                 }
             }
         }
