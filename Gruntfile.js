@@ -1,7 +1,6 @@
 /*jshint node: true, browser: false*/
 "use strict";
 module.exports = function(grunt) {
-    var _ = require('lodash');
 
     var scripts = ["*.js", "src/*.js", "tests/spec/*.js"];
 
@@ -80,43 +79,24 @@ module.exports = function(grunt) {
                     concurrency: 3, //'Number of concurrent browsers to test against. Will default to the number of overall browsers specified. Check your plan (free: 2, OSS: 3) and make sure you have got sufficient Sauce Labs concurrency.',
                     detailedError: true, //'false (default) / true; if true log detailed test results when a test error occurs',
                     testname: 'SwfStore',
+                    identifier: 'grunt-tunnel',
+                    //pollInterval: 5000,
+                    tunnelArgs: ['--verbose'],
                     sauceConfig: {
                         // https://docs.saucelabs.com/reference/test-configuration/
                         'video-upload-on-pass': false
                     },
                     // https://saucelabs.com/platforms
-                    browsers: (function() {
-                        function browserVersions(browser, min, max) {
-                            return _.map(_.range(min, max), function(v) {
-                                return {
-                                    browserName: browser,
-                                    version: v
-                                };
-                            });
-                        }
-
-                        function browserPlatforms(browsers, platforms) {
-                            return _.flatten(_.map(browsers, function(browser) {
-                                return _.map(platforms, function(p) {
-                                    return {
-                                        browserName: browser,
-                                        platform: p
-                                    };
-                                });
-                            }));
-                        }
-
-                        var browsers = browserVersions('internet explorer', 8, 11) // browser, start version, end version
-                            .concat(browserVersions('safari', 7, 8))
-                            // there's a bug with running the chrome tests on sauce labs
-                            // for some reason, the test result is requested *immediately*, before the tests have executed
-                            .concat(browserPlatforms([ /*'chrome',*/ 'firefox'], ['OS X 10.10', 'Windows 8.1', 'linux']))
-                            .concat([{
-                                browserName: 'opera'
-                            }]);
-
-                        return browsers;
-                    }())
+                    browsers: [{
+                        browserName: 'chrome',
+                        platform: 'Windows 8.1'
+                    }, {
+                        browserName: 'chrome',
+                        platform: 'OS X 10.10'
+                    }, {
+                        browserName: 'chrome',
+                        platform: 'linux'
+                    }]
                 }
             }
         }
@@ -125,8 +105,8 @@ module.exports = function(grunt) {
 
 
     grunt.registerTask('serve', ['connect:serve']);
-    grunt.registerTask('quick-test', ['jshint', 'jsbeautifier:verify']);
-    grunt.registerTask('test', ['jshint', 'jsbeautifier:verify', 'connect:test', 'saucelabs-jasmine']);
+    grunt.registerTask('quick-test', ['jshint']);
+    grunt.registerTask('test', ['jshint', 'connect:test', 'saucelabs-jasmine']);
     grunt.registerTask('build', ['newer:uglify', 'newer:swf']);
     grunt.registerTask('force-build', ['uglify', 'swf']);
     grunt.registerTask('beautify', ['jsbeautifier:rewrite']);
