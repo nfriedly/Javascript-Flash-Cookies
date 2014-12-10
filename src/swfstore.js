@@ -33,7 +33,7 @@
 
     var counter = 0; // a counter for element id's and whatnot
 
-    var alpnum = /[^a-z0-9_]/ig; //a regex to find anything thats not letters and numbers
+    var alpnum = /[^a-z0-9_\/]/ig; //a regex to find anything thats not letters and numbers
 
     /**
      * SwfStore constructor - creates a new SwfStore object and embeds the .swf into the web page.
@@ -87,7 +87,7 @@
 
         // a couple of basic timesaver functions
         function id() {
-            return "SwfStore_" + config.namespace + "_" + (counter++);
+            return "SwfStore_" + config.namespace.replace("/", "_") + "_" + (counter++);
         }
 
         function div(visible) {
@@ -139,7 +139,7 @@
 
         var swfName = id();
 
-        var flashvars = "namespace=" + config.namespace;
+        var flashvars = "namespace=" + encodeURIComponent(config.namespace);
 
 
         swfContainer.innerHTML = '<object height="100" width="500" codebase="https://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab" id="' +

@@ -1,4 +1,4 @@
-﻿﻿/**
+/**
  * SwfStore - a JavaScript library for cross-domain flash cookies
  *
  * http://github.com/nfriedly/Javascript-Flash-Cookies
@@ -49,7 +49,7 @@ package {
 		/**
 		 * Namespace portion provided by JS is tested against this to avoid XSS
 		 */
-		private var namespaceCheck:RegExp = /^[a-z0-9_]+$/i;
+		private var namespaceCheck:RegExp = /^[a-z0-9_\/]+$/i;
 
 		/**
 		 * Text field used by local logging
@@ -92,7 +92,6 @@ package {
 			// More information: http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/system/Security.html#allowDomain%28%29
 			Security.allowDomain("*");
 			Security.allowInsecureDomain("*");
-
 
 			// try to initialize our lso
 			try{
