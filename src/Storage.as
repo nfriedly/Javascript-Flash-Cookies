@@ -1,4 +1,4 @@
-﻿﻿/**
+/**
  * SwfStore - a JavaScript library for cross-domain flash cookies
  *
  * http://github.com/nfriedly/Javascript-Flash-Cookies
@@ -49,7 +49,7 @@ package {
 		/**
 		 * Namespace portion provided by JS is tested against this to avoid XSS
 		 */
-		private var namespaceCheck:RegExp = /^[a-z0-9_]+$/i;
+		private var namespaceCheck:RegExp = /^[a-z0-9_\/]+$/i;
 
 		/**
 		 * Text field used by local logging
@@ -80,7 +80,7 @@ package {
 			// since even logging involves communicating with javascript,
 			// the next thing to do is find the external log function
 			if(this.loaderInfo.parameters.namespace) {
-				jsNamespace = "SwfStore." + this.loaderInfo.parameters.namespace + ".";
+				jsNamespace = "SwfStore." + this.loaderInfo.parameters.namespace.replace("/", "_") + ".";
 			}
 
 			log('Initializing...');
@@ -92,7 +92,6 @@ package {
 			// More information: http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/system/Security.html#allowDomain%28%29
 			Security.allowDomain("*");
 			Security.allowInsecureDomain("*");
-
 
 			// try to initialize our lso
 			try{
