@@ -8,6 +8,7 @@ Getting-started instructions: http://nfriedly.com/techblog/2010/07/swf-for-javas
 
 Working example: http://nfriedly.github.io/Javascript-Flash-Cookies/
 
+[!Bower package](http://badge.fury.io/bo/javascript-flash-cookies.svg)
 [![Build Status](https://travis-ci.org/nfriedly/Javascript-Flash-Cookies.svg?branch=master)](https://travis-ci.org/nfriedly/Javascript-Flash-Cookies)
 
 ---
@@ -165,7 +166,14 @@ To Do
 Changelog
 ---------
 
-### 2.0.0 - (coming soon)
+### 2.0.2 -
+ * Added support for forward slashes (/) in the namespace - https://github.com/nfriedly/Javascript-Flash-Cookies/pull/28
+ * Testing improvements in progress, but automated tests are currently broken
+
+### 2.0.1 -
+* Updated bower name to conform to url-friendly requirement
+
+### 2.0.0 - 2014-11-
 
 Breaking changes:
 * Removed version number from JS
@@ -180,6 +188,7 @@ Other Changes
 * Fixed https://github.com/nfriedly/Javascript-Flash-Cookies/issues/21
 * Stopped letting `console` pollyfill leak into global scope
 * Fixed bug where `set(key, null)` does nothing
+* Listed in bower
 
 ### 1.9.1 - 2014-04-28
 * Fixed a XSS vulnerability
