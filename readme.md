@@ -8,7 +8,7 @@ Getting-started instructions: http://nfriedly.com/techblog/2010/07/swf-for-javas
 
 Working example: http://nfriedly.github.io/Javascript-Flash-Cookies/
 
-[!Bower package](http://badge.fury.io/bo/javascript-flash-cookies.svg)
+[![Bower package](http://badge.fury.io/bo/javascript-flash-cookies.svg)](http://bower.io/search/?q=flash%20cookies)
 [![Build Status](https://travis-ci.org/nfriedly/Javascript-Flash-Cookies.svg?branch=master)](https://travis-ci.org/nfriedly/Javascript-Flash-Cookies)
 
 ---
