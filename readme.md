@@ -63,7 +63,7 @@ var mySwfStore = new SwfStore({
 Default configuration options
 ---------------------
 
-```json
+```js
 {
     swf_url: 'storage.swf', // this should be a complete protocol-relative url (//example.com/path/to/storage.swf) for cross-domain, cross-protocol usage
     namespace: 'swfstore', // allows for multiple instances of SwfStore on the same page without clobbering eachother
@@ -128,7 +128,7 @@ With Adobe Flash, open `src/storage.fla` and export it to `dist/storage.swf`
 Grunt is set up to use Apache Flex via the [grunt-swf](https://github.com/nfriedly/grunt-swf) plugin.
 The plugin is installed via the standard `npm install` but the SDK must be installed separately.
 
-See https://github.com/nfriedly/grunt-swf#installing-the-apache-flex-sdk for more details on installing the Flex SDK.
+See `flex-sdk/instructions.md` or https://github.com/nfriedly/grunt-swf#installing-the-apache-flex-sdk for more details on installing the Flex SDK.
 
 Then run `grunt swf` to compile the .swf.
 
