@@ -33,7 +33,7 @@
 
     var counter = 0; // a counter for element id's and whatnot
 
-    var alpnum = /[^a-z0-9_\/]/ig; //a regex to find anything thats not letters and numbers
+    var alpnum = /[^a-z0-9_\/]/ig; //a regex to find anything thats not letters, numbers underscore and forward slash
 
     /**
      * SwfStore constructor - creates a new SwfStore object and embeds the .swf into the web page.
@@ -133,7 +133,7 @@
         this.log('info', 'js', 'Initializing...');
 
         // the callback functions that javascript provides to flash must be globally accessible
-        SwfStore[config.namespace] = this;
+        SwfStore[config.namespace.replace("/", "_")] = this;
 
         var swfContainer = div(config.debug);
 
