@@ -69,12 +69,12 @@ describe("SwfStore()", function() {
     });
 
     it("should fire the error callback if the SWF fails to load", function(done) {
-        var onload = jasmine.createSpy("onload");
+        var onready = jasmine.createSpy("onready");
         var config = {
             swf_url: "example_invalid_swf_url",
-            onload: onload,
+            onready: onready,
             onerror: function() {
-                expect(onload).not.toHaveBeenCalled();
+                expect(onready).not.toHaveBeenCalled();
                 instance = null; // so that we don't try to call clearAll() on it in the afterEach()
                 done();
             },
@@ -82,6 +82,17 @@ describe("SwfStore()", function() {
             namespace: "_" + Math.random(),
             debug: true
         };
+        instance = new SwfStore(config);
+    });
+
+    it("should allow namespaces to contain forward slashes (/)", function(done) {
+        config.onready = function() {
+            expect(onerror).not.toHaveBeenCalled();
+            instance.set("myKey", "myValue");
+            expect(instance.get("myKey")).toBe("myValue");
+            done();
+        };
+        config.namespace = "foo/bar";
         instance = new SwfStore(config);
     });
 
@@ -189,4 +200,5 @@ describe("SwfStore()", function() {
             });
         });
     });
+
 });

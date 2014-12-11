@@ -1,8 +1,8 @@
 language: node_js
 node_js:
 - '0.10'
-
-before_script:
-- npm install grunt-cli -g
-
-# travis automatically runs `npm test` for the main script
+env:
+  matrix:
+  - SAUCE_USERNAME=jsfc
+  global:
+    secure: RXiNhz5ga4fIaXYfs7UfSH6FHdo3yPm1KMvrY82Ra5qhVmPNDTBEVDAHZOKGHW61Fiso5xZhkVMMSJtBhDIspMgvRGrKzbTGaHnDjufEC2Lm4vu67nDt1zgyoNt9zqv3RRzxh+kTZl/FzWvv0JJUnURtx6CqJThXGcjFAs3W3/Y=

@@ -18,6 +18,7 @@
   "homepage": "https://github.com/nfriedly/Javascript-Flash-Cookies",
   "devDependencies": {
     "grunt": "^0.4.5",
+    "grunt-cli": "^0.1.13",
     "grunt-contrib-connect": "^0.9.0",
     "grunt-contrib-jshint": "^0.10.0",
     "grunt-contrib-uglify": "^0.6.0",

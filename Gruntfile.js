@@ -29,10 +29,10 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-saucelabs');
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-exec');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-jsbeautifier');
     grunt.loadNpmTasks('grunt-newer');
+    grunt.loadNpmTasks('grunt-swf');
 
     // Project configuration.
     grunt.initConfig({
@@ -127,5 +127,7 @@ module.exports = function(grunt) {
     grunt.registerTask('force-build', ['uglify', 'swf']);
     grunt.registerTask('beautify', ['jsbeautifier:rewrite']);
     grunt.registerTask('pre-commit', ['quick-test', 'build']);
+
+    grunt.registerTask('default', ['beautify', 'build', 'test']);
 
 };
