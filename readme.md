@@ -33,7 +33,7 @@ Tested for compatibility with the following browsers:
 
 [![Selenium Test Status](https://saucelabs.com/browser-matrix/jsfc.svg)](https://saucelabs.com/u/jsfc)
 
-(It also works well in Chrome, but there's an [issue with running automated tests in Chrome](https://github.com/nfriedly/Javascript-Flash-Cookies/issues/23).)
+(It also should work in IE 6 & 7, but the tests don,t.)
 
 Note: SwfStore is *not* compatible with most mobile devices (iPhones, Androids, etc) because it requires flash and few of these devices run flash.
 
