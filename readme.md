@@ -4,21 +4,14 @@ SwfStore
 SwfStore is a JavaScript library for cross-domain flash cookies. It includes a .swf file that handles the
 storage and a JavaScript interface for loading and communicating with the flash file.
 
-Getting-started instructions: http://nfriedly.com/techblog/2010/07/swf-for-javascript-cross-domain-flash-cookies/
-
-Working example: http://nfriedly.github.io/Javascript-Flash-Cookies/
+Working example: https://nfriedly.github.io/Javascript-Flash-Cookies/ and http://nfriedly.com/stuff/swfstore-example/
 
 [![Bower package](http://badge.fury.io/bo/javascript-flash-cookies.svg)](http://bower.io/search/?q=flash%20cookies)
 [![Build Status](https://travis-ci.org/nfriedly/Javascript-Flash-Cookies.svg?branch=master)](https://travis-ci.org/nfriedly/Javascript-Flash-Cookies)
 
 ---
 
-IMPORTANT SECURITY NOTICE
-=========================
-Versions 1.9 and older are vulnerable to a XSS attack. Please upgrade to 1.9.1 or newer immediately!
-
-
-General Security Warning
+Security Warning
 ----------------
 
 The default storage.swf allows any website to read the data in your flash file. You should avoid storing private
@@ -27,18 +20,21 @@ information in it.
 It would be wise to edit and recompile the flash file to limit itself to your domain and http/https settings. (See [src/Storage.as around line 93](https://github.com/nfriedly/Javascript-Flash-Cookies/blob/master/src/Storage.as#L93).)
 You can do this yourself with Adobe Flash or the Apache Flex SDK (free) or I can do it for you for $5 - email me for details.
 
----
+Finally, versions older than 1.9.1 are vulnerable to a XSS attack and should not bu used.
 
-Tested for compatibility with the following browsers:
+Compatibility
+--------------
+
+Requires Flash Player 9.0.31.0 or newer. Tested for compatibility with the following browsers:
 
 [![Selenium Test Status](https://saucelabs.com/browser-matrix/jsfc.svg)](https://saucelabs.com/u/jsfc)
 
-(It also should work in IE 6 & 7, but the tests don,t.)
+(It also should work in older IE and Safari's, but the tests don't.)
 
 Note: SwfStore is *not* compatible with most mobile devices (iPhones, Androids, etc) because it requires flash and few of these devices run flash.
 
 Installation via [Bower](http://bower.io/)
---------------------------
+-------------------------------------------
 
     bower install javascript-flash-cookies
 
@@ -49,17 +45,19 @@ Basic Usage
 // this should run on DOMReady, or at least after the opening <body> tag has been parsed.
 var mySwfStore = new SwfStore({
   namespace: "my_cool_app",
-  swf_url: "http://example.com/path/to/storage.swf",
+  swf_url: "//example.com/path/to/storage.swf",
   onready: function() {
-    var myValue = prompt('What data would you like to store in my_key?');
-    mySwfStore.set('my_key', myValue);
-    console.log('my_key is now set to ' + mySwfStore.get('my_key'));
+    mySwfStore.set('key', 'value');
+    console.log('key is now set to ' + mySwfStore.get('key'));
   },
   onerror: function() {
     console.error('swfStore failed to load :(');
   }
 });
 ```
+
+A more thorough example is also available at
+Getting-started instructions: http://nfriedly.com/techblog/2010/07/swf-for-javascript-cross-domain-flash-cookies/
 
 Default configuration options
 ---------------------
@@ -88,6 +86,17 @@ Instance methods:
 * **`clearAll()`**: Clears all data from the .swf.
 * **`ready`**: Boolean to indicate whether or not the .swf has loaded and is ready for access.
 * * Note: providing an `onready` callback to the config is recommended over checking the `.ready` property.
+
+Troubleshooting
+---------------
+ * Be sure the urls to the .swf file and .js file are both correct.
+ * If the .swf file is unable to communicate with the JavaScript, it will display log messages on the flash object. If debug is enabled, this this should be visible on the page.
+ * To hide the flash object and disable the log messages appending to the bottom of the page, set `debug: false` in the configuration options. (Log messages are added to a `<div>` if no browser `console` is available).
+ * If the user does not have flash installed, the onerror function will be called after a (configurable) 10 second timeout. You may want to use a library such as Flash Detect to check for this more quickly. Flash Player 9.0.31.0 or newer is required.
+ * If you pass a non-string data as the key or value, things may break. Your best bet is to use strings and/or use JSON to encode objects as strings.
+ * If you see the error `uncaught exception: Error in Actionscript. Use a try/catch block to find error., try using // in the .swf URL rather than https://. See https://github.com/nfriedly/Javascript-Flash-Cookies/issues/14 for more information.
+ * Do not set display:none on the swf or any of it's parent elements, this will cause the file to not render and the timeout will be fired. Disable debug and it will be rendered off screen.
+ * The error this.swf.set is not a function has been known to occur when the FlashFirebug plugin is enabled in Firefox / Firebug.
 
 
 File Details
