@@ -104,12 +104,13 @@ module.exports = function(grunt) {
                         // https://docs.saucelabs.com/reference/test-configuration/
                         'video-upload-on-pass': false
                     },
+                    tunnelArgs: ['--verbose'],
                     // https://saucelabs.com/platforms
-                    browsers: browserVersions('internet explorer', 6, 11) // browser, start version, end version
+                    browsers: browserVersions('internet explorer', 8, 11) // browser, start version, end version. Library actually works in IE 6 & 7 but the tests do not
                         .concat(browserVersions('safari', 7, 8))
                         // there's a bug with running the chrome tests on sauce labs
                         // for some reason, the test result is requested *immediately*, before the tests have executed
-                        .concat(browserPlatforms([ /*'chrome',*/ 'firefox'], ['OS X 10.10', 'Windows 8.1', 'linux']))
+                        .concat(browserPlatforms(['chrome', 'firefox'], ['OS X 10.10', 'Windows 8.1', 'linux']))
                         .concat([{
                             browserName: 'opera'
                         }])
