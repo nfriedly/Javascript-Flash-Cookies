@@ -37,11 +37,6 @@ package {
     public class Storage extends Sprite {
 
 		/**
-		 * Our Local Shared Object (LSO) - this is where all the magic happens!
-		 */
-		private var dataStore:SharedObject;
-
-		/**
 		 * The JS callback functions should all be on a global variable at SwfStore.<namespace>.<function name>
 		 */
 		private var jsNamespace:String = "SwfStore.swfstore.";
@@ -95,7 +90,7 @@ package {
 
 			// try to initialize our lso
 			try{
-				dataStore = SharedObject.getLocal(this.loaderInfo.parameters.namespace);
+				var dataStore:SharedObject = SharedObject.getLocal(this.loaderInfo.parameters.namespace);
 			} catch(error:Error){
 				// user probably unchecked their "allow third party data" in their global flash settings
 				log('Unable to create a local shared object. Exiting - ' + error.message);
@@ -153,9 +148,11 @@ package {
 				if(typeof val != "string"){
 					val = val.toString();
 				}
+				var dataStore:SharedObject = SharedObject.getLocal(this.loaderInfo.parameters.namespace);
+				
 				log('Setting ' + key + '=' + val);
 				dataStore.data[key] = val;
-				flush();
+				flush(dataStore);
 			} catch(error:Error){
 				log('Unable to save data - ' + error.message);
 			}
@@ -166,8 +163,13 @@ package {
 		 */
 		private function getValue(key:String):String {
 			try{
+				
+    		var dataStore:SharedObject = SharedObject.getLocal(this.loaderInfo.parameters.namespace);
+
 				log('Reading ' + key);
-				return dataStore.data[key];
+				var val:String = dataStore.data[key];
+				
+				return val;
 			} catch(error:Error){
 				log('Unable to read data - ' + error.message);
 			}
@@ -180,8 +182,9 @@ package {
         private function clearValue(key:String):void {
             try{
 				log("Deleting " + key);
+				      var dataStore:SharedObject = SharedObject.getLocal(this.loaderInfo.parameters.namespace);
            		delete dataStore.data[key];
-           		flush();
+           		flush(dataStore);
 			} catch (error:Error){
 				log("Error deleting key - " + error.message);
 			}
@@ -191,6 +194,8 @@ package {
 		 * This retrieves all stored data
 		 */
 		private function getAllValues():Array {
+			var dataStore:SharedObject = SharedObject.getLocal(this.loaderInfo.parameters.namespace);
+			
 			var pairs:Array = new Array();
 			for (var key:String in dataStore.data) {
 				if ( key != "__flashBugFix") {
@@ -209,13 +214,14 @@ package {
 		/**
 		 * Flushes changes to the dataStore
 		 */
-		private function flush():void {
+		private function flush(dataStore:SharedObject):void {
 			var flushStatus:String = null;
             try {
                 flushStatus = dataStore.flush(10000);
             } catch (error:Error) {
                 log("Error...Could not write SharedObject to disk - " + error.message );
             }
+            
             if (flushStatus != null) {
                 switch (flushStatus) {
                     case SharedObjectFlushStatus.PENDING:
@@ -244,6 +250,7 @@ package {
                     break;
             }
 
+						var dataStore:SharedObject = SharedObject.getLocal(this.loaderInfo.parameters.namespace);
             dataStore.removeEventListener(NetStatusEvent.NET_STATUS, onFlushStatus);
         }
 
@@ -274,6 +281,5 @@ package {
 			}
 			logText.appendText(str + "\n");
 		}
-
     }
 }
