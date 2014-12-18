@@ -24,7 +24,7 @@
     "grunt-contrib-uglify": "^0.6.0",
     "grunt-jsbeautifier": "^0.2.7",
     "grunt-newer": "^0.8.0",
-    "grunt-saucelabs": "^8.3.2",
+    "grunt-saucelabs": "git+https://github.com/nfriedly/grunt-saucelabs#patch-1",
     "grunt-swf": "^1.0.0",
     "lodash": "^2.4.1"
   },

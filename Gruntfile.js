@@ -1,15 +1,6 @@
 /*jshint node: true, browser: false*/
 "use strict";
 
-// instrument http.request so that I can figure out what url failed grunt reports an ECONNRESET from the saucelabs API
-var http = require('http');
-var request = http.request;
-http.request = function(options, callback) {
-    var req = request(options, callback);
-    req.on('error', console.error.bind(console, options));
-    return req;
-};
-
 module.exports = function(grunt) {
     var _ = require('lodash');
 
