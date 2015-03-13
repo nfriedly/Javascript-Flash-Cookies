@@ -103,31 +103,31 @@
             return d;
         }
 
-		// get a logger ready
-		// if we're in a browser that doesn't have a console, build one
-		if (typeof console === "undefined") {
-			var loggerOutput = div(true);
-			this.console = {
-				log: function(msg) {
-					var m = div(true);
-					m.innerHTML = msg;
-					loggerOutput.appendChild(m);
-				}
-			};
-		} else {
-			this.console = console;
-		}
-		this.log = function(type, source, msg) {
-			if (config.debug) {
-				// only output to log if debug is currently enabled
-				source = (source === 'swfStore') ? 'swf' : source;
-				if (typeof(this.console[type]) !== "undefined") {
-					this.console[type]('SwfStore - ' + config.namespace + ' (' + source + '): ' + msg);
-				} else {
-					this.console.log('SwfStore - ' + config.namespace + ": " + type + ' (' + source + '): ' + msg);
-				}
-			}
-		};
+        // get a logger ready
+        // if we're in a browser that doesn't have a console, build one
+        if (typeof console === "undefined") {
+            var loggerOutput = div(true);
+            this.console = {
+                log: function(msg) {
+                    var m = div(true);
+                    m.innerHTML = msg;
+                    loggerOutput.appendChild(m);
+                }
+            };
+        } else {
+            this.console = console;
+        }
+        this.log = function(type, source, msg) {
+            if (config.debug) {
+                // only output to log if debug is currently enabled
+                source = (source === 'swfStore') ? 'swf' : source;
+                if (typeof(this.console[type]) !== "undefined") {
+                    this.console[type]('SwfStore - ' + config.namespace + ' (' + source + '): ' + msg);
+                } else {
+                    this.console.log('SwfStore - ' + config.namespace + ": " + type + ' (' + source + '): ' + msg);
+                }
+            }
+        };
 
         this.log('info', 'js', 'Initializing...');
 
