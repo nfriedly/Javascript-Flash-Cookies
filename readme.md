@@ -97,6 +97,7 @@ Troubleshooting
  * If you see the error `uncaught exception: Error in Actionscript. Use a try/catch block to find error., try using // in the .swf URL rather than https://. See https://github.com/nfriedly/Javascript-Flash-Cookies/issues/14 for more information.
  * Do not set display:none on the swf or any of it's parent elements, this will cause the file to not render and the timeout will be fired. Disable debug and it will be rendered off screen.
  * The error this.swf.set is not a function has been known to occur when the FlashFirebug plugin is enabled in Firefox / Firebug.
+ * This library is not sutable for storing large amounts of data because the .swf is normally rendered off screen and thus there is no way for the user to respond to Flash's prompt to increase the storage limit. 
 
 
 File Details
