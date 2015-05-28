@@ -20,7 +20,7 @@ information in it.
 It would be wise to edit and recompile the flash file to limit itself to your domain and http/https settings. (See [src/Storage.as around line 93](https://github.com/nfriedly/Javascript-Flash-Cookies/blob/master/src/Storage.as#L93).)
 You can do this yourself with Adobe Flash or the Apache Flex SDK (free) or I can do it for you for $5 - email me for details.
 
-Finally, versions older than 1.9.1 are vulnerable to a XSS attack and should not bu used.
+Finally, versions older than 1.9.1 are vulnerable to a XSS attack and should not be used.
 
 Compatibility
 --------------
