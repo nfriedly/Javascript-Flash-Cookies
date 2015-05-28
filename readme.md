@@ -92,7 +92,7 @@ Troubleshooting
  * Be sure the urls to the .swf file and .js file are both correct.
  * If the .swf file is unable to communicate with the JavaScript, it will display log messages on the flash object. If debug is enabled, this this should be visible on the page.
  * To hide the flash object and disable the log messages appending to the bottom of the page, set `debug: false` in the configuration options. (Log messages are added to a `<div>` if no browser `console` is available).
- * If the user does not have flash installed, the onerror function will be called after a (configurable) 10 second timeout. You may want to use a library such as Flash Detect to check for this more quickly. Flash Player 9.0.31.0 or newer is required.
+ * If the user does not have flash installed, the onerror function will be called after a (configurable) 10 second timeout. You may want to use a library such as [Flash Detect](http://www.featureblend.com/javascript-flash-detection-library.html) to check for this more quickly. Flash Player 9.0.31.0 or newer is required.
  * If you pass a non-string data as the key or value, things may break. Your best bet is to use strings and/or use JSON to encode objects as strings.
  * If you see the error `uncaught exception: Error in Actionscript. Use a try/catch block to find error., try using // in the .swf URL rather than https://. See https://github.com/nfriedly/Javascript-Flash-Cookies/issues/14 for more information.
  * Do not set display:none on the swf or any of it's parent elements, this will cause the file to not render and the timeout will be fired. Disable debug and it will be rendered off screen.
