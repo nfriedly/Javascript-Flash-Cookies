@@ -56,8 +56,7 @@ var mySwfStore = new SwfStore({
 });
 ```
 
-A more thorough example is also available at
-Getting-started instructions: http://nfriedly.com/techblog/2010/07/swf-for-javascript-cross-domain-flash-cookies/
+A more thorough example is also available at http://nfriedly.com/techblog/2010/07/swf-for-javascript-cross-domain-flash-cookies/
 
 Configuration options
 ---------------------
