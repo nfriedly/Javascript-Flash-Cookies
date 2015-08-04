@@ -33,8 +33,8 @@
 
     var counter = 0; // a counter for element id's and whatnot
 
-    var alpnum = /[^a-z0-9_\/]/ig; //a regex to find anything thats not letters, numbers underscore and forward slash
-
+    var reNamespace = /[^a-z0-9_\/]/ig; //a regex to find anything that's not letters, numbers underscore and forward slash
+    var reId = /[^a-z0-9_]/ig; // same as above except no forward slashes
     /**
      * SwfStore constructor - creates a new SwfStore object and embeds the .swf into the web page.
      *
@@ -77,7 +77,7 @@
                 }
             }
         }
-        config.namespace = config.namespace.replace(alpnum, '_');
+        config.namespace = config.namespace.replace(reNamespace, '_');
 
         if (window.SwfStore[config.namespace]) {
             throw "There is already an instance of SwfStore using the '" + config.namespace + "' namespace. Use that instance or specify an alternate namespace in the config.";
@@ -87,7 +87,7 @@
 
         // a couple of basic timesaver functions
         function id() {
-            return "SwfStore_" + config.namespace.replace("/", "_") + "_" + (counter++);
+            return "SwfStore_" + config.namespace.replace(reId, "_") + "_" + (counter++);
         }
 
         function div(visible) {
@@ -132,14 +132,13 @@
         this.log('info', 'js', 'Initializing...');
 
         // the callback functions that javascript provides to flash must be globally accessible
-        SwfStore[config.namespace.replace("/", "_")] = this;
+        SwfStore[config.namespace] = this;
 
         var swfContainer = div(config.debug);
 
         var swfName = id();
 
         var flashvars = "namespace=" + encodeURIComponent(config.namespace);
-
 
         swfContainer.innerHTML = '<object height="100" width="500" codebase="https://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab" id="' +
             swfName + '" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">' +

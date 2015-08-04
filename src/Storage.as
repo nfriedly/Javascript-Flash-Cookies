@@ -76,7 +76,7 @@ public class Storage extends Sprite {
         // since even logging involves communicating with javascript,
         // the next thing to do is find the external log function
         if (this.loaderInfo.parameters.namespace) {
-            jsNamespace = "SwfStore." + this.loaderInfo.parameters.namespace.replace("/", "_") + ".";
+            jsNamespace = "SwfStore['" + this.loaderInfo.parameters.namespace+ "'].";
         }
 
         log('Initializing...');

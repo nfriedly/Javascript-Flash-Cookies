@@ -96,6 +96,17 @@ describe("SwfStore()", function() {
         instance = new SwfStore(config);
     });
 
+    it("should work with namespaces that contain multiple forward slashes (/)", function(done) {
+        config.onready = function() {
+            expect(onerror).not.toHaveBeenCalled();
+            instance.set("myKey", "myValue");
+            expect(instance.get("myKey")).toBe("myValue");
+            done();
+        };
+        config.namespace = "foo/bar/baz";
+        instance = new SwfStore(config);
+    });
+
     describe('.set()', function() {
         it("should store values", function(done) {
             getInstanceAndFinishTest(done, function() {
