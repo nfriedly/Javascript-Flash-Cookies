@@ -35,7 +35,8 @@
     "cookies",
     "cross-domain",
     "flashcookies",
-    "swf"
+    "swf",
+    "browserify"
   ],
   "ignore": [
     "bower_components",
