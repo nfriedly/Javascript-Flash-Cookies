@@ -59,17 +59,21 @@ var mySwfStore = new SwfStore({
 A more thorough example is also available at
 Getting-started instructions: http://nfriedly.com/techblog/2010/07/swf-for-javascript-cross-domain-flash-cookies/
 
-Default configuration options
+Configuration options
 ---------------------
 
 ```js
 {
-    swf_url: 'storage.swf', // this should be a complete protocol-relative url (//example.com/path/to/storage.swf) for cross-domain, cross-protocol usage
-    namespace: 'swfstore', // allows for multiple instances of SwfStore on the same page without clobbering eachother
-    debug: false, // true logs to the console, or creates a <div> on the page is no console is available.
+    swf_url: '//example.com/path/to/storage.swf', // this should be a complete protocol-relative url (just // instead of http:// or https://) for cross-domain, cross-protocol usage
+    namespace: 'mySwfStore', // allows for multiple instances on the same page
+    debug: false, // true logs to the console, or creates a logging <div> on the page if no console is available.
     timeout: 10, // number of seconds to wait before concluding there was an error
-    onready: null, // callback function for a successful loading
-    onerror: null // callback function for when there was an err in loading
+    onready: function() {
+        // swfstore loaded successfully
+    },
+    onerror: function() {
+        // an error was detected or the timeout was reached
+    }
 }
 ```
 
