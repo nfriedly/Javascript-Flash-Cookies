@@ -22,7 +22,7 @@ describe("SwfStore()", function() {
             swf_url: SWF_PATH,
             timeout: 4.5,
             onerror: onerror,
-            namespace: "_" + Math.random(),
+            namespace: "test_" + Math.random().toString().substr(2),
             debug: true
         };
     });
@@ -96,7 +96,7 @@ describe("SwfStore()", function() {
         instance = new SwfStore(config);
     });
 
-    it("should work with namespaces that contain multiple forward slashes (/)", function(done) {
+    it("should allow namespaces to contain multiple forward slashes (/)", function(done) {
         config.onready = function() {
             expect(onerror).not.toHaveBeenCalled();
             instance.set("myKey", "myValue");
@@ -138,7 +138,7 @@ describe("SwfStore()", function() {
     });
 
     describe('.clear()', function() {
-        it("should allow you to clear previously set values", function(done) {
+        it("should clear previously set values", function(done) {
             getInstanceAndFinishTest(done, function() {
                 expect(onerror).not.toHaveBeenCalled();
                 instance.clear("myKey");

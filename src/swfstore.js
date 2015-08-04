@@ -25,9 +25,9 @@
  */
 
 /*jslint browser: true, devel: true, vars: true, white: true, nomen: true, plusplus: true, regexp: true */
-/*globals SwfStore */
+/*globals define:false,module:false */
 
-(function() {
+(function(root) {
 
     "use strict"; // http://ejohn.org/blog/ecmascript-5-strict-mode-json-and-more/
 
@@ -58,7 +58,7 @@
      * @param {integer} [config.timeout=10] The number of seconds to wait before assuming the user does not have flash.
      * @param {boolean} [config.debug=false] Is debug mode enabled? If so, mesages will be logged to the console and the .swf will be rendered on the page (although it will be an empty white box unless it cannot communicate with JS. Then it will log errors to the .swf)
      */
-    window.SwfStore = function(config) {
+    function SwfStore(config) {
         // make sure we have something of a configuration
         config = config || {};
         var defaults = {
@@ -153,12 +153,9 @@
         this.swf = document[swfName] || window[swfName];
 
         this._timeout = setTimeout(function() {
-            SwfStore[config.namespace].log('error', 'js', 'Timeout reached, assuming ' + config.swf_url + ' failed to load and firing the onerror callback.');
-            if (config.onerror) {
-                config.onerror();
-            }
+            SwfStore[config.namespace].onerror(new Error(config.swf_url + ' failed to load within ' + config.timeout + ' seconds.'), 'js');
         }, config.timeout * 1000);
-    };
+    }
 
     // we need to check everything we send to flash because it can't take functions as arguments
     function checkData(data) {
@@ -281,12 +278,27 @@
          *
          * @private
          */
-        onerror: function() {
+        onerror: function(err, source) {
             clearTimeout(this._timeout);
-            //this.log('info', 'js', 'Error reported by storage.swf');
+            if (!(err instanceof Error)) {
+                err = new Error(err);
+            }
+            this.log('error', source || 'swf', err.message);
             if (this.config.onerror) {
-                this.config.onerror();
+                this.config.onerror(err);
             }
         }
     };
-}());
+
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define([], SwfStore);
+    } else if (typeof module === 'object' && module.exports) {
+        // Browserify
+        module.exports = SwfStore;
+    } else {
+        // Browser globals (root is window)
+        root.SwfStore = SwfStore;
+    }
+
+}(this));

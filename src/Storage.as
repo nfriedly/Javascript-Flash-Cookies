@@ -56,9 +56,7 @@ public class Storage extends Sprite {
      * Constructor, sets up everything and logs any errors.
      * Call this automatically by setting Publish > Class tp "Storage" in your .fla properties.
      *
-     *
-     *
-     * If javascript is unable to access this object and not recieving any log messages (at wh
+     * If javascript is unable to access this object and not receiving any log messages (at wh
      */
     public function Storage() {
         // Make sure we can talk to javascript at all
@@ -94,8 +92,7 @@ public class Storage extends Sprite {
             var dataStore:SharedObject = SharedObject.getLocal(this.loaderInfo.parameters.namespace);
         } catch (error:Error) {
             // user probably unchecked their "allow third party data" in their global flash settings
-            log('Unable to create a local shared object. Exiting - ' + error.message);
-            onError();
+            onError('Unable to create a local shared object: ' + error.message);
             return;
         }
 
@@ -117,24 +114,23 @@ public class Storage extends Sprite {
             ExternalInterface.call(jsNamespace + "onload");
 
         } catch (error:SecurityError) {
-            log("A SecurityError occurred: " + error.message + "\n");
-            onError();
+            onError("A SecurityError occurred: " + error.message);
         } catch (error:Error) {
-            log("An Error occurred: " + error.message + "\n");
-            onError();
+            onError("An Error occurred: " + error.message);
         }
     }
 
     /**
      * Attempts to notify JS when there was an error during initialization
      */
-    private function onError():void {
+    private function onError(errStr:String):void {
         try {
+            localLog(errStr);
             if (ExternalInterface.available) {
-                ExternalInterface.call(jsNamespace + "onerror");
+                ExternalInterface.call(jsNamespace + "onerror", errStr);
             }
         } catch (error:Error) {
-            log('Error attempting to fire JS onerror callback - ' + error.message);
+            localLog('Error attempting to fire JS onerror callback:' + error.message);
         }
     }
 
@@ -155,7 +151,7 @@ public class Storage extends Sprite {
             dataStore.data[key] = val;
             flush(dataStore);
         } catch (error:Error) {
-            log('Unable to save data - ' + error.message);
+            onError('Unable to save data: ' + error.message);
         }
     }
 
@@ -164,7 +160,6 @@ public class Storage extends Sprite {
      */
     private function getValue(key:String):String {
         try {
-
             var dataStore:SharedObject = SharedObject.getLocal(this.loaderInfo.parameters.namespace);
 
             log('Reading ' + key);
@@ -172,7 +167,7 @@ public class Storage extends Sprite {
 
             return val;
         } catch (error:Error) {
-            log('Unable to read data - ' + error.message);
+            onError('Unable to read data: ' + error.message);
         }
         return null;
     }
@@ -187,7 +182,7 @@ public class Storage extends Sprite {
             delete dataStore.data[key];
             flush(dataStore);
         } catch (error:Error) {
-            log("Error deleting key - " + error.message);
+            onError("Error deleting key: " + error.message);
         }
     }
 
@@ -220,7 +215,7 @@ public class Storage extends Sprite {
         try {
             flushStatus = dataStore.flush(10000);
         } catch (error:Error) {
-            log("Error...Could not write SharedObject to disk - " + error.message);
+            onError("Unable to write SharedObject to disk: " + error.message);
         }
 
         if (flushStatus != null) {
