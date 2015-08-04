@@ -6,6 +6,7 @@ SwfStore History / Changelog
 * Ensured onerror callback is always given an Error object with a useful message
 * Adding UMD for requireJS/Browserfy/etc.
 * Added to npm registry for browserify support
+* Removed "javascript" from library name
 
 ### 2.1.0 - 2014-12-17
  * Modified SWF to check for new values at every read - see https://github.com/nfriedly/Javascript-Flash-Cookies/pull/29 & https://github.com/nfriedly/Javascript-Flash-Cookies/issues/24
