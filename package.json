@@ -1,6 +1,6 @@
 {
-  "name": "flashcookies.js",
-  "version": "0.0.0-see-bower.json",
+  "name": "flash-cookies",
+  "version": "2.1.0",
   "description": "JavaScript library and .swf for cross-domain flashcookies.\"",
   "main": "dist/swfstore.min.js",
   "scripts": {
@@ -31,7 +31,22 @@
   "keywords": [
     "javascript",
     "flash",
+    "cookie",
+    "cookies",
+    "cross-domain",
     "flashcookies",
     "swf"
+  ],
+  "ignore": [
+    "bower_components",
+    "flex-sdk",
+    "node_modules",
+    "src",
+    "tests",
+    ".gitignore",
+    ".jshintrc",
+    ".travis.yml",
+    "Gruntfile.js",
+    "package.json"
   ]
 }

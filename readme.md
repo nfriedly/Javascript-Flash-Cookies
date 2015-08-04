@@ -33,10 +33,17 @@ Requires Flash Player 9.0.31.0 or newer. Tested for compatibility with the follo
 
 Note: SwfStore is *not* compatible with most mobile devices (iPhones, Androids, etc) because it requires flash and few of these devices run flash.
 
-Installation via [Bower](http://bower.io/)
--------------------------------------------
+Installation
+ 
+Via [Bower](http://bower.io/):
 
-    bower install javascript-flash-cookies
+    bower install --save flash-cookies
+    
+Or install via [npm](https://npmjs.com/) (for use with [browserify](https://www.npmjs.com/package/browserify):
+
+    npm install --save flash-cookies
+    
+Note: it's up to you to ensure that the `storage.swf` file is available, Browserify won't make it public by default.
 
 Basic Usage
 -----------
@@ -51,7 +58,7 @@ var mySwfStore = new SwfStore({
     console.log('key is now set to ' + mySwfStore.get('key'));
   },
   onerror: function() {
-    console.error('swfStore failed to load :(');
+    console.error(err.message);
   }
 });
 ```
@@ -61,20 +68,12 @@ A more thorough example is also available at http://nfriedly.com/techblog/2010/0
 Configuration options
 ---------------------
 
-```js
-{
-    swf_url: '//example.com/path/to/storage.swf', // this should be a complete protocol-relative url (just // instead of http:// or https://) for cross-domain, cross-protocol usage
-    namespace: 'mySwfStore', // allows for multiple instances on the same page
-    debug: false, // true logs to the console, or creates a logging <div> on the page if no console is available.
-    timeout: 10, // number of seconds to wait before concluding there was an error
-    onready: function() {
-        // swfstore loaded successfully
-    },
-    onerror: function() {
-        // an error was detected or the timeout was reached
-    }
-}
-```
+* **swf_url**: URL to included `storage.swf` file. All sites/pages using SwfStore should have the exact same url here for cross-domain usage, and it should be a protocol-relative url (just // instead of http:// or https://) for cross-protocol usage.
+* **namespace**: Namespace used both internally for the JS object and for the LocalStorage Object (cookie). May contain forward slash (`/`) but all other special characters will be replaced with `_`
+* **debug** Set to true to log debug information to the browser console (Automatically creates a logging `<div>` on the page if no console is available.)
+* **timeout**: Number of seconds to wait before concluding there was an error. Defaults to `10`.
+* **onready**: Callback function to fire once SwfStore is loaded and ready. No arguments.
+* **onerror**: Callback function to fire in the event of an error. Passes an `Error` object as the first argument.
 
 API
 ---
@@ -168,7 +167,6 @@ Release process
 
 To Do
 -----
-* Add support for AMD / CommonJS
 * Figure out how to run automated cross-domain & cross-protocol tests
 * update demo
 * Look into http://karma-runner.github.io/ or http://theintern.io/ or similar to automate local testing.
