@@ -68,12 +68,12 @@ A more thorough example is also available at http://nfriedly.com/techblog/2010/0
 Configuration options
 ---------------------
 
-* **swf_url**: URL to included `storage.swf` file. All sites/pages using SwfStore should have the exact same url here for cross-domain usage, and it should be a protocol-relative url (just // instead of http:// or https://) for cross-protocol usage.
-* **namespace**: Namespace used both internally for the JS object and for the LocalStorage Object (cookie). May contain forward slash (`/`) but all other special characters will be replaced with `_`
-* **debug** Set to true to log debug information to the browser console (Automatically creates a logging `<div>` on the page if no console is available.)
-* **timeout**: Number of seconds to wait before concluding there was an error. Defaults to `10`.
-* **onready**: Callback function to fire once SwfStore is loaded and ready. No arguments.
-* **onerror**: Callback function to fire in the event of an error. Passes an `Error` object as the first argument.
+* **`swf_url`**: URL to included `storage.swf` file. All sites/pages using SwfStore should have the exact same url here for cross-domain usage, and it should be a protocol-relative url (just // instead of http:// or https://) for cross-protocol usage.
+* **`namespace`**: Namespace used both internally for the JS object and for the LocalStorage Object (cookie). May contain forward slash (`/`) but all other special characters will be replaced with `_`
+* **`debug`**: Set to true to log debug information to the browser console (Automatically creates a logging `<div>` on the page if no console is available.)
+* **`timeout`**: Number of seconds to wait before concluding there was an error. Defaults to `10`.
+* **`onready`**: Callback function to fire once SwfStore is loaded and ready. No arguments.
+* **`onerror`**: Callback function to fire in the event of an error. Passes an `Error` object as the first argument.
 
 API
 ---
@@ -82,12 +82,12 @@ Instance methods:
 
 * **`get(key)`**: Returns the value for `key` as a String or `null` if the key is not set.
 * **`set(key, value)`**: Sets `key` to `value`.
-* * Note: setting a `key` to `null` or `undefined` is equivalent to `clear()`ing it.
+  * Note: setting a `key` to `null` or `undefined` is equivalent to `clear()`ing it.
 * **`clear(key)`**: Deletes the value for `key` if it exists.
 * **`getAll()`**: Returns a Object in the form of `{key: value}` with all data stored in the .swf.
 * **`clearAll()`**: Clears all data from the .swf.
 * **`ready`**: Boolean to indicate whether or not the .swf has loaded and is ready for access.
-* * Note: providing an `onready` callback to the config is recommended over checking the `.ready` property.
+  * Note: providing an `onready` callback to the config is recommended over checking the `.ready` property.
 
 Troubleshooting
 ---------------
