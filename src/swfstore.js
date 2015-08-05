@@ -25,9 +25,9 @@
  */
 
 /*jslint browser: true, devel: true, vars: true, white: true, nomen: true, plusplus: true, regexp: true */
-/*globals define:false,module:false */
+/*globals define:false, module:false */
 
-(function(root) {
+(function() {
 
     "use strict"; // http://ejohn.org/blog/ecmascript-5-strict-mode-json-and-more/
 
@@ -290,15 +290,16 @@
         }
     };
 
+    // UMD for working with requirejs / browserify
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
         define([], SwfStore);
     } else if (typeof module === 'object' && module.exports) {
         // Browserify
         module.exports = SwfStore;
-    } else {
-        // Browser globals (root is window)
-        root.SwfStore = SwfStore;
     }
 
-}(this));
+    // reguardless of UMD, SwfStore must be a global for flash to communicate with it
+    window.SwfStore = SwfStore;
+
+}());

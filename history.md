@@ -1,6 +1,9 @@
 SwfStore History / Changelog
 ============================
 
+### 2.2.1 - 2005-08-05
+* Ensure library is always a global reguardless of UMD (required for communication with flash)
+
 ### 2.2.0 - 2015-08-04
 * Fixed bugs when namespace contains multiple slashes
 * Ensured onerror callback is always given an Error object with a useful message
