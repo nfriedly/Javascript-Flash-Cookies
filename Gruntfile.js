@@ -5,7 +5,7 @@ module.exports = function(grunt) {
     var _ = require('lodash');
 
     function browserVersions(browser, min, max) {
-        return _.map(_.range(min, max), function(v) {
+        return _.map(_.range(min, max + 1), function(v) {
             return {
                 browserName: browser,
                 version: v
@@ -109,6 +109,10 @@ module.exports = function(grunt) {
                     // https://saucelabs.com/platforms
                     browsers: browserVersions('internet explorer', 8, 11) // browser, start version, end version. Library actually works in IE 6 & 7 but the tests do not
                         .concat(browserVersions('safari', 7, 8))
+                        .concat({
+                            browserName: 'safari',
+                            version: 8.1
+                        })
                         // there's a bug with running the chrome tests on sauce labs
                         // for some reason, the test result is requested *immediately*, before the tests have executed
                         .concat(browserPlatforms(['chrome', 'firefox'], ['OS X 10.10', 'Windows 8.1', 'linux']))
