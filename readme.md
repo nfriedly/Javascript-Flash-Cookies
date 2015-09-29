@@ -34,6 +34,7 @@ Requires Flash Player 9.0.31.0 or newer. Tested for compatibility with the follo
 Note: SwfStore is *not* compatible with most mobile devices (iPhones, Androids, etc) because it requires flash and few of these devices run flash.
 
 Installation
+-------------
  
 Via [Bower](http://bower.io/):
 
@@ -44,6 +45,8 @@ Or install via [npm](https://npmjs.com/) (for use with [browserify](https://www.
     npm install --save flash-cookies
     
 Note: it's up to you to ensure that the `storage.swf` file is available, Browserify won't make it public by default.
+
+Certain built-in keys such as `hasOwnProperty` cannot be overwritten in actionscript. A future version may detect this and throw an error.
 
 Basic Usage
 -----------
