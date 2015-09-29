@@ -163,9 +163,16 @@ public class Storage extends Sprite {
             var dataStore:SharedObject = SharedObject.getLocal(this.loaderInfo.parameters.namespace);
 
             log('Reading ' + key);
-            var val:String = dataStore.data[key];
+            
+            if (dataStore.data.hasOwnProperty(key)) {
+                
+                var val:String = dataStore.data[key];
+    
+                return val;
+                
+            } else
+                return null;
 
-            return val;
         } catch (error:Error) {
             onError('Unable to read data: ' + error.message);
         }
