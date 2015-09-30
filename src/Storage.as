@@ -90,6 +90,15 @@ public class Storage extends Sprite {
         // try to initialize our lso
         try {
             var dataStore:SharedObject = SharedObject.getLocal(this.loaderInfo.parameters.namespace);
+
+            /**
+             * This is supposed to fire when the user grants or denies a request for increased storage.. but it
+             * doesn't seem to work: http://stackoverflow.com/questions/15498512/flex-netstatusevent-not-fired-by-local-shared-object-why
+
+            dataStore.addEventListener(NetStatusEvent.NET_STATUS, function handleStatus(event:NetStatusEvent):void {
+                log("net status event: " + event.toString())
+            });
+             */
         } catch (error:Error) {
             // user probably unchecked their "allow third party data" in their global flash settings
             onError('Unable to create a local shared object: ' + error.message);
@@ -140,7 +149,7 @@ public class Storage extends Sprite {
      * @param {string} key
      * @param {string} value - Expects a string. Objects will be converted to strings, functions tend to cause problems.
      */
-    private function setValue(key:String, val:*):void {
+    private function setValue(key:String, val:*):Boolean {
         try {
             if (typeof val != "string") {
                 val = val.toString();
@@ -149,7 +158,7 @@ public class Storage extends Sprite {
 
             log('Setting ' + key + '=' + val);
             dataStore.data[key] = val;
-            flush(dataStore);
+            return flush(dataStore);
         } catch (error:Error) {
             onError('Unable to save data: ' + error.message);
         }
@@ -209,45 +218,28 @@ public class Storage extends Sprite {
 
     /**
      * Flushes changes to the dataStore
+     * Returns true if LSO was flushed to disk, false otherwise.
      */
-    private function flush(dataStore:SharedObject):void {
-        var flushStatus:String = null;
+    private function flush(dataStore:SharedObject):Boolean {
         try {
-            flushStatus = dataStore.flush(10000);
-        } catch (error:Error) {
-            onError("Unable to write SharedObject to disk: " + error.message);
-        }
-
-        if (flushStatus != null) {
+            log("flushing...");
+            var flushStatus:String = flushStatus = dataStore.flush(10000);
             switch (flushStatus) {
                 case SharedObjectFlushStatus.PENDING:
                     log("Requesting permission to save object...");
-                    dataStore.addEventListener(NetStatusEvent.NET_STATUS, onFlushStatus);
                     break;
                 case SharedObjectFlushStatus.FLUSHED:
                     // don't really need another message when everything works right
                     //log("Value flushed to disk.");
+                    return true;
                     break;
+                default:
+                    log("unrecognized flush status: " + flushStatus);
             }
+        } catch (error:Error) {
+            onError("Unable to write SharedObject to disk: " + error.message);
         }
-    }
-
-    /**
-     * This happens if the user is prompted about saving locally
-     */
-    private function onFlushStatus(event:NetStatusEvent):void {
-        log("User closed permission dialog...");
-        switch (event.info.code) {
-            case "SharedObject.Flush.Success":
-                log("User granted permission -- value saved.");
-                break;
-            case "SharedObject.Flush.Failed":
-                log("User denied permission -- value not saved.");
-                break;
-        }
-
-        var dataStore:SharedObject = SharedObject.getLocal(this.loaderInfo.parameters.namespace);
-        dataStore.removeEventListener(NetStatusEvent.NET_STATUS, onFlushStatus);
+        return false;
     }
 
     /**

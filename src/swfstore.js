@@ -153,9 +153,14 @@
         this.swf = document[swfName] || window[swfName];
 
         this._timeout = setTimeout(function() {
-            SwfStore[config.namespace].onerror(new Error(config.swf_url + ' failed to load within ' + config.timeout + ' seconds.'), 'js');
+            var err = new Error(config.swf_url + ' failed to load within ' + config.timeout + ' seconds.');
+            err.code = SwfStore.ERROR_Tgit;
+            SwfStore[config.namespace].onerror(, 'js');
         }, config.timeout * 1000);
     }
+
+    SwfStore.ERROR_TIMEOUT = 2;
+    SwfStore.ERROR_DISK = 1;
 
     // we need to check everything we send to flash because it can't take functions as arguments
     function checkData(data) {
@@ -184,7 +189,11 @@
             if (value === null || typeof value == "undefined") {
                 this.swf.clear(key);
             } else {
-                this.swf.set(key, value);
+                var success = this.swf.set(key, value);
+                if (!success) {
+                    var err = new Error('Flash localStorage disk quota exceeded');
+                    err.code =
+                }
             }
         },
 

@@ -125,6 +125,16 @@ describe("SwfStore()", function() {
                 expect(instance.get("key1")).toBe(null);
             });
         });
+
+        it('should clear a value when called with `null`', function(done) {
+            getInstanceAndFinishTest(done, function() {
+                expect(onerror).not.toHaveBeenCalled();
+                instance.set("key1", "val1");
+                expect(instance.get("key1")).toBe("val1");
+                instance.set("key1", null);
+                expect(instance.get("key1")).toBe(null);
+            });
+        });
     });
 
     describe('.get()', function() {

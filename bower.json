@@ -4,7 +4,7 @@
   "authors": [
     "Nathan Friedly"
   ],
-  "description": "SwfStore: Cross-domain flash cookie library for JavaScript. ~4kb total when minified and gzipped.",
+  "description": "JavaScript library & .swf for cross-domain flash cookies. ~4kb total when minified and gzipped.",
   "main": "dist/swfstore.min.js",
   "moduleType": [
     "amd",
