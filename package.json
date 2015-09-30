@@ -1,7 +1,7 @@
 {
   "name": "flash-cookies",
   "version": "2.2.1",
-  "description": "JavaScript library and .swf for cross-domain flashcookies.\"",
+  "description": "JavaScript library and .swf for cross-domain flash cookies. ~4kb total when minified and gzipped.",
   "main": "dist/swfstore.min.js",
   "scripts": {
     "test": "grunt test"
