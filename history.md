@@ -1,6 +1,9 @@
 SwfStore History / Changelog
 ============================
 
+### 2.2.2 - 2015-10-02
+* Fixed bug where swf would return prototype properties of storage object instead of correctly returning `null` #35 
+
 ### 2.2.1 - 2015-08-05
 * Ensure library is always a global regardless of UMD (required for communication with flash)
 
