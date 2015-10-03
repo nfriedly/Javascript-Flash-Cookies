@@ -1,6 +1,6 @@
 {
   "name": "flash-cookies",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "description": "JavaScript library and .swf for cross-domain flash cookies. ~4kb total when minified and gzipped.",
   "main": "dist/swfstore.min.js",
   "scripts": {
@@ -24,7 +24,7 @@
     "grunt-contrib-uglify": "^0.9.2",
     "grunt-jsbeautifier": "^0.2.10",
     "grunt-newer": "^1.1.1",
-    "grunt-saucelabs":  "^8.6.1",
+    "grunt-saucelabs": "^8.6.1",
     "grunt-swf": "^1.0.2",
     "lodash": "^3.10.1"
   },
