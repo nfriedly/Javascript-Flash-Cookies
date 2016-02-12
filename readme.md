@@ -15,23 +15,19 @@ Security Warning
 ----------------
 
 The default storage.swf allows any website to read the data in your flash file. You should avoid storing private
-information in it.
-
-It would be wise to edit and recompile the flash file to limit itself to your domain and http/https settings. (See [src/Storage.as around line 93](https://github.com/nfriedly/Javascript-Flash-Cookies/blob/master/src/Storage.as#L93).)
+information in it. It would be wise to edit and recompile the flash file to limit itself to your domain and http/https settings. (See [src/Storage.as around line 93](https://github.com/nfriedly/Javascript-Flash-Cookies/blob/master/src/Storage.as#L93).)
 You can do this yourself with Adobe Flash or the Apache Flex SDK (free) or I can do it for you for $5 - email me for details.
 
-Finally, versions older than 1.9.1 are vulnerable to a XSS attack and should not be used.
+Also, versions older than 1.9.1 are vulnerable to a XSS attack and should not be used.
+
 
 Compatibility
 --------------
 
-Requires Flash Player 9.0.31.0 or newer. Tested for compatibility with the following browsers:
+[![Selenium Test Status (It also should work in older IE and Safari's, but the tests don't.)](https://saucelabs.com/browser-matrix/jsfc.svg)](https://saucelabs.com/u/jsfc)
 
-[![Selenium Test Status](https://saucelabs.com/browser-matrix/jsfc.svg)](https://saucelabs.com/u/jsfc)
+Requires Flash Player 9.0.31.0 or newer. Should be compatable with nearly all desktop browsers, assuming the user has Adobe Flash installed (or it's Google Chrome, which has flash player built in). Very few mobile browsers/devices support flash.
 
-(It also should work in older IE and Safari's, but the tests don't.)
-
-Note: SwfStore is *not* compatible with most mobile devices (iPhones, Androids, etc) because it requires flash and few of these devices run flash.
 
 Installation
 -------------
@@ -44,9 +40,17 @@ Or install via [npm](https://npmjs.com/) (for use with [browserify](https://www.
 
     npm install --save flash-cookies
     
-Note: it's up to you to ensure that the `storage.swf` file is available, Browserify won't make it public by default.
+
+
+Usage Notes
+-----------
+
+Ensure that the `storage.swf` file is available, Browserify won't make it public by default.
 
 Certain built-in keys such as `hasOwnProperty` cannot be overwritten in actionscript. A future version may detect this and throw an error.
+
+Most mobile devices will not work due to lack of flash support.
+
 
 Basic Usage
 -----------
@@ -60,7 +64,7 @@ var mySwfStore = new SwfStore({
     mySwfStore.set('key', 'value');
     console.log('key is now set to ' + mySwfStore.get('key'));
   },
-  onerror: function() {
+  onerror: function(err) {
     console.error(err.message);
   }
 });
@@ -116,10 +120,7 @@ be all you need to use this on a production website.
 swfstore.js handles the interaction between javascrpt and flash, it also handles embedding and some basic error
 checking.
 
-Storage.as is where all the magic happens. It maps an External Interface to a Local Storage Object. I'm not
-super-great at flash or action script, but I tried to keep things reasonably well documented and wrapped
-everything in try-catch statements. Someone who knows ActionScript better than I do may be able to remove some
-of those.
+Storage.as is where all the magic happens. It maps an External Interface to a Local Storage Object. I'm no expert when it comes to Flash / ActionScript, but it should be reasonably well documented and fairly safe.
 
 The storage.fla is essentially just an empty shell file that points to Storage.as as it's main class.
 
@@ -165,16 +166,16 @@ Release process
 * Compile anything that's changed (see the Compiling section above)
 * Commit everything
 * Run `npm version [major | minor | patch ]` with the appropriate flag (Ssee http://semver.org/ for details)
-* Push to Github
+* Push to Github - Travis CI will automatically run tests and publish when appropriate
 
 
 To Do
 -----
 * Figure out how to run automated cross-domain & cross-protocol tests
 * update demo
+* Make automated tests less flakey
 * Look into http://karma-runner.github.io/ or http://theintern.io/ or similar to automate local testing.
 * Sourcemap
-* Make automated tests less flakey
 
 Changelog
 ---------
