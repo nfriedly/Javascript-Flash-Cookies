@@ -33,7 +33,6 @@
     "bower_components",
     "flex-sdk",
     "node_modules",
-    "src",
     "tests",
     ".gitignore",
     ".jshintrc",
