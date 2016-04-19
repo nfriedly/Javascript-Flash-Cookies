@@ -1,12 +1,13 @@
 {
   "name": "flash-cookies",
-  "version" : "0.0.0-see-package.json",
   "homepage": "https://github.com/nfriedly/Javascript-Flash-Cookies",
   "authors": [
     "Nathan Friedly"
   ],
   "description": "JavaScript library and .swf for cross-domain flash cookies. ~4kb total when minified and gzipped.",
-  "main": "dist/swfstore.min.js",
+  "main": [
+    "src/swfstore.js"
+  ],
   "moduleType": [
     "amd",
     "globals",
